@@ -1,0 +1,20 @@
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  margin: 1rem;
+  text-align: center;
+}
+.card h3 {
+  margin-bottom: 1rem;
+}
+.graphWrapper {
+  margin-bottom: 1rem;
+}
+.message {
+  color: #f64e60;
+  font-weight: 600;
+}

@@ -10,6 +10,7 @@ export default function Introduction() {
   const cursor = useRef<HTMLDivElement>(null);
   const burstContainer = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [consentStep, setConsentStep] = useState<"intro"|"consent"|"burst">("intro");
 
   // custom cursor follow
   useEffect(() => {
@@ -22,11 +23,24 @@ export default function Introduction() {
   }, []);
 
   // hover to 50%
-  const handleHover = () => setProgress(50);
-  const handleLeave = () => setProgress(0);
+  const handleHover = () => {
+    if (consentStep === "intro") setProgress(50);
+  };
+  const handleLeave = () => {
+    if (consentStep === "intro") setProgress(0);
+  };
 
-  // burst + click nav
-  const handleClick = () => {
+  // first click: show consent message
+  const handleStart = () => {
+    if (consentStep === "intro") {
+      setConsentStep("consent");
+      setProgress(0);
+    }
+  };
+
+  // after consent, trigger burst and navigate
+  const handleConsent = () => {
+    setConsentStep("burst");
     setProgress(100);
     burstParticles();
     setTimeout(() => navigate("/questionnaire"), 500);
@@ -39,21 +53,16 @@ export default function Introduction() {
     for (let i = 0; i < count; i++) {
       const p = document.createElement("span");
       p.className = styles.particle;
-      // position at center of button
       p.style.left = "0px";
       p.style.top = "0px";
-      // random direction
       const angle = Math.random() * Math.PI * 2;
-      const v = Math.random() * 60 + 40; // velocity
+      const v = Math.random() * 60 + 40;
       p.style.setProperty("--dx", `${Math.cos(angle) * v}px`);
       p.style.setProperty("--dy", `${Math.sin(angle) * v}px`);
       burstContainer.current.appendChild(p);
-      // remove after animation
-      p.addEventListener(
-        "animationend",
-        () => burstContainer.current?.removeChild(p),
-        { once: true }
-      );
+      p.addEventListener("animationend", () => {
+        burstContainer.current?.removeChild(p);
+      }, { once: true });
     }
   };
 
@@ -67,27 +76,46 @@ export default function Introduction() {
         <div className={styles.blob} />
       </div>
 
-      
-
       <div className={styles.content}>
         <h1 className={styles.title}>Welcome to Mindful AI</h1>
         <p className={styles.subtitle}>
           Your mental well-being journey starts right here.
         </p>
 
-        <div className={styles.buttonWrapper}>
+       {/* INTRO CTA */}
+        {consentStep === "intro" && (
           <button
             className={styles.cta}
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
-            onClick={handleClick}
+            onClick={handleStart}
           >
             Start Assessing
           </button>
-          {/* burst container positioned over button */}
-          <div ref={burstContainer} className={styles.burstContainer} />
-        </div>
+        )}
 
+        {/* CONSENT MODAL */}
+        {consentStep === "consent" && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modalCard}>
+              <button
+                className={styles.modalClose}
+                onClick={() => setConsentStep("intro")}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+              <p className={styles.consentText}>
+                Before moving forward, we’d like you to answer a few quick questions to understand you better.
+              </p>
+              <button className={styles.consentBtn} onClick={handleConsent}>
+                Got it!
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Progress bar */}
         <div className={styles.progressContainer}>
           <span className={styles.progressLabel}>
             5 Steps → {progress}% Complete

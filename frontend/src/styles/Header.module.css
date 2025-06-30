@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #fafafa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-size: 1.75rem;
+  background: linear-gradient(90deg, #7f8efc, #5ad5a8);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.btn {
+  background: none;
+  border: none;
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.btn:hover {
+  background: rgba(0,0,0,0.05);
+}
