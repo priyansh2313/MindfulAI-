@@ -1,0 +1,257 @@
+/* Questionnaire.module.css Revamped */
+
+.questionnaire_container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #4f4a6e, #2e263f);
+}
+
+.questionnaire_branding {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.questionnaire_brainIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.questionnaire_brandText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.questionnaire_box {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  padding: 2rem 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  margin-top: 5rem;
+  color: #fff;
+}
+
+.questionnaire_box h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.questionnaire_block {
+  margin-bottom: 1.25rem;
+  animation: fadeInUp 0.5s ease both;
+}
+
+.questionnaire_question {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.questionnaire_dropdown {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.15);
+  color: #333;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.questionnaire_dropdown:hover,
+.questionnaire_dropdown:focus {
+  background: rgba(255,255,255,0.25);
+  outline: none;
+}
+
+.questionnaire_submitBtn,
+.questionnaire_sendBtn {
+  display: block;
+  width: 100%;
+  margin: 1.5rem auto 0;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #7f8efc, #5ad5a8);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.questionnaire_submitBtn:hover,
+.questionnaire_sendBtn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.questionnaire_emailInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.15);
+  color: #333;
+  font-size: 1rem;
+}
+
+.questionnaire_successMessage {
+  text-align: center;
+  animation: fadeIn 0.6s ease both;
+}
+
+.questionnaire_successMessage h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+.wizardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #3a2a52, #1b1030);
+}
+
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.progressHeader {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.05);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.progressBar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+  margin-left: 1rem;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background: linear-gradient(135deg, #7f8efc, #5ad5a8);
+  transition: width 0.4s ease;
+}
+
+.question {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.optionBtn {
+  padding: 0.9rem 1.2rem;
+  border: 2px solid rgba(255,255,255,0.4);
+  background: transparent;
+  border-radius: 9999px;
+  font-size: 1.1rem;
+  color: #fff;
+  transition: background 0.2s, border-color 0.2s;
+}
+.optionBtn.selected,
+.optionBtn:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: #7f8efc;
+}
+
+.emailInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.15);
+  color: #333;
+  font-size: 1rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+.backBtn,
+.nextBtn {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 9999px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.backBtn {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+.backBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.nextBtn {
+  background: linear-gradient(135deg, #7f8efc, #5ad5a8);
+  color: #fff;
+}
+
+.success {
+  text-align: center;
+  animation: fadeIn 0.6s ease both;
+}
+.success h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
