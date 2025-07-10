@@ -10,7 +10,7 @@ import styles from "../styles/community.module.css";
 declare module "emoji-picker-react";
 
 // const socket = io("https://mindful-chat-server.onrender.com");
-const socket = io("https://mindful-chat-server.onrender.com", { withCredentials: true });
+const socket = io("http://localhost:5000", { withCredentials: true });
 // const socket = io("http://localhost:3000", { withCredentials: true });
 
 const colors = ["#F06292", "#64B5F6", "#81C784", "#FFD54F", "#BA68C8"];

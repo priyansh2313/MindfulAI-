@@ -1,172 +1,163 @@
 /* 🌟 Background Gradient */
 .container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: flowGradient 20s ease infinite;
+  position: relative;
+  overflow: hidden;
+  padding: 2vh 0;
+}
+
+.waveBg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 220px;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.88);
+  padding: 3rem 2.5rem 2.5rem 2.5rem;
+  border-radius: 22px;
+  box-shadow: 0 12px 40px rgba(127, 142, 252, 0.16), 0 1.5px 0 #e3e3e3;
+  backdrop-filter: blur(18px);
+  width: 100%;
+  max-width: 410px;
+  text-align: center;
+  z-index: 1;
+  border: 1.5px solid #e0f7fa;
+  transition: box-shadow 0.3s, border 0.3s;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.illustration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.label {
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: #5a5a5a;
+  text-align: left;
+  margin-bottom: 0.2rem;
+  margin-left: 0.1rem;
+}
+
+.input {
+  padding: 0.85rem 1.1rem;
+  border: 1.5px solid #e0f7fa;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(127, 142, 252, 0.04) inset;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+.input:focus {
+  border: 1.5px solid #7f8efc;
+  box-shadow: 0 0 0 2px #e0f7fa;
+}
+
+.button {
+  background: linear-gradient(90deg, #7f8efc 0%, #5ad5a8 100%);
+  color: white;
+  padding: 0.85rem 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(127, 142, 252, 0.08);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  margin-top: 0.5rem;
+}
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.button:hover, .button:focus {
+  background: linear-gradient(90deg, #5ad5a8 0%, #7f8efc 100%);
+  box-shadow: 0 4px 16px rgba(127, 142, 252, 0.14);
+  transform: translateY(-1px) scale(1.01);
+  outline: none;
+}
+
+.error {
+  color: #e63946;
+  font-size: 0.98rem;
+  margin-bottom: 0.5rem;
+  margin-top: -0.5rem;
+  letter-spacing: 0.2px;
+}
+
+.linksRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #666;
+}
+
+.smallLink {
+  color: #7f8efc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.smallLink:hover {
+  text-decoration: underline;
+  color: #5ad5a8;
+}
+
+@keyframes flowGradient {
+  0% {
+    background-position: 0% 50%;
   }
-  
-  /* 🟦 Glassmorphism Box */
-  .glassContainer {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    animation: fadeIn 0.8s ease-in-out;
+  50% {
+    background-position: 100% 50%;
   }
-  
-  /* 🔵 Logo & Header */
-  .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+  100% {
+    background-position: 0% 50%;
   }
-  
-  .logo {
-    width: 40px;
-    height: 40px;
-    color: #6366f1;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 1.5rem 0.7rem 1.2rem 0.7rem;
+    max-width: 98vw;
+    font-size: 0.97rem;
   }
-  
-  .title {
-    font-size: 26px;
-    font-weight: bold;
-    color: #6366f1;
-    margin-left: 10px;
-  }
-  
-  /* ✨ Social Buttons */
-  .socialButtons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .button3d {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s;
-    border: none;
-    width: 100%;
-  }
-  
-  .googleButton {
-    background: #ea4335;
-    color: white;
-  }
-  
-  .facebookButton {
-    background: #1877f2;
-    color: white;
-  }
-  
-  .button3d:hover {
-    transform: scale(1.05);
-  }
-  
-  /* 🔗 Divider Line */
-  .orDivider {
-    margin: 15px 0;
-    display: flex;
-    align-items: center;
-    color: #666;
-    font-size: 14px;
-  }
-  
-  .orDivider span {
-    background: white;
-    padding: 0 10px;
-  }
-  
-  .orDivider::before,
-  .orDivider::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: #ccc;
-    margin: 0 10px;
-  }
-  
-  /* 📩 Form Styling */
   .form {
-    display: flex;
-    flex-direction: column;
+    gap: 0.7rem;
   }
-  
-  .label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #444;
+  .title {
+    font-size: 1.3rem;
   }
-  
-  .input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    font-size: 1rem;
-  }
-  
-  /* 🔥 3D Button Effect */
-  .button3d {
-    background: #6366f1;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0px 5px 0px #4f46e5;
-  }
-  
-  .button3d:hover {
-    transform: translateY(-2px);
-    box-shadow: 0px 7px 0px #3b35c4;
-  }
-  
-  .button3d:active {
-    transform: translateY(3px);
-    box-shadow: 0px 2px 0px #2a26a1;
-  }
-  
-  /* 📝 Sign-up Text */
-  .signupText {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .signupLink {
-    color: #6366f1;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .signupLink:hover {
-    text-decoration: underline;
-  }
-  
-  /* 🌀 Animations */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
+}
   

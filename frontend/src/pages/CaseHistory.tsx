@@ -60,18 +60,34 @@ const CaseHistory = () => {
 
   return (
     <div className={styles.caseHistoryContainer}>
+      <div className={styles.bgShape}>
+        <svg width="100%" height="100%" viewBox="0 0 900 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="450" cy="200" rx="420" ry="120" fill="#7f8efc" fillOpacity="0.25"/>
+          <ellipse cx="300" cy="120" rx="180" ry="60" fill="#5ad5a8" fillOpacity="0.18"/>
+          <ellipse cx="650" cy="280" rx="160" ry="50" fill="#fbc2eb" fillOpacity="0.18"/>
+        </svg>
+      </div>
+      <div className={styles.headerIllustration}>
+        <svg width="64" height="64" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="36" cy="60" rx="18" ry="6" fill="#e0f7fa"/>
+          <path d="M36 60C36 60 18 44 18 28C18 17.9543 26.9543 9 37 9C47.0457 9 56 17.9543 56 28C56 44 36 60 36 60Z" fill="#5ad5a8"/>
+          <path d="M36 60C36 60 26 48 26 34C26 25.1634 32.1634 18 41 18" stroke="#7f8efc" strokeWidth="2.5" strokeLinecap="round"/>
+        </svg>
+      </div>
       <h1 className={styles.title}>📝 Case History Questions</h1>
 
       <div className={styles.questionsWrapper}>
         {caseHistoryQuestions.map((question, index) => (
-          <div key={index} className={styles.questionBlock}>
-            <p className={styles.question}>{question}</p>
+          <div key={index} className={styles.questionRow}>
+            <label className={styles.question} htmlFor={`q${index}`}>{question}</label>
             <textarea
+              id={`q${index}`}
               value={responses[index]}
               onChange={(e) => handleChange(index, e.target.value)}
               placeholder="Your answer here..."
               className={styles.textInput}
             />
+            {index !== caseHistoryQuestions.length - 1 && <div className={styles.divider}></div>}
           </div>
         ))}
       </div>
