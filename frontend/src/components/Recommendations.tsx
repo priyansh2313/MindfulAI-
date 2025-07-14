@@ -21,7 +21,7 @@ export default function Recommendations() {
     setRec(chooseAction(mood, table));
   }, []);
 
-  if (!rec) return null;
+  if (!rec || !actionsMap[rec]) return null;
   const { label, path } = actionsMap[rec];
 
   return (
@@ -29,7 +29,7 @@ export default function Recommendations() {
       <h3>Recommended for you</h3>
       <div className={styles.card} onClick={() => navigate(path)}>
         <p>{label}</p>
-        <button>Go</button>
+        <button></button>
       </div>
     </section>
   );

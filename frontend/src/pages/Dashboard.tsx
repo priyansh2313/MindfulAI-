@@ -28,8 +28,7 @@ export default function Dashboard() {
         <ActionEffectivenessWidget />
         <ProgressWidget />
         <TipWidget />
-		      <Recommendations />
-
+		    <Recommendations />
       </section>
       <FloatingChatbot mode="dashboard" />
     </div>

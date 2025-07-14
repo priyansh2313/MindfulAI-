@@ -5,6 +5,11 @@
   padding: 1.5rem;
   color: #fff;
   margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 .header {
   display: flex;
@@ -13,18 +18,25 @@
   margin-bottom: 1rem;
 }
 .tip {
-  font-style: italic;
+  /* font-style: italic; */
+  color: rgb(195, 195, 195);
+  font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 .btn {
   background: linear-gradient(135deg, #7f8efc, #5ad5a8);
+  font-size: 1rem;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
+  padding: 8px;
+  border-radius: 100px;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 24px rgba(53, 53, 53, 0.3);
+}
+.tipH4{
+  display: flex;
+  gap: 5px;
 }

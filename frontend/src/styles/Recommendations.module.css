@@ -1,7 +1,11 @@
 .recommendations {
   position: relative;
-  top: -5rem;
-  margin: 0 auto 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;  
+  margin: 2rem auto ;
   width: 90%;
   max-width: 600px;
   background: rgba(255,255,255,0.9);
@@ -21,6 +25,8 @@
   color: #333;
 }
 .card {
+  
+  width: 30%;
   display: inline-flex;
   align-items: center;
   justify-content: center;

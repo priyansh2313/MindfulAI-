@@ -5,7 +5,27 @@
   padding: 1.5rem;
   color: #fff;
   margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 h4 {
   margin-bottom: 1rem;
+}
+
+.activityContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.activityH1{
+  color: rgb(221, 221, 221);
+}
+
+.activityP{
+  color: rgb(203, 203, 203);
 }

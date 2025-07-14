@@ -20,11 +20,13 @@
   position: relative;
 }
 .widgets {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
+  width: 100%;
+  display: flex;  
+  gap: 10px;
   padding: 2rem;
   background: #1b1628;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 /* New section styles */

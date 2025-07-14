@@ -97,7 +97,9 @@ export default function FloatingChatbot({
               ))}
             </div>
           ) : (
-            <MindfulChat key={currentMode} mode={mode} />
+            (mode === "dashboard" || mode === "evaluation" || mode === "exercise") && (
+              <MindfulChat key={currentMode} mode={mode} />
+            )
           )}
         </div>
       )}

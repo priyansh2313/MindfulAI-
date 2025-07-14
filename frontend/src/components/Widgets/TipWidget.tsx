@@ -13,8 +13,8 @@ export default function TipWidget() {
   const [tip, setTip] = useState(tips[Math.floor(Math.random()*tips.length)]);
   return (
     <div className={styles.widget}>
-      <h4><Lightbulb /> Mental Health Tip</h4>
-      <p>{tip}</p>
+      <h4 className={styles.tipH4}><Lightbulb/> Mental Health Tip</h4>
+      <p className={styles.tip}>{tip}</p>
       <button onClick={()=>{let t=tip;while(t===tip) t=tips[Math.floor(Math.random()*tips.length)];setTip(t);}} className={styles.btn}>Refresh Tip</button>
     </div>
   );

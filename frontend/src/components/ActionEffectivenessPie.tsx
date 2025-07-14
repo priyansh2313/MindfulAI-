@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import styles from '../styles/widgets/ActionEffectivenessWidget.module.css';
+
 import {
   Cell,
   Legend,
@@ -50,9 +52,9 @@ export default function ActionEffectivenessPie() {
   };
 
   return (
-    <div className="text-white mt-10 p-4 rounded-lg bg-[#1e293b] shadow-xl max-w-md mx-auto">
-      <h2 className="text-xl font-semibold mb-2 text-center">🎯 Action Effectiveness</h2>
-      <div className="text-center mb-4">
+    <div className={styles.activityContainer}>
+      <h2 className={styles.activityH1}>🎯Action Effectiveness</h2>
+      <div className={styles.activityP}>
         <label htmlFor="mood-select" className="mr-2">Filter by Mood:</label>
         <select
           id="mood-select"

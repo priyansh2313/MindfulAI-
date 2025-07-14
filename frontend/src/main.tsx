@@ -6,7 +6,8 @@ import 'regenerator-runtime/runtime';
 import App from './App.tsx';
 import { Provider } from 'react-redux';
 import store from './redux/store.js';
-import '../src/assets/index.css';
+import './assets/index.css';
+
 
 const initializeTF = async () => {
   await tf.setBackend('webgl');
