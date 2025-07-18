@@ -19,7 +19,7 @@
   z-index: 1;
   position: relative;
 }
-.widgets {
+.Widgets {
   width: 100%;
   display: flex;  
   gap: 10px;

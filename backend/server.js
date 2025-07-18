@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const http = require('http');
 const { Server } = require('socket.io');
+const CaseHistory = require('./models/CaseHistory');
+const Journal = require('./models/Journal');
 
 const app = express();
 const server = http.createServer(app);
@@ -89,6 +91,45 @@ app.get('/users/check', (req, res) => {
     res.json({ user: decoded });
   } catch {
     res.status(401).json({ error: 'Invalid token' });
+  }
+});
+
+app.post('/caseHistory', async (req, res) => {
+  try {
+    const { data } = req.body; // data is an object with q1, q2, ... or an array
+    // Convert to array if needed:
+    const responses = Array.isArray(data) ? data : Object.values(data);
+
+    const caseHistory = await CaseHistory.create({
+      responses,
+      // user: userId, // If you want to associate with a user, add user extraction from JWT
+    });
+
+    res.json({ message: 'Case history saved!', caseHistory });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save case history.' });
+  }
+});
+
+// Create a new journal entry
+app.post('/journals', async (req, res) => {
+  try {
+    const { content } = req.body;
+    // Optionally, associate with user: const userId = req.user.id;
+    const journal = await Journal.create({ content });
+    res.json({ message: 'Journal entry saved!', journal });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save journal entry.' });
+  }
+});
+
+// Get all journal entries (optionally, filter by user)
+app.get('/journals', async (req, res) => {
+  try {
+    const journals = await Journal.find().sort({ createdAt: -1 });
+    res.json(journals);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch journals.' });
   }
 });
 

@@ -1,7 +1,7 @@
 /* ---------- Services Section ---------- */
 .servicesSection {
   background: #f5f7fa;
-  padding: 4rem 2rem;
+  padding: 6rem 5rem;
 }
 .grid {
   display: grid;
@@ -74,4 +74,37 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.sectionHeader {
+  margin-top: 60px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.heading {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #2a3a4b;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #7f8efc 0%, #5ad5a8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subheading {
+  font-size: 1.05rem;
+  color: #6b7a90;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #7f8efc 0%, #5ad5a8 100%);
+  border-radius: 2px;
+  margin: 0.5rem auto 0 auto;
+  opacity: 0.18;
 }

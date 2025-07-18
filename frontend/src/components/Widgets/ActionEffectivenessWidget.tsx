@@ -1,4 +1,4 @@
-import styles from '../../styles/widgets/ActionEffectivenessWidget.module.css';
+import styles from '../../styles/Widgets/ActionEffectivenessWidget.module.css';
 import ActionEffectivenessPie from '../ActionEffectivenessPie';
 
 export default function ActionEffectivenessWidget() {

@@ -122,6 +122,25 @@
   outline: none;
 }
 
+.section {
+  margin-bottom: 38px;
+  padding: 28px 0 18px 0;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 2px 12px rgba(127, 142, 252, 0.04);
+  transition: background 0.2s;
+}
+
+.sectionHeading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #5a6d8a;
+  margin-bottom: 18px;
+  letter-spacing: 0.2px;
+  text-align: left;
+  padding-left: 2px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -149,6 +168,14 @@
     width: 120vw;
     height: 200px;
     top: -60px;
+  }
+  .section {
+    padding: 16px 0 10px 0;
+    margin-bottom: 22px;
+  }
+  .sectionHeading {
+    font-size: 1.08rem;
+    margin-bottom: 10px;
   }
 }
   

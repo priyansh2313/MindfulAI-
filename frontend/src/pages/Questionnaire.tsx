@@ -82,7 +82,7 @@ const Questionnaire = () => {
 
       alert("✅ Report sent successfully to " + email);
       setSubmitted(true);
-      setTimeout(() => navigate("/dashboard"), 2000);
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       console.error(err);
       alert("❌ Failed to send report. Try again.");

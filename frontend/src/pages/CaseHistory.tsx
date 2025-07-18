@@ -20,6 +20,21 @@ const caseHistoryQuestions = [
   "⿡⿣ Do you have a strong support system (friends, family, therapist)?",
 ];
 
+const questionSections = [
+  {
+    heading: "Medical History",
+    questions: [0, 1, 2, 3, 4, 5],
+  },
+  {
+    heading: "Mental Health",
+    questions: [6, 7, 8, 9],
+  },
+  {
+    heading: "Lifestyle & Support",
+    questions: [10, 11, 12],
+  },
+];
+
 const CaseHistory = () => {
   const navigate = useNavigate();
   const [responses, setResponses] = useState(Array(caseHistoryQuestions.length).fill(""));
@@ -74,24 +89,27 @@ const CaseHistory = () => {
           <path d="M36 60C36 60 26 48 26 34C26 25.1634 32.1634 18 41 18" stroke="#7f8efc" strokeWidth="2.5" strokeLinecap="round"/>
         </svg>
       </div>
-      <h1 className={styles.title}>📝 Case History Questions</h1>
-
+      <h1 className={styles.title}>📝 Case History</h1>
       <div className={styles.questionsWrapper}>
-        {caseHistoryQuestions.map((question, index) => (
-          <div key={index} className={styles.questionRow}>
-            <label className={styles.question} htmlFor={`q${index}`}>{question}</label>
-            <textarea
-              id={`q${index}`}
-              value={responses[index]}
-              onChange={(e) => handleChange(index, e.target.value)}
-              placeholder="Your answer here..."
-              className={styles.textInput}
-            />
-            {index !== caseHistoryQuestions.length - 1 && <div className={styles.divider}></div>}
-          </div>
+        {questionSections.map((section, sIdx) => (
+          <section key={section.heading} className={styles.section}>
+            <h2 className={styles.sectionHeading}>{section.heading}</h2>
+            {section.questions.map((qIdx, i) => (
+              <div key={qIdx} className={styles.questionRow}>
+                <label className={styles.question} htmlFor={`q${qIdx}`}>{caseHistoryQuestions[qIdx]}</label>
+                <textarea
+                  id={`q${qIdx}`}
+                  value={responses[qIdx]}
+                  onChange={(e) => handleChange(qIdx, e.target.value)}
+                  placeholder="Your answer here..."
+                  className={styles.textInput}
+                />
+                {i !== section.questions.length - 1 && <div className={styles.divider}></div>}
+              </div>
+            ))}
+          </section>
         ))}
       </div>
-
       <button className={styles.submitBtn} onClick={handleSubmit}>
         Submit Case History
       </button>

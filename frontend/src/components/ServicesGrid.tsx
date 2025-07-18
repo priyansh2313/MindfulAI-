@@ -17,14 +17,21 @@ const services = [
 export default function ServicesGrid() {
   const navigate = useNavigate();
   return (
-    <section className={styles.grid}>
-      {services.map(s => (
-        <div key={s.title} className={styles.card} onClick={() => navigate(s.path)}>
-          <div className={styles.icon}>{s.icon}</div>
-          <h4>{s.title}</h4>
-          <p>{s.desc}</p>
-        </div>
-      ))}
-    </section>
+    <div>
+      <div className={styles.sectionHeader}>
+        <h2 className={styles.heading}>Our Features</h2>
+        <div className={styles.subheading}>Explore what Mindful AI offers</div>
+        <div className={styles.divider}></div>
+      </div>
+      <section className={styles.grid}>
+        {services.map(s => (
+          <div key={s.title} className={styles.card} onClick={() => navigate(s.path)}>
+            <div className={styles.icon}>{s.icon}</div>
+            <h4>{s.title}</h4>
+            <p>{s.desc}</p>
+          </div>
+        ))}
+      </section>
+    </div>
   );
 }

@@ -64,7 +64,7 @@ const Journal = () => {
 		axios
 			.get("/journals", { withCredentials: true })
 			.then(({ data }) => {
-				setEntries(data.data);
+				setEntries(data); // data is already the array
 			})
 			.catch((error) => {
 				console.error("Error fetching journal entries:", error);
@@ -128,7 +128,7 @@ const Journal = () => {
 	};
 
 	axios
-		.post("/journal", { ...newEntry }, { withCredentials: true })
+		.post("/journals", { ...newEntry }, { withCredentials: true })
 		.then(() => {
 			setTitle("");
 			setEntry("");

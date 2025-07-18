@@ -1,9 +1,9 @@
 // src/pages/MusicDashboard.tsx
 
 import React, { useEffect, useState } from 'react';
+import { useMusic } from '../components/MusicContext';
 import styles from '../styles/Music.module.css';
 import { logFeedback, updateExplorationRate } from "../utils/reinforcement";
-import MusicPlayer from './MusicPlayer';
 
 const playlists = [
   {
@@ -69,12 +69,12 @@ const playlists = [
 ];
 
 export default function MusicDashboard() {
-  const [selectedTrack, setSelectedTrack] = useState(playlists[0]);
+  const { currentTrack, setTrack } = useMusic();
   const [feedbackGiven, setFeedbackGiven] = useState(false);
 
   useEffect(() => {
     setFeedbackGiven(false);
-  }, [selectedTrack]);
+  }, [currentTrack]);
 
   useEffect(() => {
     if (!localStorage.getItem("todayMood")) {
@@ -90,8 +90,8 @@ export default function MusicDashboard() {
           {playlists.map((item, index) => (
             <li
               key={index}
-              className={`${styles.playlistItem} ${item.title === selectedTrack.title ? styles.active : ''}`}
-              onClick={() => setSelectedTrack(item)}
+              className={`${styles.playlistItem} ${currentTrack && item.title === currentTrack.title ? styles.active : ''}`}
+              onClick={() => setTrack(item)}
             >
               <img src={item.cover} alt={item.title} />
               <div>
@@ -113,7 +113,7 @@ export default function MusicDashboard() {
             <div
               key={index}
               className={styles.feedCard}
-              onClick={() => setSelectedTrack(item)}
+              onClick={() => setTrack(item)}
             >
               <img src={item.cover} alt={item.title} />
               <h3>{item.title}</h3>
@@ -124,7 +124,15 @@ export default function MusicDashboard() {
       </main>
 
       <aside className={styles.nowPlaying}>
-        <MusicPlayer track={selectedTrack} />
+        {/* No MusicPlayer here, only show track info */}
+        {currentTrack && (
+          <div>
+            <h3>🎶 Now Playing</h3>
+            <img src={currentTrack.cover} className={styles.coverImage} alt="Now Playing Cover" />
+            <h2 className={styles.title}>{currentTrack.title}</h2>
+            <p className={styles.mood}>Mood: {currentTrack.mood}</p>
+          </div>
+        )}
       </aside>
 
       <div className="mt-4 text-center text-white">
@@ -135,8 +143,7 @@ export default function MusicDashboard() {
               <button
                 className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white"
                 onClick={() => {
-                  const mood = (localStorage.getItem("todayMood") || "unknown") as Mood;
-                  console.log("Logging feedback: YES", { mood, action: "music" });
+                  const mood = (localStorage.getItem("todayMood") || "unknown") as any;
                   logFeedback(mood, "music", 1);
                   updateExplorationRate();
                   setFeedbackGiven(true);
@@ -147,8 +154,7 @@ export default function MusicDashboard() {
               <button
                 className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white"
                 onClick={() => {
-                  const mood = (localStorage.getItem("todayMood") || "unknown") as Mood;
-                  console.log("Logging feedback: NO", { mood, action: "music" });
+                  const mood = (localStorage.getItem("todayMood") || "unknown") as any;
                   logFeedback(mood, "music", 0);
                   updateExplorationRate();
                   setFeedbackGiven(true);

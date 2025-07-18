@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from '../../styles/widgets/ProgressWidget.module.css';
+import styles from '../../styles/Widgets/ProgressWidget.module.css';
 
 export default function ProgressWidget() {
   const [progress,set] = useState(0);

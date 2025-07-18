@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../hooks/axios/axios";
-import styles from "../styles/Signup.module.css";
+import styles from "../styles/signup.module.css";
 
 const Signup = () => {
 	const dispatch = useDispatch(); 
