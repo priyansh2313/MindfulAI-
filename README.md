@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🧠 Mindful AI — Emotion-Aware Mental Health Assistant
 
 **Mindful AI** is an intelligent mental wellness companion that combines *Reinforcement Learning*, *natural language understanding*, and *dynamic UX routing* to support users based on their emotional state — in real-time.
@@ -31,6 +30,3 @@
 
 ## 🤖 Architecture
 
-=======
-# MindfulAI-
->>>>>>> 880f924a3de4be2ad8afb61d985cad9b0fb7ef51

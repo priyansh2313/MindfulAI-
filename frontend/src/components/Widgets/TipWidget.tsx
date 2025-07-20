@@ -1,6 +1,7 @@
 import { Lightbulb } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/Widgets/TipWidget.module.css';
+
 
 const tips = [
   'Take a 10-minute walk to clear your mind.',

@@ -52,7 +52,7 @@ const Login = () => {
 				localStorage.setItem("user", JSON.stringify(data.data));
 				dispatch(setUser(data.data));
 				toast.success("Login successful!");
-				navigate("/case-history");
+				navigate("/dashboard");
 			})
 			.catch((error: any) => {
         setError("Login failed!");

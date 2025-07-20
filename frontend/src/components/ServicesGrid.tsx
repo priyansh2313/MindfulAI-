@@ -1,4 +1,5 @@
 import { Activity, Book, Brain, ClipboardCheck, Image, MessageSquareHeart, Moon, Music, Users } from 'lucide-react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/ServicesGrid.module.css';
 

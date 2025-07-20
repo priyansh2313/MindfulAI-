@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/Hero.module.css';
+
 export default function Hero() {
   const [score, setScore] = useState<number | null>(null);
 

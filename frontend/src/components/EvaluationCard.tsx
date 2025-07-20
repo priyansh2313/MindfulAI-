@@ -1,5 +1,7 @@
+import React from 'react';
 import EvaluationGraph from '../pages/EvaluationGraph';
 import styles from '../styles/EvaluationCard.module.css';
+
 
 export default function EvaluationCard() {
   const score = localStorage.getItem('evaluationScore');

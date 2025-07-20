@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Recommendations.module.css';
 import { chooseAction, initQTable } from '../utils/reinforcement';

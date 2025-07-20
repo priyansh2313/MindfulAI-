@@ -2,11 +2,11 @@ import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
 import 'regenerator-runtime/runtime';
 import App from './App.tsx';
-import { Provider } from 'react-redux';
-import store from './redux/store.js';
 import './assets/index.css';
+import store from './redux/store.js';
 
 
 const initializeTF = async () => {

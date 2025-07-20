@@ -1,4 +1,5 @@
 import { TrendingUp } from 'lucide-react';
+import React from 'react';
 import styles from '../styles/LearningSummaryCard.module.css';
 import LearningSummary from './LearningSummary';
 

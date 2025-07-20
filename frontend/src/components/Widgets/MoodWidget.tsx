@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/Widgets/MoodWidget.module.css';
+
 
 const emojis = ['😄','🙂','😐','😕','😢'];
 export default function MoodWidget() {

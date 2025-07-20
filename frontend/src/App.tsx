@@ -10,6 +10,7 @@ import CaseHistory from './pages/CaseHistory';
 import Community from './pages/Community';
 import DailyActivities from "./pages/DailyActivities";
 import Dashboard from './pages/Dashboard';
+import ElderDashboard from './pages/ElderDashboard';
 import Encyclopedia from "./pages/Encyclopedia";
 import Evaluation from './pages/Evaluation';
 import ImageAnalyzer from './pages/ImageAnalyser';
@@ -22,6 +23,7 @@ import Profile from './pages/Profile';
 import Questionnaire from './pages/Questionnaire';
 import Signup from './pages/Signup';
 import './styles/style.css';
+
 
 function App() {
   const user = useSelector((state: any) => state.user); 
@@ -46,6 +48,7 @@ function App() {
           <Route path="/case-history" element={<CaseHistory />} />
           <Route path="/SleepCycleSection" element={<SleepCycleSection />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/elder-dashboard" element={<ElderDashboard />} />
           {/* <Route path="/gratitudeJournal" element={<GratitudeJournal />} /> */}
         </Routes>
         <FloatingMusicPlayer />

@@ -1,4 +1,5 @@
 import { LogOut, MapPin, Smile } from 'lucide-react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Header.module.css';
 

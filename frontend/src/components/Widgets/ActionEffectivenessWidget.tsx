@@ -1,5 +1,7 @@
+import React from 'react';
 import styles from '../../styles/Widgets/ActionEffectivenessWidget.module.css';
 import ActionEffectivenessPie from '../ActionEffectivenessPie';
+
 
 export default function ActionEffectivenessWidget() {
   return (
