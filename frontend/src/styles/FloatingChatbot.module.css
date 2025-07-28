@@ -246,12 +246,13 @@
   background-color: #fff;
   border-top: 1px solid #eee;
   font-family: 'Poppins', sans-serif;
+  color: #010101; /* Ensure dark text for visibility */
 }
 
 .botMessage {
   align-self: flex-start;
   background: #e0e7ff;
-  color: #1e3a8a;
+  color: #222 !important; /* Ensure bot messages are visible on white */
   font-size: 0.95rem;
   font-weight: 500;
   padding: 10px 14px;

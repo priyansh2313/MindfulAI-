@@ -1,6 +1,6 @@
 /* ---------- Services Section ---------- */
 .servicesSection {
-  background: #f5f7fa;
+  background: #5581c3;
   padding: 6rem 5rem;
 }
 .grid {
@@ -88,9 +88,7 @@
   color: #2a3a4b;
   margin-bottom: 0.4rem;
   letter-spacing: 0.5px;
-  background: linear-gradient(90deg, #7f8efc 0%, #5ad5a8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #2a3a4b;
 }
 
 .subheading {

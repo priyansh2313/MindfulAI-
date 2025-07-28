@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FiMic, FiSend } from "react-icons/fi";
 import Sentiment from "sentiment";
@@ -59,24 +59,7 @@ const Journal = () => {
 	const [random, setRandom] = useState(Math.random());
 	const [feedbackGiven, setFeedbackGiven] = useState(false);
 
-	useEffect(() => {
-		setLoading(true);
-		axios
-			.get("/journals", { withCredentials: true })
-			.then(({ data }) => {
-				setEntries(data); // data is already the array
-			})
-			.catch((error) => {
-				console.error("Error fetching journal entries:", error);
-				toast.error("Failed to load journal entries. Please try again.");
-			})
-			.then(() => {
-				setLoading(false);
-			})
-			.catch(() => {
-				setLoading(false);
-			});
-	}, [random]);
+	
 
 	// useEffect(() => {
 	// 	const source = localStorage.getItem("rl_action_source");

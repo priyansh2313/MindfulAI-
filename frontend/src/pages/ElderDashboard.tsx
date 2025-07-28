@@ -1,78 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import EvaluationCard from '../components/EvaluationCard';
+import React, { useState } from 'react';
+import EvaluationCardElder from '../components/EvaluationCardElder';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import LearningSummaryCard from '../components/LearningSummaryCard';
 import Recommendations from '../components/Recommendations';
 import ServicesGridElder from '../components/ServicesGridElder';
+import VoiceAssistant from '../components/VoiceAssistant';
 import ActionEffectivenessWidget from '../components/Widgets/ActionEffectivenessWidget';
 import MoodWidget from '../components/Widgets/MoodWidget';
 import ProgressWidget from '../components/Widgets/ProgressWidget';
 import TipWidget from '../components/Widgets/TipWidget';
-import FloatingChatbot from './FloatingChatbot';
 import FloatingLeaves from './FloatingLeaves';
-
-function VoiceAssistant() {
-  const helpText = `Welcome to your dashboard. You can check your mood, view recommendations, or talk to our assistant. If you need help, press this button again.`;
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-
-  useEffect(() => {
-    // Function to update voices
-    const updateVoices = () => {
-      setVoices(window.speechSynthesis.getVoices());
-    };
-    updateVoices();
-    window.speechSynthesis.onvoiceschanged = updateVoices;
-    // Cleanup
-    return () => {
-      window.speechSynthesis.onvoiceschanged = null;
-    };
-  }, []);
-
-  const speak = () => {
-    if (!voices.length) return; // Don't speak until voices are loaded
-    const utterance = new window.SpeechSynthesisUtterance(helpText);
-    // Prefer a soft, female English voice if available
-    let preferred = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'));
-    if (!preferred) {
-      preferred = voices.find(v => v.lang.startsWith('en') && (v.name.toLowerCase().includes('google') || v.name.toLowerCase().includes('microsoft') || v.name.toLowerCase().includes('soft')));
-    }
-    if (!preferred) {
-      preferred = voices.find(v => v.lang.startsWith('en'));
-    }
-    if (preferred) utterance.voice = preferred;
-    utterance.pitch = 1.1;
-    utterance.rate = 0.95;
-    utterance.volume = 1;
-    window.speechSynthesis.speak(utterance);
-  };
-
-  return (
-    <button
-      onClick={speak}
-      style={{
-        position: 'fixed',
-        bottom: 32,
-        left: 32,
-        zIndex: 1000,
-        background: '#111',
-        color: '#fff',
-        fontSize: '1.5rem',
-        padding: '1rem 2rem',
-        borderRadius: '2rem',
-        border: '2px solid #222',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
-        cursor: 'pointer',
-        fontWeight: 600,
-        letterSpacing: 1,
-      }}
-      aria-label="Voice Help"
-      disabled={!voices.length}
-    >
-      🗣️ Voice Help
-    </button>
-  );
-}
 
 export default function ElderDashboard() {
   const [chatbotOpen, setChatbotOpen] = useState(false);
@@ -84,17 +22,34 @@ export default function ElderDashboard() {
       <FloatingLeaves />
       <Header />
       <Hero />
+      <div className="mb-80" /> {/* This creates the gap BELOW the grid */}
       <ServicesGridElder />
+      <div className="mb-16" /> {/* This creates the gap BELOW the grid */}
       <section className="flex flex-wrap gap-8 justify-center my-8">
-        <EvaluationCard />
-        <LearningSummaryCard />
+        <h1>Your Analytics</h1>
+        <div className="bg-white text-black text-2xl rounded-2xl border-4 border-gray-800 p-50 mb-10 text-center">
+          <EvaluationCardElder />
+        </div>
+        <div className="bg-white text-black text-2xl rounded-2xl border-4 border-gray-800 p-8 mb-8 text-center">
+          <LearningSummaryCard />
+        </div>
       </section>
       <section className="flex flex-wrap gap-8 justify-center my-8">
-        <MoodWidget />
-        <ActionEffectivenessWidget />
-        <ProgressWidget />
-        <TipWidget />
-        <Recommendations />
+        <div className="bg-white text-black text-2xl rounded-2xl border-4 border-gray-800 p-8 mb-8 text-center">
+          <MoodWidget />
+        </div>
+        <div className="bg-white text-black text-2xl rounded-2xl border-4 border-gray-800 p-8 mb-8 text-center">
+          <ActionEffectivenessWidget />
+        </div>
+        <div className="bg-white text-black text-2xl rounded-2xl border-4 border-gray-800 p-8 mb-8 text-center">
+          <ProgressWidget />
+        </div>
+        <div className="bg-white text-black text-2xl rounded-2xl border-4 border-gray-800 p-8 mb-8 text-center">
+          <TipWidget />
+        </div>
+        <div className="bg-white text-black text-2xl rounded-2xl border-4 border-gray-800 p-8 mb-8 text-center">
+          <Recommendations />
+        </div>
       </section>
       <div className="flex justify-center mt-8">
         <button
@@ -108,12 +63,7 @@ export default function ElderDashboard() {
           Secondary Action
         </button>
       </div>
-      <FloatingChatbot
-        isOpen={chatbotOpen}
-        onToggle={() => setChatbotOpen((open) => !open)}
-        hoveredSection={null}
-        mode="dashboard"
-      />
+      
       <VoiceAssistant />
     </div>
   );

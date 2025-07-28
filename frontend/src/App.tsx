@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import 'regenerator-runtime/runtime';
+import DashboardFooter from './components/DashboardFooter';
 import FloatingMusicPlayer from './components/FloatingMusicPlayer';
 import { MusicProvider } from './components/MusicContext';
 import SleepCycleSection from './components/SleepCycleSection';
@@ -11,6 +12,7 @@ import Community from './pages/Community';
 import DailyActivities from "./pages/DailyActivities";
 import Dashboard from './pages/Dashboard';
 import ElderDashboard from './pages/ElderDashboard';
+import ElderProfile from './pages/ElderProfile';
 import Encyclopedia from "./pages/Encyclopedia";
 import Evaluation from './pages/Evaluation';
 import ImageAnalyzer from './pages/ImageAnalyser';
@@ -31,12 +33,13 @@ function App() {
     <MusicProvider>
       <Router>
         <Toaster />
+        {/* This makes it global */}
         <Routes>
           <Route path="/" element={user ? <Introduction /> : <Navigate to="/login" />} /> {/* Landing page */}
           <Route path="/Questionnaire" element={<Questionnaire />} /> {/* Show 7 Questions first */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+          <Route path="/dashboard" element={user ? <><Dashboard /><DashboardFooter /></> : <Navigate to="/login" />} />
           <Route path="/evaluation" element={user ? <Evaluation /> : <Navigate to="/login" />} />
           <Route path="/journal" element={user ? <Journal /> : <Navigate to="/login" />} />
           <Route path="/community" element={user ? <Community /> : <Navigate to="/login" />} />
@@ -49,6 +52,7 @@ function App() {
           <Route path="/SleepCycleSection" element={<SleepCycleSection />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/elder-dashboard" element={<ElderDashboard />} />
+          <Route path="/elder-profile" element={<ElderProfile />} />
           {/* <Route path="/gratitudeJournal" element={<GratitudeJournal />} /> */}
         </Routes>
         <FloatingMusicPlayer />

@@ -1,24 +1,33 @@
 .widget {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 1.5rem;
+  background: rgba(30, 41, 59, 0.92);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
   color: #fff;
-  margin: 1rem;
+  margin: 1.5rem 0.5rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 18px;
+  box-shadow: 0 4px 24px 0 rgba(30,41,59,0.18), 0 1.5px 6px 0 rgba(30,41,59,0.12);
+  border: 1.5px solid rgba(90, 213, 168, 0.18);
+  transition: box-shadow 0.2s;
+}
+.widget:hover {
+  box-shadow: 0 8px 32px 0 rgba(30,41,59,0.28), 0 3px 12px 0 rgba(30,41,59,0.18);
 }
 h4 {
   margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
 }
 .circle {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto 1rem;
 }
 .circle svg {
@@ -28,22 +37,27 @@ h4 {
 }
 .bg {
   fill: none;
-  stroke: rgba(255,255,255,0.2);
-  stroke-width: 3.5;
+  stroke: rgba(255,255,255,0.18);
+  stroke-width: 5;
 }
 .fill {
   fill: none;
-  stroke: #5ad5a8;
-  stroke-width: 3.5;
-  transition: stroke-dasharray 0.4s ease;
+  stroke: url(#progressGradient);
+  stroke-width: 5;
+  transition: stroke-dasharray 0.4s cubic-bezier(.4,2,.6,1);
+  filter: drop-shadow(0 2px 8px #5ad5a880);
 }
 .label {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #7f8efc;
 }
 p {
-  margin: 0;
+  margin: 0.5rem 0;
+  color: #e0e0e0;
+  font-size: 1.05rem;
 }

@@ -9,18 +9,23 @@ import ActionEffectivenessWidget from '../components/Widgets/ActionEffectiveness
 import MoodWidget from '../components/Widgets/MoodWidget';
 import ProgressWidget from '../components/Widgets/ProgressWidget';
 import TipWidget from '../components/Widgets/TipWidget';
+// @ts-ignore
 import styles from '../styles/Dashboard.module.css';
 import FloatingChatbot from './FloatingChatbot';
 import FloatingLeaves from './FloatingLeaves';
 
 export default function Dashboard() {
   const [chatbotOpen, setChatbotOpen] = useState(false);
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
   return (
     <div className={styles.page}>
       <FloatingLeaves />
       <Header />
       <Hero />
-      <ServicesGrid />
+      <ServicesGrid
+        onCardHover={setHoveredService}
+        onCardLeave={() => setHoveredService(null)}
+      />
       <section className={styles.analytics}>
         <EvaluationCard />
         <LearningSummaryCard />
@@ -35,7 +40,7 @@ export default function Dashboard() {
       <FloatingChatbot
         isOpen={chatbotOpen}
         onToggle={() => setChatbotOpen((open) => !open)}
-        hoveredSection={null}
+        hoveredSection={hoveredService}
         mode="dashboard"
       />
     </div>

@@ -1,6 +1,7 @@
-import { Activity, Book, Brain, ClipboardCheck, Image, MessageSquareHeart, Moon, Music, Users } from 'lucide-react';
+import { Activity, Book, Brain, ClipboardCheck, MessageSquareHeart, Music, Users } from 'lucide-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+// @ts-ignore
 import styles from '../styles/ServicesGrid.module.css';
 
 const services = [
@@ -11,11 +12,9 @@ const services = [
   { title: 'Mindful Assistant', desc: 'Get AI support', icon: <MessageSquareHeart />, path: '/assistant' },
   { title: 'Encyclopedia', desc: 'Learn about mental health', icon: <Brain />, path: '/encyclopedia' },
   { title: 'Daily Activities', desc: 'Mindfulness exercises', icon: <Activity />, path: '/daily-activities' },
-  { title: 'Image Analyzer', desc: 'Analyze your images', icon: <Image />, path: '/image-analyzer' },
-  { title: 'Sleep Cycle Analysis', desc: 'Better sleep insights', icon: <Moon />, path: '/sleep-cycle' },
 ];
 
-export default function ServicesGrid() {
+export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover?: (title: string) => void, onCardLeave?: () => void }) {
   const navigate = useNavigate();
   return (
     <div>
@@ -26,10 +25,18 @@ export default function ServicesGrid() {
       </div>
       <section className={styles.grid}>
         {services.map(s => (
-          <div key={s.title} className={styles.card} onClick={() => navigate(s.path)}>
+          <div
+            key={s.title}
+            className={styles.card}
+            onClick={() => navigate(s.path)}
+            title={s.desc} // Tooltip for accessibility
+            style={{ fontSize: '1.25rem' }} // Increase font size
+            onMouseEnter={() => onCardHover && onCardHover(s.title)}
+            onMouseLeave={() => onCardLeave && onCardLeave()}
+          >
             <div className={styles.icon}>{s.icon}</div>
-            <h4>{s.title}</h4>
-            <p>{s.desc}</p>
+            <h4 style={{ fontSize: '1.3rem' }}>{s.title}</h4>
+            <p style={{ fontSize: '1.1rem' }}>{s.desc}</p>
           </div>
         ))}
       </section>

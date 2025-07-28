@@ -186,3 +186,140 @@
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
 }
+
+.splitContainer {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.leftPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 7vw;
+  background: #fff;
+  box-shadow: 2px 0 24px 0 rgba(127, 142, 252, 0.04);
+  position: relative;
+  z-index: 2;
+}
+
+.rightPane {
+  flex: 1.2;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 0;
+}
+
+.logoBox {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 2.5rem;
+  letter-spacing: 1px;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+.formBox {
+  width: 100%;
+  max-width: 370px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.mainTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #888;
+  margin-bottom: 0.2rem;
+  font-weight: 500;
+}
+
+.inputGroup {
+  width: 100%;
+  margin-bottom: 1.1rem;
+}
+
+.inputIconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 1.1rem;
+  color: #bdbdbd;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.orDivider {
+  width: 100%;
+  text-align: center;
+  margin: 1.2rem 0 1.1rem 0;
+  color: #bbb;
+  font-size: 0.98rem;
+  position: relative;
+}
+.orDivider span {
+  background: #fff;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+.orDivider:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: #e0e0e0;
+  z-index: 0;
+}
+
+.socialRow {
+  display: flex;
+  gap: 1.2rem;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.socialBtn {
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s;
+  box-shadow: 0 1px 4px rgba(127, 142, 252, 0.04);
+}
+.socialBtn:hover {
+  border: 1.5px solid #7f8efc;
+  box-shadow: 0 2px 8px rgba(127, 142, 252, 0.10);
+}
