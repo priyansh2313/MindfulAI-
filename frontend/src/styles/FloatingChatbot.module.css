@@ -252,9 +252,9 @@
 .botMessage {
   align-self: flex-start;
   background: #e0e7ff;
-  color: #222 !important; /* Ensure bot messages are visible on white */
+  color: #0f172a !important; /* Much darker text for better visibility */
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 700; /* Make text much bolder */
   padding: 10px 14px;
   border-radius: 16px 16px 16px 0;
   max-width: 85%;
