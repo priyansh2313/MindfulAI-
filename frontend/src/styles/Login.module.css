@@ -1,4 +1,4 @@
-/* Login.module.css - Mindful AI with visible animated tech grid */
+/* Login.module.css - Mobile-First Responsive Design */
 
 .container {
   height: 100vh;
@@ -12,6 +12,8 @@
   animation: flowGradient 20s ease infinite;
   position: relative;
   overflow: hidden;
+  padding: 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .container::before {
@@ -31,13 +33,13 @@
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.88);
-  padding: 3rem 2.5rem 2.5rem 2.5rem;
-  border-radius: 22px;
-  box-shadow: 0 12px 40px rgba(127, 142, 252, 0.16), 0 1.5px 0 #e3e3e3;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(127, 142, 252, 0.16), 0 1.5px 0 #e3e3e3;
   backdrop-filter: blur(18px);
   width: 100%;
-  max-width: 410px;
+  max-width: 400px;
   text-align: center;
   z-index: 1;
   border: 1.5px solid #e0f7fa;
@@ -45,7 +47,7 @@
 }
 
 .logo {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 0.5rem;
   color: #7f8efc;
   font-weight: 700;
@@ -53,64 +55,70 @@
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: #4a4a4a;
   letter-spacing: 1px;
   font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  line-height: 1.3;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
   width: 100%;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 .label {
-  font-size: 1.08rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   color: #5a5a5a;
   text-align: left;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
   margin-left: 0.1rem;
 }
 
 .input {
-  padding: 0.85rem 1.1rem;
+  padding: 0.75rem 1rem;
   border: 1.5px solid #e0f7fa;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 1rem;
   background: #fff;
   box-shadow: 0 1px 4px rgba(127, 142, 252, 0.04) inset;
   outline: none;
   transition: border 0.2s, box-shadow 0.2s;
   width: 100%;
+  font-family: inherit;
 }
+
 .input:focus {
   border: 1.5px solid #7f8efc;
-  box-shadow: 0 0 0 2px #e0f7fa;
+  box-shadow: 0 0 0 3px rgba(127, 142, 252, 0.1);
 }
 
 .button {
   background: linear-gradient(90deg, #7f8efc 0%, #5ad5a8 100%);
   color: white;
-  padding: 0.85rem 0;
+  padding: 0.75rem 0;
   border: none;
   border-radius: 12px;
-  font-size: 1.08rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(127, 142, 252, 0.08);
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
   margin-top: 0.5rem;
+  font-family: inherit;
 }
+
 .button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
+
 .button:hover, .button:focus {
   background: linear-gradient(90deg, #5ad5a8 0%, #7f8efc 100%);
   box-shadow: 0 4px 16px rgba(127, 142, 252, 0.14);
@@ -120,10 +128,11 @@
 
 .error {
   color: #e63946;
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
   margin-top: -0.5rem;
   letter-spacing: 0.2px;
+  font-weight: 500;
 }
 
 .linksRow {
@@ -132,19 +141,24 @@
   align-items: center;
   gap: 0.75rem;
   margin-top: 1.5rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #666;
+  flex-wrap: wrap;
 }
 
 .smallLink {
   color: #7f8efc;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: color 0.2s;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
 }
+
 .smallLink:hover {
   text-decoration: underline;
   color: #5ad5a8;
+  background: rgba(127, 142, 252, 0.1);
 }
 
 @keyframes flowGradient {
@@ -189,6 +203,7 @@
 
 .splitContainer {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
 }
@@ -198,15 +213,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  padding: 0 7vw;
+  align-items: center;
+  padding: 2rem 1.5rem;
   background: #fff;
   box-shadow: 2px 0 24px 0 rgba(127, 142, 252, 0.04);
   position: relative;
   z-index: 2;
+  min-height: 100vh;
 }
 
 .rightPane {
+  display: none;
   flex: 1.2;
   background-size: cover;
   background-position: center;
@@ -215,44 +232,49 @@
 }
 
 .logoBox {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #222;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   letter-spacing: 1px;
   font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  text-align: center;
 }
 
 .formBox {
   width: 100%;
-  max-width: 370px;
+  max-width: 350px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   background: none;
   box-shadow: none;
   padding: 0;
 }
 
 .mainTitle {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   color: #222;
   letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.3;
 }
 
 .subtitle {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #888;
-  margin-bottom: 0.2rem;
+  margin-bottom: 1.5rem;
   font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
 }
 
 .inputGroup {
   width: 100%;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1rem;
 }
 
 .inputIconWrapper {
@@ -263,7 +285,7 @@
 
 .inputIcon {
   position: absolute;
-  right: 1.1rem;
+  right: 1rem;
   color: #bdbdbd;
   pointer-events: none;
 }
@@ -278,15 +300,17 @@
   text-align: center;
   margin: 1.2rem 0 1.1rem 0;
   color: #bbb;
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   position: relative;
 }
+
 .orDivider span {
   background: #fff;
   padding: 0 1rem;
   position: relative;
   z-index: 1;
 }
+
 .orDivider:before {
   content: "";
   position: absolute;
@@ -300,26 +324,193 @@
 
 .socialRow {
   display: flex;
-  gap: 1.2rem;
+  gap: 1rem;
   width: 100%;
   justify-content: center;
   margin-bottom: 1.2rem;
+  flex-wrap: wrap;
 }
 
 .socialBtn {
   background: #fff;
   border: 1.5px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 0.5rem 1.2rem;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: box-shadow 0.2s, border 0.2s;
   box-shadow: 0 1px 4px rgba(127, 142, 252, 0.04);
+  min-width: 120px;
+  font-family: inherit;
 }
+
 .socialBtn:hover {
   border: 1.5px solid #7f8efc;
   box-shadow: 0 2px 8px rgba(127, 142, 252, 0.10);
+}
+
+/* Tablet Responsive */
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
+  
+  .card {
+    padding: 2.5rem 2rem;
+    max-width: 450px;
+  }
+  
+  .logo {
+    font-size: 2.25rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .form {
+    gap: 1.2rem;
+  }
+  
+  .label {
+    font-size: 1.08rem;
+  }
+  
+  .input {
+    padding: 0.85rem 1.1rem;
+    font-size: 1rem;
+  }
+  
+  .button {
+    padding: 0.85rem 0;
+    font-size: 1.08rem;
+  }
+  
+  .splitContainer {
+    flex-direction: row;
+  }
+  
+  .leftPane {
+    padding: 0 4rem;
+    min-height: auto;
+  }
+  
+  .rightPane {
+    display: block;
+  }
+  
+  .logoBox {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .mainTitle {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .formBox {
+    max-width: 370px;
+  }
+  
+  .socialBtn {
+    padding: 0.5rem 1.2rem;
+    font-size: 1.1rem;
+    min-width: 140px;
+  }
+}
+
+/* Desktop Responsive */
+@media (min-width: 1024px) {
+  .container {
+    padding: 3rem;
+  }
+  
+  .card {
+    padding: 3rem 2.5rem;
+    max-width: 500px;
+  }
+  
+  .logo {
+    font-size: 2.5rem;
+  }
+  
+  .title {
+    font-size: 2.25rem;
+  }
+  
+  .leftPane {
+    padding: 0 7vw;
+  }
+  
+  .logoBox {
+    font-size: 2.25rem;
+  }
+  
+  .mainTitle {
+    font-size: 2.25rem;
+  }
+  
+  .formBox {
+    max-width: 400px;
+  }
+}
+
+/* Large Mobile */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .card {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+  
+  .logo {
+    font-size: 1.75rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .form {
+    gap: 0.75rem;
+  }
+  
+  .label {
+    font-size: 0.95rem;
+  }
+  
+  .input {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
+  }
+  
+  .button {
+    padding: 0.7rem 0;
+    font-size: 0.95rem;
+  }
+  
+  .socialRow {
+    gap: 0.75rem;
+  }
+  
+  .socialBtn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    min-width: 100px;
+  }
+  
+  .linksRow {
+    font-size: 0.85rem;
+    gap: 0.5rem;
+  }
 }

@@ -52,6 +52,7 @@ export default function CommunityChat() {
 	const [currentRoom, setCurrentRoom] = useState("general");
 	const [isConnected, setIsConnected] = useState(false);
 	const [connectionError, setConnectionError] = useState<string | null>(null);
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	// New state for enhanced signup
@@ -138,6 +139,18 @@ export default function CommunityChat() {
 	const selectMood = (mood: string) => {
 		setSelectedMood(mood);
 		setShowMoodSelector(false);
+	};
+
+	// Toggle sidebar for mobile
+	const toggleSidebar = () => {
+		setIsSidebarOpen(!isSidebarOpen);
+	};
+
+	// Close sidebar when clicking outside on mobile
+	const handleChatBoxClick = () => {
+		if (window.innerWidth <= 768 && isSidebarOpen) {
+			setIsSidebarOpen(false);
+		}
 	};
 
 	useEffect(() => {
@@ -251,6 +264,10 @@ export default function CommunityChat() {
 		setMessages([]);
 		if (username && socket) {
 			socket.emit("userJoined", { username, room });
+		}
+		// Close sidebar on mobile after room change
+		if (window.innerWidth <= 768) {
+			setIsSidebarOpen(false);
 		}
 	};
 
@@ -456,12 +473,31 @@ export default function CommunityChat() {
 				</div>
 			) : (
 				<div className={styles.chatContainer}>
+					{/* Mobile Sidebar Toggle */}
+					<button 
+						className={styles.mobileSidebarToggle}
+						onClick={toggleSidebar}
+						aria-label="Toggle sidebar"
+					>
+						<span></span>
+						<span></span>
+						<span></span>
+					</button>
+
 					{/* Sidebar */}
-					<div className={styles.sidebar}>
+					<div className={`${styles.sidebar} ${isSidebarOpen ? styles.sidebarOpen : ''}`}>
 						{/* Sidebar Header */}
 						<div className={styles.sidebarHeader}>
 							<h2 className={styles.sidebarTitle}>Community Chat</h2>
 							<p className={styles.onlineUser}>🟢 {onlineUsers.length} online</p>
+							{/* Mobile close button */}
+							<button 
+								className={styles.mobileSidebarClose}
+								onClick={() => setIsSidebarOpen(false)}
+								aria-label="Close sidebar"
+							>
+								×
+							</button>
 						</div>
 						
 						{/* Connection Status */}
@@ -515,7 +551,7 @@ export default function CommunityChat() {
 					</div>
 
 					{/* Chat Box */}
-					<div className={styles.chatBox}>
+					<div className={styles.chatBox} onClick={handleChatBoxClick}>
 						{/* Chat Header */}
 						<div className={styles.chatHeader}>
 							<div className={styles.chatHeaderInfo}>
@@ -611,6 +647,14 @@ export default function CommunityChat() {
 							</button>
 						</div>
 					</div>
+
+					{/* Mobile Overlay */}
+					{isSidebarOpen && (
+						<div 
+							className={styles.mobileOverlay}
+							onClick={() => setIsSidebarOpen(false)}
+						></div>
+					)}
 				</div>
 			)}
 		</div>
