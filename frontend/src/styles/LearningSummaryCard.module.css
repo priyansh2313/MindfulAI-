@@ -1,37 +1,293 @@
 .card {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: 1.5rem;
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  margin: 1rem;
-  width: 55%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
 }
-.card h3 {
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23667eea' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.3;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.titleContainer {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.titleIcon {
+  width: 24px;
+  height: 24px;
+  color: #667eea;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.analyticsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.metricCard {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.metricCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.metricHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.table{
-  margin-top: 10px;
-  width: 100%;
+.metricIcon {
+  width: 20px;
+  height: 20px;
+  color: #667eea;
+}
+
+.metricLabel {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.metricDescription {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.chartSection {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
   text-align: center;
-  color: rgb(202, 200, 200);
 }
 
-.tdMood{
+.chartContainer {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.chartPlaceholder {
   display: flex;
-  
-  align-items: center;
-  gap: 10px;
+  align-items: end;
+  justify-content: space-between;
+  height: 120px;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
 }
 
-.tr{
-  padding-top: 10px;
+.chartBar {
+  width: 30px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  position: relative;
 }
-.thead{
-  font-size: 1.1rem;
+
+.chartBar:hover {
+  transform: scaleY(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.chartLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+  padding: 0 1rem;
+}
+
+.insightsSection {
+  position: relative;
+  z-index: 1;
+}
+
+.insightsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.insightItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.insightItem:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.insightIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.insightText {
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .analyticsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .metricCard {
+    padding: 1.25rem;
+  }
+  
+  .metricValue {
+    font-size: 1.5rem;
+  }
+  
+  .chartPlaceholder {
+    height: 100px;
+  }
+  
+  .chartBar {
+    width: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.3rem;
+  }
+  
+  .analyticsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .metricCard {
+    padding: 1rem;
+  }
+  
+  .chartPlaceholder {
+    height: 80px;
+  }
+  
+  .chartBar {
+    width: 20px;
+  }
+  
+  .insightItem {
+    padding: 0.75rem;
+  }
 }

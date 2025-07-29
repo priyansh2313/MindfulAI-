@@ -6,10 +6,10 @@ import LearningSummaryCard from '../components/LearningSummaryCard';
 import PersonalizedInsights from '../components/PersonalizedInsights';
 import Recommendations from '../components/Recommendations';
 import ServicesGrid from '../components/ServicesGrid';
-import ActionEffectivenessWidget from '../components/Widgets/ActionEffectivenessWidget';
 import MoodWidget from '../components/Widgets/MoodWidget';
 import ProgressWidget from '../components/Widgets/ProgressWidget';
 import TipWidget from '../components/Widgets/TipWidget';
+import WellnessActivitiesSummary from '../components/Widgets/WellnessActivitiesSummary';
 // @ts-ignore
 import styles from '../styles/Dashboard.module.css';
 import FloatingChatbot from './FloatingChatbot';
@@ -60,13 +60,13 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Action Effectiveness Section */}
-        <section className={styles.effectivenessSection}>
+        {/* Wellness Activities Summary Section */}
+        <section className={styles.wellnessSection}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>🧠 AI Learning & Effectiveness</h2>
-            <p className={styles.sectionSubtitle}>See how our AI learns from your preferences and provides personalized recommendations</p>
+            <h2 className={styles.sectionTitle}>🌟 Your Wellness Journey</h2>
+            <p className={styles.sectionSubtitle}>Discover which activities work best for you and track your wellness patterns</p>
           </div>
-          <ActionEffectivenessWidget />
+          <WellnessActivitiesSummary />
         </section>
 
         {/* Personalized Insights Section */}
