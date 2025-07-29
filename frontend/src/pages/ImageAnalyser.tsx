@@ -1,16 +1,9 @@
-import * as mobilenet from "@tensorflow-models/mobilenet";
 import ColorThief from "colorthief";
 import React, { useRef, useState } from "react";
 import styles from "../styles/AuraTune.module.css";
 
 import { exportMP3, generateMusicEnhanced, stopMusicEnhanced } from "./enhancedMusicEngine";
 import { generateMoodDNA, MoodDNA } from "./generateMoodDNA";
-
-
-
-
-
-
 
 export default function ImageAnalyser() {
   const [imageURL, setImageURL] = useState<string | null>(null);
@@ -22,25 +15,25 @@ export default function ImageAnalyser() {
   const imageRef = useRef<HTMLImageElement | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  // Stop any existing music
-  stopMusicEnhanced();
-  setIsPlaying(false);
+    // Stop any existing music
+    stopMusicEnhanced();
+    setIsPlaying(false);
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    setImageURL(reader.result as string);
-    setColors([]);
-    setMood("");
-    setLoading(false);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageURL(reader.result as string);
+      setColors([]);
+      setMood("");
+      setLoading(false);
+    };
+    reader.readAsDataURL(file);
+
+    // Reset input so user can upload the same file again if needed
+    e.target.value = "";
   };
-  reader.readAsDataURL(file);
-
-  // Reset input so user can upload the same file again if needed
-  e.target.value = "";
-};
 
   const analyzeImage = async () => {
     if (!imageRef.current) return;
@@ -54,12 +47,20 @@ export default function ImageAnalyser() {
       const palette = colorThief.getPalette(img, 5);
       setColors(palette);
 
-      const model = await mobilenet.load();
-      const predictions = await model.classify(img);
-      const moodGuess = predictions[0]?.className || "Unknown";
-      setMood(moodGuess);
+      // Dynamic import for TensorFlow.js
+      try {
+        const mobilenetModule = await import("@tensorflow-models/mobilenet");
+        const model = await mobilenetModule.load();
+        const predictions = await model.classify(img);
+        const moodGuess = predictions[0]?.className || "Unknown";
+        setMood(moodGuess);
+      } catch (tfError) {
+        console.warn("TensorFlow.js not available:", tfError);
+        setMood("Image Analysis");
+      }
     } catch (err) {
       console.error("Error analyzing image:", err);
+      setMood("Analysis Failed");
     }
 
     setLoading(false);
@@ -71,10 +72,10 @@ export default function ImageAnalyser() {
     const moodDNA: MoodDNA = generateMoodDNA(mood, colors);
 
     if (isPlaying) {
-      await stopMusicEnhanced();
+      stopMusicEnhanced();
       setIsPlaying(false);
     } else {
-      await generateMusicEnhanced(moodDNA, () => {});
+      generateMusicEnhanced(moodDNA, () => {});
       setIsPlaying(true);
 
       // Save to history

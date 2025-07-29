@@ -64,32 +64,8 @@ const EvaluationGraph = () => {
     };
 
     return (
-        <div
-            style={{
-                width: "100%",
-                maxWidth: 500,
-                margin: "3rem auto",
-                background: "rgba(255, 255, 255, 0.06)",
-                borderRadius: "12px",
-                padding: "2rem",
-                backdropFilter: "blur(6px)",
-                boxShadow: "0 4px 14px rgba(0,0,0,0.2)",
-                textAlign: "center",
-                color: "#fff",
-            }}>
-            <h2 style={{ fontSize: "1.8rem", marginBottom: "1rem", fontWeight: "600" }}>🧠 Your Evaluation Summary</h2>
-
+        <div style={{ width: "100%", maxWidth: "100%" }}>
             <Bar data={data} options={options} />
-
-            <p
-                style={{
-                    marginTop: "1.5rem",
-                    fontSize: "1rem",
-                    fontWeight: "500",
-                    color: feedback.color,
-                }}>
-                {feedback.text}
-            </p>
         </div>
     );
 };

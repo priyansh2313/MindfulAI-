@@ -17,30 +17,173 @@ console.log('Loaded MONGO_URI:', process.env.MONGO_URI); // <-- Add this line
 // Socket.io setup
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:5173'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'https://localhost:5000',
+      'https://mindfulv4.vercel.app',
+      'https://mindfulai-wv9z.onrender.com',
+      'https://mindfulai-pi.vercel.app',
+      'https://mindfulai-pi.vercel.app/',
+      'http://localhost:5174',
+      'http://localhost:4173'
+    ],
     methods: ['GET', 'POST'],
     credentials: true
   }
 });
 
+// Store connected users and their rooms
+const connectedUsers = new Map();
+const roomMessages = new Map();
+
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
-  // Example: handle a custom event
-  socket.on('message', (data) => {
-    console.log('Message received:', data);
-    // You can broadcast or emit events here
+  // Handle user joining
+  socket.on('userJoined', ({ username, room }) => {
+    console.log(`${username} joined room: ${room}`);
+    
+    // Store user info
+    connectedUsers.set(socket.id, { username, room });
+    
+    // Join the room
+    socket.join(room);
+    
+    // Initialize room messages if not exists
+    if (!roomMessages.has(room)) {
+      roomMessages.set(room, []);
+    }
+    
+    // Send previous messages to the user
+    socket.emit('previousMessages', {
+      messages: roomMessages.get(room),
+      room
+    });
+    
+    // Update online users for all users in the room
+    updateOnlineUsers(room);
   });
 
+  // Handle sending messages
+  socket.on('sendMessage', (data) => {
+    const { username, message, room, profilePicUrl, timestamp, senderId } = data;
+    
+    const messageData = {
+      id: Date.now().toString(),
+      username,
+      message,
+      room,
+      profilePicUrl,
+      timestamp,
+      senderId
+    };
+    
+    // Store message in room
+    if (!roomMessages.has(room)) {
+      roomMessages.set(room, []);
+    }
+    roomMessages.get(room).push(messageData);
+    
+    // Keep only last 100 messages per room
+    if (roomMessages.get(room).length > 100) {
+      roomMessages.set(room, roomMessages.get(room).slice(-100));
+    }
+    
+    // Broadcast message to all users in the room
+    io.to(room).emit('receiveMessage', messageData);
+  });
+
+  // Handle typing indicator
+  socket.on('typing', ({ username, room }) => {
+    socket.to(room).emit('userTyping', username);
+  });
+
+  // Handle room changes
+  socket.on('joinRoom', (room) => {
+    const user = connectedUsers.get(socket.id);
+    if (user) {
+      // Leave previous room
+      socket.leave(user.room);
+      
+      // Update user's room
+      user.room = room;
+      connectedUsers.set(socket.id, user);
+      
+      // Join new room
+      socket.join(room);
+      
+      // Send previous messages for new room
+      if (!roomMessages.has(room)) {
+        roomMessages.set(room, []);
+      }
+      socket.emit('previousMessages', {
+        messages: roomMessages.get(room),
+        room
+      });
+      
+      // Update online users
+      updateOnlineUsers(room);
+    }
+  });
+
+  // Handle disconnection
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
+    const user = connectedUsers.get(socket.id);
+    if (user) {
+      connectedUsers.delete(socket.id);
+      updateOnlineUsers(user.room);
+    }
   });
 });
 
+// Helper function to update online users for a room
+function updateOnlineUsers(room) {
+  const usersInRoom = Array.from(connectedUsers.values())
+    .filter(user => user.room === room)
+    .map(user => user.username);
+  
+  io.to(room).emit('updateUsers', usersInRoom);
+}
+
 app.use(express.json());
+
+// CORS configuration for different environments
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://localhost:5000',
+  'https://mindfulv4.vercel.app',
+  'https://mindfulai-wv9z.onrender.com',
+  // Your actual frontend URL
+  'https://mindfulai-pi.vercel.app',
+  'https://mindfulai-pi.vercel.app/',
+  // Add your local development URLs
+  'http://localhost:5174',
+  'http://localhost:4173'
+];
+
 app.use(cors({
-  origin: ['http://localhost:5173','https://localhost:5000'], // Change to your frontend URL
-  credentials: true
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // For development, allow all origins temporarily
+    if (process.env.NODE_ENV === 'development') {
+      return callback(null, true);
+    }
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 mongoose.connect(process.env.MONGO_URI)

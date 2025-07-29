@@ -1,135 +1,462 @@
 /* ✅ DailyActivities.module.css (final glow-up) */
 
 .wrapper {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem 1rem;
-  font-family: 'Segoe UI', sans-serif;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  color: white;
+  text-align: center;
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #264653;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Progress Dashboard */
+.progressDashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.streakCard, .statsCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.streakCard:hover, .statsCard:hover {
+  transform: translateY(-5px);
+}
+
+.streakCard h3, .statsCard h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #ffd700;
+}
+
+.streakCard p, .statsCard p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* AI Recommendation */
+.recommendation {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.recommendation h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.recommendedExercise {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.recommendedExercise h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #4ade80;
+}
+
+.recommendationButton {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.recommendationButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 222, 128, 0.4);
+}
+
+/* Activity Selector */
+.activitySelector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.activityTab {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.activityTab:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.activityTab.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: #ffd700;
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Activity Content */
+.activityContent {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Breathing Circle */
 .breathingCircle {
-  width: 220px;
-  height: 220px;
-  margin: 0 auto;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, #a8dadc, #457b9d);
+  background: linear-gradient(135deg, #4ade80, #22c55e);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 25px rgba(69, 123, 157, 0.5);
-  transition: all 0.3s ease-in-out;
+  margin: 2rem auto;
+  box-shadow: 0 10px 30px rgba(74, 222, 128, 0.3);
+  transition: all 0.3s ease;
 }
 
 .phaseText {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  color: #fff;
+  margin-bottom: 0.5rem;
 }
 
 .timer {
-  font-size: 1rem;
-  color: #f1faee;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
+/* Exercise Switcher */
 .exerciseSwitcher {
-  margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
   justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
 }
 
 .exerciseButton {
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  border: none;
-  background-color: #f1faee;
-  color: #1d3557;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
 .exerciseButton:hover {
-  background-color: #a8dadc;
-  color: #1d3557;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.active {
-  background-color: #457b9d;
-  color: #fff;
+.exerciseButton.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: #ffd700;
 }
 
 .breathingToggle {
-  background-color: #e63946;
-  color: #fff;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
-.section {
-  padding: 2rem;
-  background: #fdfdfd;
-  border-radius: 12px;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.04);
-  transition: all 0.4s ease;
-  text-align: left;
+.breathingToggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
 }
 
-.section h2 {
+/* Grounding Exercises */
+.groundingIntro h3, .muscleIntro h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.groundingOption {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.groundingOption h4 {
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
+  color: #4ade80;
 }
 
-.affirmationBox {
+.startButton {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
   margin-top: 1rem;
-  background: #fef6e4;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(254, 246, 228, 0.6);
+}
+
+.startButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 222, 128, 0.4);
+}
+
+/* Active Grounding */
+.groundingActive h3, .muscleActive h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.groundingStep, .muscleGroup {
   text-align: center;
 }
 
-.affirmation {
-  font-style: italic;
+.stepText, .instruction {
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #7a5c42;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
-.gratitude {
-  background: rgba(255, 255, 255, 0.6);
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.nextButton {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nextButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Affirmation Box */
+.affirmationBox {
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
-  text-align: left;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.affirmationBox h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.affirmation {
+  font-size: 1.3rem;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: #e0e7ff;
+}
+
+/* Gratitude Section */
+.gratitude {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .gratitude h2 {
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ffd700;
 }
 
 .gratitude textarea {
   width: 100%;
-  height: 100px;
-  border: none;
-  border-radius: 8px;
+  min-height: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
   padding: 1rem;
+  color: white;
   font-size: 1rem;
-  resize: none;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-  background: #ffffffcc;
-  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.gratitude textarea:focus {
+  outline: none;
+  border-color: #4ade80;
+}
+
+.gratitude textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Feedback Section */
+.feedbackSection {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.feedbackSection p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.feedbackButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.feedbackButtons button {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.feedbackButtons button:last-child {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+}
+
+.feedbackButtons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 222, 128, 0.4);
+}
+
+.feedbackButtons button:last-child:hover {
+  box-shadow: 0 5px 15px rgba(248, 113, 113, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .progressDashboard {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .activitySelector {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .activityTab {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .breathingCircle {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .exerciseSwitcher {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .exerciseButton {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .breathingCircle {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .phaseText {
+    font-size: 1rem;
+  }
+  
+  .timer {
+    font-size: 1.5rem;
+  }
 }

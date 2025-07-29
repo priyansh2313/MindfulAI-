@@ -1,0 +1,179 @@
+/* Floating Bubble Styles */
+.floatingBubble {
+  position: absolute;
+  max-width: 250px;
+  min-width: 150px;
+  padding: 12px 16px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bubbleContent {
+  position: relative;
+  z-index: 2;
+}
+
+.bubbleHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.emotionEmoji {
+  font-size: 1.2rem;
+}
+
+.senderLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bubbleMessage {
+  color: white;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+}
+
+.bubbleTime {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: right;
+}
+
+.bubbleTail {
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid inherit;
+  filter: brightness(0.8);
+}
+
+/* Sender-specific styles */
+.user {
+  border-top-right-radius: 4px;
+}
+
+.bot {
+  border-top-left-radius: 4px;
+}
+
+/* Animation classes */
+.bounce {
+  animation: bubbleBounce 2s ease-in-out infinite;
+}
+
+.float {
+  animation: bubbleFloat 3s ease-in-out infinite;
+}
+
+.gentle {
+  animation: bubbleGentle 4s ease-in-out infinite;
+}
+
+.shake {
+  animation: bubbleShake 1.5s ease-in-out infinite;
+}
+
+.pulse {
+  animation: bubblePulse 2.5s ease-in-out infinite;
+}
+
+/* Keyframe animations */
+@keyframes bubbleBounce {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+@keyframes bubbleFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+@keyframes bubbleGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes bubbleShake {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes bubblePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Hover effects */
+.floatingBubble:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .floatingBubble {
+    max-width: 200px;
+    min-width: 120px;
+    font-size: 0.8rem;
+  }
+  
+  .bubbleMessage {
+    font-size: 0.8rem;
+  }
+}
+
+/* Glass morphism effect */
+.floatingBubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  pointer-events: none;
+} 

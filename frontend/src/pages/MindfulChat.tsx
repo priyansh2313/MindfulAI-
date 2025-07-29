@@ -3,7 +3,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchChatResponse } from "../api/chatAPI";
+import ChatAvatar from "../components/ChatAvatar";
+import QuickReplies from "../components/QuickReplies";
+import RichMessageCard from "../components/RichMessageCard";
+import VoiceInput from "../components/VoiceInput";
+import VoiceOutput from "../components/VoiceOutput";
 import styles from "../styles/MindfulChat.module.css";
+import { ActionButton, ChatMessage, QuickReply } from "../types/chat";
 import { detectMoodFromInput, getRecommendedActionForMood } from "../utils/reinforcement";
 
 type MindfulChatProps = {
@@ -12,31 +18,81 @@ type MindfulChatProps = {
 };
 
 export default function MindfulChat({ mode, setInstructorMode }: MindfulChatProps) {
-  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [autoSpeak, setAutoSpeak] = useState(false);
 
 
   const isUrgent = mode === "evaluation";
   const isExercise = mode === "exercise";
 
-  useEffect(() => {
+  const handleQuickReplyClick = (reply: QuickReply) => {
+    // Add user's quick reply as a message
+    const userMessage: ChatMessage = { sender: "user", text: reply.value };
+    setMessages((prev) => [...prev, userMessage]);
+    
+    // Send the quick reply
+    setInput(reply.value);
+    setTimeout(() => sendMessage(), 100);
+  };
+
+  const handleRichCardAction = (action: ActionButton) => {
+    // Add user's action as a message
+    const userMessage: ChatMessage = { sender: "user", text: action.value };
+    setMessages((prev) => [...prev, userMessage]);
+    
+    // Send the action
+    setInput(action.value);
+    setTimeout(() => sendMessage(), 100);
+  };
+
+  const createWelcomeMessage = (): ChatMessage => {
     if (isUrgent) {
-      setMessages([{ sender: "bot", text: "🚨 It looks like you might benefit from talking to someone. Would you like me to find a nearby professional?" }]);
+      return {
+        sender: "bot",
+        text: "🚨 It looks like you might benefit from talking to someone. Would you like me to find a nearby professional?",
+        quickReplies: [
+          { text: "Yes, find help", value: "yes", emoji: "🆘" },
+          { text: "No, I'm okay", value: "no", emoji: "👍" }
+        ]
+      };
     } else if (isExercise) {
-      setMessages([{ sender: "bot", text: "🌿 Which mindfulness exercise would you like to try?\n(Breathing / Body Scan / Gratitude / Grounding)" }]);
+      return {
+        sender: "bot",
+        text: "🌿 Which mindfulness exercise would you like to try?",
+        quickReplies: [
+          { text: "Breathing", value: "breathing", emoji: "🫁" },
+          { text: "Body Scan", value: "body scan", emoji: "🧘" },
+          { text: "Gratitude", value: "gratitude", emoji: "🙏" },
+          { text: "Grounding", value: "grounding", emoji: "🌍" }
+        ]
+      };
     } else {
-      setMessages([{ sender: "bot", text: "Hey 👋 I'm here to support you. How are you feeling today?" }]);
+      return {
+        sender: "bot",
+        text: "Hey 👋 I'm here to support you. How are you feeling today?",
+        quickReplies: [
+          { text: "I'm feeling good", value: "I'm feeling good today", emoji: "😊" },
+          { text: "I'm feeling down", value: "I'm feeling sad and down", emoji: "😢" },
+          { text: "I'm anxious", value: "I'm feeling anxious and worried", emoji: "😰" },
+          { text: "I need help", value: "I need some help and support", emoji: "🆘" }
+        ]
+      };
     }
+  };
+
+  useEffect(() => {
+    setMessages([createWelcomeMessage()]);
   }, [isUrgent, isExercise]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
   
-    const userMessage = { sender: "user", text: input };
+    const userMessage: ChatMessage = { sender: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
@@ -109,8 +165,9 @@ export default function MindfulChat({ mode, setInstructorMode }: MindfulChatProp
           ]);
         }
       } else {
-        const botReply = await fetchChatResponse(userMessage.text, isUrgent ? "evaluation" : "dashboard");
-        setMessages((prev) => [...prev, { sender: "bot", text: botReply }]);
+        const botReply = await fetchChatResponse(userMessage.text);
+        const botMessage: ChatMessage = { sender: "bot", text: botReply };
+        handleBotMessage(botMessage);
   
         if (isUrgent && lowerInput.includes("yes")) {
           setTimeout(() => {
@@ -120,7 +177,7 @@ export default function MindfulChat({ mode, setInstructorMode }: MindfulChatProp
       }
     } catch (err) {
       console.error("Chat error:", err);
-      setMessages((prev) => [...prev, { sender: "bot", text: "⚠️ Something went wrong. 😢" }]);
+      setMessages((prev) => [...prev, { sender: "bot" as const, text: "⚠️ Something went wrong. 😢" }]);
     }
   
     setLoading(false);
@@ -159,7 +216,7 @@ export default function MindfulChat({ mode, setInstructorMode }: MindfulChatProp
 
     bodySteps.forEach((step, index) => {
       setTimeout(() => {
-        setMessages(prev => [...prev, { sender: "bot", text: step }]);
+        setMessages(prev => [...prev, { sender: "bot" as const, text: step }]);
       }, index * 4000);
     });
   };
@@ -178,7 +235,7 @@ export default function MindfulChat({ mode, setInstructorMode }: MindfulChatProp
 
     gratitudeSteps.forEach((step, index) => {
       setTimeout(() => {
-        setMessages(prev => [...prev, { sender: "bot", text: step }]);
+        setMessages(prev => [...prev, { sender: "bot" as const, text: step }]);
       }, index * 4000);
     });
   };
@@ -197,25 +254,76 @@ export default function MindfulChat({ mode, setInstructorMode }: MindfulChatProp
 
     groundingSteps.forEach((step, index) => {
       setTimeout(() => {
-        setMessages(prev => [...prev, { sender: "bot", text: step }]);
+        setMessages(prev => [...prev, { sender: "bot" as const, text: step }]);
       }, index * 4000);
     });
   };
 
-  
-  
+  // Helper to get avatar status
+  const getAvatarStatus = () => {
+    if (loading) return "typing";
+    if (messages.length > 0) {
+      const lastBotMsg = [...messages].reverse().find(m => m.sender === "bot");
+      if (lastBotMsg) {
+        if (/happy|great|good|calm|grateful|thank/i.test(lastBotMsg.text)) return "happy";
+        if (/sad|bad|upset|depress|angry|worry|wrong|sorry|anxious|cry/i.test(lastBotMsg.text)) return "sad";
+      }
+    }
+    return "idle";
+  };
+
+  const handleVoiceTranscription = (text: string) => {
+    setInput(text);
+  };
+
+  const handleBotMessage = (message: { sender: string; text: string }) => {
+    setMessages((prev) => [...prev, message]);
+    
+    // Auto-speak bot messages if enabled
+    if (autoSpeak && message.sender === "bot") {
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(message.text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+        utterance.volume = 0.8;
+        window.speechSynthesis.speak(utterance);
+      }, 500); // Small delay to let the message render first
+    }
+  };
 
   return (
     <div className={styles.chatContainer}>
+      <ChatAvatar status={getAvatarStatus()} size={90} />
       <div className={styles.chatBox}>
         {messages.map((msg, idx) => (
           <div key={idx} className={msg.sender === "user" ? styles.userMessage : styles.botMessage}>
             {msg.text.split("\n").map((line, i) => (
               <p key={i}>{line}</p>
             ))}
+            
+            {msg.richCard && (
+              <RichMessageCard
+                title={msg.richCard.title}
+                description={msg.richCard.description}
+                imageUrl={msg.richCard.imageUrl}
+                actions={msg.richCard.actions}
+                onActionClick={handleRichCardAction}
+                disabled={loading}
+              />
+            )}
+            
+            {msg.quickReplies && (
+              <QuickReplies
+                replies={msg.quickReplies}
+                onReplyClick={handleQuickReplyClick}
+                disabled={loading}
+              />
+            )}
+            
+            {msg.sender === "bot" && (
+              <VoiceOutput text={msg.text} disabled={loading} />
+            )}
           </div>
-
-          
         ))}
         {loading && (
           <div className={styles.botMessage}>
@@ -254,8 +362,16 @@ export default function MindfulChat({ mode, setInstructorMode }: MindfulChatProp
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           className={styles.inputBox}
         />
+        <VoiceInput onTranscription={handleVoiceTranscription} disabled={loading} />
         <button onClick={sendMessage} className={styles.sendButton}>
           ➤
+        </button>
+        <button
+          onClick={() => setAutoSpeak(!autoSpeak)}
+          className={`${styles.autoSpeakToggle} ${autoSpeak ? styles.active : ''}`}
+          title={autoSpeak ? 'Disable auto-speak' : 'Enable auto-speak'}
+        >
+          {autoSpeak ? '🔊' : '🔇'}
         </button>
       </div>
     </div>

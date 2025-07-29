@@ -2,16 +2,27 @@ import React, { useEffect, useState } from "react";
 import styles from '../styles/Widgets/ActionEffectivenessWidget.module.css';
 
 import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
+    Cell,
+    Legend,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    Tooltip,
 } from "recharts";
 
 type PieData = { name: string; value: number };
 const COLORS = ["#34d399", "#60a5fa", "#fbbf24", "#f87171", "#a78bfa", "#fb7185"];
+
+// Map action names to user-friendly labels
+const actionLabels: Record<string, string> = {
+  'music': '🎵 Peaceful Music',
+  'quote': '📝 Journal Writing',
+  'breathing': '🫁 Breathing Exercises',
+  'journal': '📖 Journal Prompts',
+  'evaluation': '📊 Self Assessment',
+  'daily-activities': '🧘 Mindfulness Activities',
+  'journal_prompt': '💭 Guided Reflection'
+};
 
 export default function ActionEffectivenessPie() {
   const [data, setData] = useState<PieData[]>([]);
@@ -44,29 +55,47 @@ export default function ActionEffectivenessPie() {
     });
 
     const formatted: PieData[] = Object.entries(grouped).map(([name, { total, count }]) => ({
-      name,
+      name: actionLabels[name] || name,
       value: count === 0 ? 0 : Math.round((total / count) * 100),
     }));
 
     setData(formatted);
   };
 
+  const getMoodEmoji = (mood: string) => {
+    const moodEmojis: Record<string, string> = {
+      'happy': '😊',
+      'neutral': '😐',
+      'sad': '😢',
+      'anxious': '😟',
+      'angry': '😡',
+      'burnt_out': '🥵'
+    };
+    return moodEmojis[mood] || '😐';
+  };
+
   return (
     <div className={styles.activityContainer}>
-      <h2 className={styles.activityH1}>🎯Action Effectiveness</h2>
+      <h2 className={styles.activityH1}>🎯 Action Effectiveness</h2>
       <div className={styles.activityP}>
-        <label htmlFor="mood-select" className="mr-2">Filter by Mood:</label>
+        <label htmlFor="mood-select" className={styles.moodLabel}>
+          Filter by Mood: {getMoodEmoji(selectedMood)}
+        </label>
         <select
           id="mood-select"
           value={selectedMood}
           onChange={(e) => setSelectedMood(e.target.value)}
-          className="bg-gray-700 text-white px-2 py-1 rounded"
+          className={styles.moodSelect}
         >
-          {availableMoods.map((mood) => (
-            <option key={mood} value={mood}>
-              {mood}
-            </option>
-          ))}
+          {availableMoods.length > 0 ? (
+            availableMoods.map((mood) => (
+              <option key={mood} value={mood}>
+                {getMoodEmoji(mood)} {mood.charAt(0).toUpperCase() + mood.slice(1)}
+              </option>
+            ))
+          ) : (
+            <option value="anxious">😟 Anxious</option>
+          )}
         </select>
       </div>
 
@@ -88,14 +117,18 @@ export default function ActionEffectivenessPie() {
                 <Cell key={index} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip 
+              formatter={(value: any) => [`${value}% effectiveness`, 'Score']}
+              labelFormatter={(label: string) => `Activity: ${label}`}
+            />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
       ) : (
-        <p className="text-center text-sm text-gray-400">
-          No feedback data available for mood: {selectedMood}
-        </p>
+        <div className={styles.noDataMessage}>
+          <p>📊 No feedback data available for mood: {selectedMood}</p>
+          <p className={styles.suggestion}>Try using different wellness activities and provide feedback to see effectiveness data!</p>
+        </div>
       )}
     </div>
   );
