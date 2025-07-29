@@ -26,6 +26,7 @@ const Questionnaire = () => {
   const [showEmailInput, setShowEmailInput] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(true);
   const navigate = useNavigate();
 
   const handleAnswer = (value: string) => {
@@ -45,6 +46,14 @@ const Questionnaire = () => {
   const handleBack = () => {
     if (showEmailInput) return setShowEmailInput(false);
     if (step > 0) setStep(step - 1);
+  };
+
+  const handleSkip = () => {
+    navigate("/login");
+  };
+
+  const handleStartTest = () => {
+    setShowDisclaimer(false);
   };
 
   const handleSendReport = async () => {
@@ -88,6 +97,55 @@ const Questionnaire = () => {
       alert("❌ Failed to send report. Try again.");
     }
   };
+
+  // Show disclaimer for first-time users
+  if (showDisclaimer) {
+    return (
+      <div className={styles.wizardContainer}>
+        <div className={styles.card}>
+          <div className={styles.disclaimer}>
+            <h2 className={styles.disclaimerTitle}>Mental Health Assessment</h2>
+            <div className={styles.disclaimerContent}>
+              <p className={styles.disclaimerText}>
+                <strong>First-time users:</strong> We recommend taking this assessment to get a personalized mental health evaluation.
+              </p>
+              <p className={styles.disclaimerText}>
+                This questionnaire helps us understand your current mental state and provide tailored recommendations.
+              </p>
+              <div className={styles.disclaimerFeatures}>
+                <div className={styles.feature}>
+                  <span className={styles.featureIcon}>📊</span>
+                  <span>Detailed Assessment Report</span>
+                </div>
+                <div className={styles.feature}>
+                  <span className={styles.featureIcon}>🎯</span>
+                  <span>Personalized Recommendations</span>
+                </div>
+                <div className={styles.feature}>
+                  <span className={styles.featureIcon}>🔒</span>
+                  <span>Privacy Protected</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.disclaimerActions}>
+              <button 
+                onClick={handleSkip} 
+                className={styles.skipBtn}
+              >
+                Skip to Login
+              </button>
+              <button 
+                onClick={handleStartTest} 
+                className={styles.startBtn}
+              >
+                Start Assessment
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Render the one‐question card, or the email stage, or the success message.
   return (

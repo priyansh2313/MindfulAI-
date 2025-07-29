@@ -140,19 +140,147 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 1rem;
+  padding: 2rem;
   background: linear-gradient(135deg, #3a2a52, #1b1030);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .card {
   background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
   width: 100%;
-  max-width: 480px;
-  padding: 2rem;
+  max-width: 720px;
+  padding: 3rem;
   color: #fff;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Disclaimer Styles */
+.disclaimer {
+  text-align: center;
+  animation: fadeIn 0.6s ease both;
+}
+
+.disclaimerTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #7f8efc, #5ad5a8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.disclaimerContent {
+  margin-bottom: 2.5rem;
+}
+
+.disclaimerText {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.disclaimerText strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.disclaimerFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 2rem 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.feature:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(8px);
+  border-color: rgba(127, 142, 252, 0.4);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.featureIcon {
+  font-size: 1.75rem;
+  width: 2.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.disclaimerActions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.skipBtn {
+  padding: 1rem 2rem;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 160px;
+  letter-spacing: 0.01em;
+}
+
+.skipBtn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.startBtn {
+  padding: 1rem 2rem;
+  border: none;
+  background: linear-gradient(135deg, #7f8efc, #5ad5a8);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 160px;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(127, 142, 252, 0.3);
+}
+
+.startBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(127, 142, 252, 0.4);
+  background: linear-gradient(135deg, #8a9afd, #6be0b3);
 }
 
 .progressHeader {
@@ -255,3 +383,66 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .wizardContainer {
+    padding: 1rem;
+  }
+  
+  .card {
+    margin: 1rem;
+    padding: 2rem;
+    max-width: 100%;
+  }
+  
+  .disclaimerTitle {
+    font-size: 2rem;
+  }
+  
+  .disclaimerText {
+    font-size: 1.1rem;
+  }
+  
+  .disclaimerActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .skipBtn,
+  .startBtn {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .feature {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
+  .featureIcon {
+    font-size: 1.5rem;
+    width: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .disclaimerTitle {
+    font-size: 1.75rem;
+  }
+  
+  .disclaimerText {
+    font-size: 1rem;
+  }
+  
+  .feature {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+}
+
