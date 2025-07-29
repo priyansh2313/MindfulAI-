@@ -32,7 +32,7 @@ const Header = () => {
           Find Support Nearby
         </a>
         <button
-          onClick={() => handleNavigation('/elder-profile')}
+          onClick={() => handleNavigation('/profile')}
           className={styles.link}
           title="My Wellbeing Profile"
         >
@@ -61,7 +61,7 @@ const Header = () => {
       {/* Mobile Menu */}
       <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
         <button
-          onClick={() => handleNavigation('/elder-profile')}
+          onClick={() => handleNavigation('/profile')}
           className={styles.mobileMenuItem}
         >
           My Wellbeing Profile

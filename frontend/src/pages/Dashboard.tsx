@@ -18,7 +18,20 @@ import FloatingLeaves from './FloatingLeaves';
 export default function Dashboard() {
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   
+  // Detect mobile on mount
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div className={styles.page}>
       <FloatingLeaves />

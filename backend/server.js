@@ -239,6 +239,49 @@ app.get('/users/check', (req, res) => {
   }
 });
 
+// Get user profile by ID
+app.get('/users/profile/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    res.json({ data: user });
+  } catch (err) {
+    console.error('Profile fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch profile' });
+  }
+});
+
+// Update user profile
+app.put('/users/update/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    
+    // Remove password from update data if present
+    delete updateData.password;
+    
+    const user = await User.findByIdAndUpdate(
+      id, 
+      updateData, 
+      { new: true, runValidators: true }
+    ).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    res.json({ data: user, message: 'Profile updated successfully' });
+  } catch (err) {
+    console.error('Profile update error:', err);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
 app.post('/caseHistory', async (req, res) => {
   try {
     const { data } = req.body; // data is an object with q1, q2, ... or an array
@@ -253,6 +296,17 @@ app.post('/caseHistory', async (req, res) => {
     res.json({ message: 'Case history saved!', caseHistory });
   } catch (err) {
     res.status(500).json({ error: 'Failed to save case history.' });
+  }
+});
+
+// Get case history
+app.get('/caseHistory', async (req, res) => {
+  try {
+    const caseHistory = await CaseHistory.findOne().sort({ createdAt: -1 });
+    res.json(caseHistory || {});
+  } catch (err) {
+    console.error('Case history fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch case history.' });
   }
 });
 
