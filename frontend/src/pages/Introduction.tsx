@@ -1,6 +1,7 @@
 import { ArrowRight, Brain, CheckCircle, Flower2, Heart, Leaf, Shield, Sparkles, Star, Target, TreePine } from "lucide-react";
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import styles from "../styles/Introduction.module.css";
 
 export default function Introduction() {
   const navigate = useNavigate();
@@ -10,28 +11,28 @@ export default function Introduction() {
 
   const steps = [
     {
-      icon: <Brain className="w-8 h-8" />,
+      icon: <Brain className={styles.stepIcon} />,
       title: "AI-Powered Insights",
       description: "Advanced machine learning analyzes your patterns to provide personalized recommendations",
-      color: "from-nature-400 to-nature-600"
+      color: "step1"
     },
     {
-      icon: <Heart className="w-8 h-8" />,
+      icon: <Heart className={styles.stepIcon} />,
       title: "Emotional Intelligence",
       description: "Understand your emotions with cutting-edge sentiment analysis and mood tracking",
-      color: "from-nature-500 to-nature-700"
+      color: "step2"
     },
     {
-      icon: <Shield className="w-8 h-8" />,
+      icon: <Shield className={styles.stepIcon} />,
       title: "Privacy First",
       description: "Your data is encrypted and secure. Your mental health journey is private",
-      color: "from-nature-600 to-nature-800"
+      color: "step3"
     },
     {
-      icon: <Target className="w-8 h-8" />,
+      icon: <Target className={styles.stepIcon} />,
       title: "Personalized Care",
       description: "Get recommendations tailored specifically to your unique needs and preferences",
-      color: "from-nature-700 to-nature-900"
+      color: "step4"
     }
   ];
 
@@ -48,113 +49,103 @@ export default function Introduction() {
   };
 
   return (
-    <div className="min-h-screen nature-gradient relative overflow-hidden">
+    <div className={styles.container}>
       {/* Nature Background Elements */}
-      <div className="absolute inset-0 bg-leaf-pattern opacity-20"></div>
+      <div className={styles.backgroundPattern}></div>
       
       {/* Floating Nature Elements */}
-      <div className="absolute top-20 left-10 floating-element">
-        <Leaf className="w-8 h-8 text-nature-400 opacity-60" />
+      <div className={`${styles.floatingElement} ${styles.leaf}`}>
+        <Leaf className={styles.floatingIcon} />
       </div>
-      <div className="absolute top-40 right-16 floating-element" style={{ animationDelay: '2s' }}>
-        <Flower2 className="w-6 h-6 text-nature-300 opacity-50" />
+      <div className={`${styles.floatingElement} ${styles.flower}`}>
+        <Flower2 className={styles.floatingIcon} />
       </div>
-      <div className="absolute bottom-40 left-20 floating-element" style={{ animationDelay: '4s' }}>
-        <TreePine className="w-10 h-10 text-nature-500 opacity-40" />
+      <div className={`${styles.floatingElement} ${styles.tree}`}>
+        <TreePine className={styles.floatingIcon} />
       </div>
-      <div className="absolute top-1/2 right-10 floating-element" style={{ animationDelay: '1s' }}>
-        <Sparkles className="w-6 h-6 text-nature-400 opacity-70" />
+      <div className={`${styles.floatingElement} ${styles.sparkle}`}>
+        <Sparkles className={styles.floatingIcon} />
       </div>
-      <div className="absolute bottom-20 right-20 floating-element" style={{ animationDelay: '3s' }}>
-        <Star className="w-5 h-5 text-nature-300 opacity-60" />
+      <div className={`${styles.floatingElement} ${styles.star}`}>
+        <Star className={styles.floatingIcon} />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10">
+      <div className={styles.content}>
         {/* Header */}
-        <div className="bg-white/90 backdrop-blur-md shadow-nature">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex items-center justify-center">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-nature-400 to-nature-600 rounded-xl flex items-center justify-center shadow-nature">
-                  <Brain className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-2xl font-display font-bold text-nature-800">Mindful AI</h1>
-                  <p className="text-sm text-nature-600">Mental Wellness Revolution</p>
-                </div>
+        <div className={styles.header}>
+          <div className={styles.headerContent}>
+            <div className={styles.logoContainer}>
+              <div className={styles.logoIcon}>
+                <Brain className={styles.logoBrain} />
+              </div>
+              <div className={styles.logoText}>
+                <h1 className={styles.logoTitle}>Mindful AI</h1>
+                <p className={styles.logoSubtitle}>Mental Wellness Revolution</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Hero Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
+        <div className={styles.hero}>
+          <div className={styles.heroContent}>
             {/* Main Hero */}
-            <div className="mb-16">
-              <div className="flex justify-center mb-8">
-                <div className="w-24 h-24 bg-gradient-to-br from-nature-400 to-nature-600 rounded-full flex items-center justify-center shadow-nature animate-gentle-bounce">
-                  <Heart className="w-12 h-12 text-white" />
+            <div className={styles.heroMain}>
+              <div className={styles.heroIconContainer}>
+                <div className={styles.heroIcon}>
+                  <Heart className={styles.heroHeart} />
                 </div>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-nature-800 mb-6 leading-tight">
+              <h1 className={styles.heroTitle}>
                 Your Mental Health
-                <span className="block bg-gradient-to-r from-nature-500 to-nature-700 bg-clip-text text-transparent">
-                  Revolutionized
-                </span>
+                <span className={styles.heroHighlight}> Revolutionized</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-nature-600 max-w-4xl mx-auto mb-12 leading-relaxed">
+              <p className={styles.heroSubtitle}>
                 Experience the future of mental wellness with AI-powered insights, 
                 personalized care, and cutting-edge technology designed just for you.
               </p>
 
               {/* Stats */}
-              <div className="flex justify-center space-x-12 mb-12">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-nature-600">99.9%</div>
-                  <div className="text-sm text-nature-500">Accuracy</div>
+              <div className={styles.heroStats}>
+                <div className={styles.stat}>
+                  <div className={styles.statNumber}>99.9%</div>
+                  <div className={styles.statLabel}>Accuracy</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-nature-600">24/7</div>
-                  <div className="text-sm text-nature-500">Support</div>
+                <div className={styles.stat}>
+                  <div className={styles.statNumber}>24/7</div>
+                  <div className={styles.statLabel}>Support</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-nature-600">AI</div>
-                  <div className="text-sm text-nature-500">Powered</div>
+                <div className={styles.stat}>
+                  <div className={styles.statNumber}>AI</div>
+                  <div className={styles.statLabel}>Powered</div>
                 </div>
               </div>
             </div>
 
             {/* Interactive Steps */}
-            <div className="mb-16">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-nature-800 mb-8">
-                How It Works
-              </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className={styles.stepsSection}>
+              <h2 className={styles.stepsTitle}>How It Works</h2>
+              <div className={styles.stepsGrid}>
                 {steps.map((step, index) => (
                   <div 
                     key={index}
-                    className={`nature-card p-6 cursor-pointer transition-all duration-300 ${
-                      currentStep === index ? 'ring-2 ring-nature-400 shadow-nature-lg' : 'hover:shadow-nature-lg'
-                    }`}
+                    className={`${styles.stepCard} ${currentStep === index ? styles.active : ''}`}
                     onClick={() => handleStepClick(index)}
                   >
-                    <div className={`w-12 h-12 bg-gradient-to-br ${step.color} rounded-xl flex items-center justify-center mb-4`}>
-                      <div className="text-white">
-                        {step.icon}
-                      </div>
+                    <div className={`${styles.stepIconContainer} ${styles[step.color]}`}>
+                      {step.icon}
                     </div>
-                    <h3 className="text-lg font-display font-semibold text-nature-800 mb-3">{step.title}</h3>
-                    <p className="text-nature-600 text-sm leading-relaxed">{step.description}</p>
+                    <h3 className={styles.stepTitle}>{step.title}</h3>
+                    <p className={styles.stepDescription}>{step.description}</p>
                     
                     {/* Progress Indicator */}
-                    <div className="mt-4">
-                      <div className="w-full bg-nature-100 rounded-full h-2">
+                    <div className={styles.progressContainer}>
+                      <div className={styles.progressBar}>
                         <div 
-                          className={`bg-gradient-to-r ${step.color} h-2 rounded-full transition-all duration-500`}
+                          className={`${styles.progressFill} ${styles[step.color]}`}
                           style={{ width: currentStep === index ? '100%' : '0%' }}
                         />
                       </div>
@@ -165,27 +156,29 @@ export default function Introduction() {
             </div>
 
             {/* CTA Section */}
-            <div className="nature-card p-8 md:p-12 max-w-2xl mx-auto">
-              <div className="text-center">
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-nature-800 mb-4">
-                  Ready to Transform Your Mental Wellness?
-                </h3>
-                <p className="text-nature-600 mb-8 leading-relaxed">
-                  Join thousands of users who have discovered inner peace and emotional balance 
-                  through our revolutionary AI-powered platform.
-                </p>
-                
-                <button 
-                  className="bg-gradient-to-r from-nature-500 to-nature-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-nature-600 hover:to-nature-700 transition-colors duration-300 flex items-center space-x-3 mx-auto"
-                  onClick={handleStart}
-                >
-                  <span>Begin Your Journey</span>
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-                
-                <p className="text-sm text-nature-500 mt-4">
-                  Free • Secure • Personalized
-                </p>
+            <div className={styles.ctaSection}>
+              <div className={styles.ctaCard}>
+                <div className={styles.ctaContent}>
+                  <h3 className={styles.ctaTitle}>
+                    Ready to Transform Your Mental Wellness?
+                  </h3>
+                  <p className={styles.ctaSubtitle}>
+                    Join thousands of users who have discovered inner peace and emotional balance 
+                    through our revolutionary AI-powered platform.
+                  </p>
+                  
+                  <button 
+                    className={styles.ctaButton}
+                    onClick={handleStart}
+                  >
+                    <span>Begin Your Journey</span>
+                    <ArrowRight className={styles.ctaIcon} />
+                  </button>
+                  
+                  <p className={styles.ctaTagline}>
+                    Free • Secure • Personalized
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -194,42 +187,42 @@ export default function Introduction() {
 
       {/* Consent Modal */}
       {showConsent && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="nature-card p-8 max-w-md w-full">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-nature-400 to-nature-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-white" />
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <div className={styles.modalHeader}>
+              <div className={styles.modalIcon}>
+                <Shield className={styles.modalShield} />
               </div>
-              <h3 className="text-2xl font-display font-bold text-nature-800 mb-2">Privacy & Consent</h3>
-              <p className="text-nature-600">
+              <h3 className={styles.modalTitle}>Privacy & Consent</h3>
+              <p className={styles.modalSubtitle}>
                 We're committed to protecting your privacy. Your data is encrypted and secure.
               </p>
             </div>
             
-            <div className="space-y-4 mb-6">
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-nature-500" />
-                <span className="text-nature-700">End-to-end encryption</span>
+            <div className={styles.modalFeatures}>
+              <div className={styles.modalFeature}>
+                <CheckCircle className={styles.featureIcon} />
+                <span>End-to-end encryption</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-nature-500" />
-                <span className="text-nature-700">Anonymous assessment</span>
+              <div className={styles.modalFeature}>
+                <CheckCircle className={styles.featureIcon} />
+                <span>Anonymous assessment</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-nature-500" />
-                <span className="text-nature-700">Instant insights</span>
+              <div className={styles.modalFeature}>
+                <CheckCircle className={styles.featureIcon} />
+                <span>Instant insights</span>
               </div>
             </div>
             
-            <div className="flex space-x-4">
+            <div className={styles.modalActions}>
               <button 
-                className="flex-1 border-2 border-nature-300 text-nature-600 px-4 py-3 rounded-lg font-medium hover:bg-nature-50 transition-colors"
+                className={styles.modalCancel}
                 onClick={() => setShowConsent(false)}
               >
                 Learn More
               </button>
               <button 
-                className="flex-1 bg-gradient-to-r from-nature-500 to-nature-600 text-white px-4 py-3 rounded-lg font-medium hover:from-nature-600 hover:to-nature-700 transition-colors"
+                className={styles.modalConfirm}
                 onClick={handleConsent}
               >
                 Start Assessment
