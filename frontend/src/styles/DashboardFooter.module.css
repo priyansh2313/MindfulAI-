@@ -1,50 +1,327 @@
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
-    margin-top: 4rem;
-    background: #f9fafb;
-    border-top: 1px solid #e5e7eb;
-    color: #374151;
-    font-size: 0.95rem;
-    animation: fadeIn 1s ease;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+  color: #f8fafc;
+  margin-top: 6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Main Footer Section */
+.mainSection {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  padding: 4rem 0 3rem 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Brand Section */
+.brandSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  color: #667eea;
+  filter: drop-shadow(0 0 8px rgba(102, 126, 234, 0.5));
+}
+
+.brandTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.brandDescription {
+  color: #cbd5e1;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 300px;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  color: #667eea;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.socialLink:hover {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  color: #8b5cf6;
+}
+
+/* Links Sections */
+.linksSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 2rem;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea, #8b5cf6);
+  border-radius: 1px;
+}
+
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footerLink {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+.footerLink::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #667eea, #8b5cf6);
+  transition: width 0.3s ease;
+}
+
+.footerLink:hover {
+  color: #f1f5f9;
+  transform: translateX(4px);
+}
+
+.footerLink:hover::before {
+  width: 100%;
+}
+
+/* Bottom Section */
+.bottomSection {
+  padding: 2rem 0;
+}
+
+.bottomContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.copyright {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.copyright p {
+  margin: 0;
+}
+
+.developerCredit {
+  display: flex;
+  align-items: center;
+}
+
+.creditContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.creditContainer:hover {
+  background: rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+}
+
+.creditIcon {
+  width: 18px;
+  height: 18px;
+  color: #667eea;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(180deg); }
+}
+
+.creditText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.heartIcon {
+  width: 16px;
+  height: 16px;
+  color: #ef4444;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.teamName {
+  color: #667eea;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .mainSection {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
   
-  .footer h3 {
-    margin: 0;
-    font-weight: 700;
-    font-size: 1.1rem;
-    background: linear-gradient(to right, #7c3aed, #4f46e5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .brandSection {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footerContent {
+    padding: 0 1.5rem;
   }
   
-  .footer p {
-    margin-top: 0.25rem;
-    color: #6b7280;
+  .mainSection {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 3rem 0 2rem 0;
+  }
+  
+  .brandDescription {
+    max-width: 100%;
+  }
+  
+  .bottomContent {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .creditContainer {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footerContent {
+    padding: 0 1rem;
+  }
+  
+  .mainSection {
+    padding: 2rem 0 1.5rem 0;
+    gap: 2rem;
+  }
+  
+  .brandTitle {
+    font-size: 1.5rem;
+  }
+  
+  .socialLinks {
+    gap: 0.75rem;
+  }
+  
+  .socialLink {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .sectionTitle {
+    font-size: 1rem;
+  }
+  
+  .footerLink {
+    font-size: 0.9rem;
+  }
+  
+  .creditText {
     font-size: 0.85rem;
   }
-  
-  .footer .right a {
-    margin-left: 1rem;
-    color: #4f46e5;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-  
-  .footer .right a:hover {
-    transform: scale(1.2);
-    color: #7c3aed;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+}
   

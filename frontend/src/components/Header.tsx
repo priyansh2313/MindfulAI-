@@ -1,5 +1,6 @@
 import { Brain, Heart, Shield, Sparkles, Target, Zap } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Header.module.css';
 
@@ -11,6 +12,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [particles, setParticles] = useState<Array<{x: number, y: number, vx: number, vy: number, life: number}>>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Animated background particles
   useEffect(() => {
@@ -59,8 +61,60 @@ const Header = () => {
     animate();
   }, [particles]);
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMobileMenuOpen]);
+
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    console.log('Toggle mobile menu:', !isMobileMenuOpen); // Debug log
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    console.log('Mobile menu state changed to:', newState);
+    
+    // Force a re-render
+    setTimeout(() => {
+      console.log('Mobile menu element:', mobileMenuRef.current);
+      console.log('Mobile menu classes:', mobileMenuRef.current?.className);
+      console.log('Mobile menu display:', mobileMenuRef.current?.style.display);
+      console.log('Mobile menu position:', mobileMenuRef.current?.style.position);
+      console.log('Mobile menu dimensions:', {
+        width: mobileMenuRef.current?.style.width,
+        height: mobileMenuRef.current?.style.height,
+        top: mobileMenuRef.current?.style.top,
+        left: mobileMenuRef.current?.style.left
+      });
+      console.log('Mobile menu computed styles:', {
+        width: window.getComputedStyle(mobileMenuRef.current!).width,
+        height: window.getComputedStyle(mobileMenuRef.current!).height,
+        position: window.getComputedStyle(mobileMenuRef.current!).position
+      });
+    }, 100);
   };
 
   const handleNavigation = (path: string) => {
@@ -68,104 +122,131 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
-  return (
-    <header className={styles.header}>
-      {/* Animated Background Canvas */}
-      <canvas ref={canvasRef} className={styles.backgroundCanvas} />
-      
-      {/* Floating Icons */}
-      <div className={styles.floatingIcons}>
-        <div className={styles.floatingIcon} style={{ animationDelay: '0s' }}>
-          <Sparkles size={16} />
-        </div>
-        <div className={styles.floatingIcon} style={{ animationDelay: '2s' }}>
-          <Zap size={16} />
-        </div>
-        <div className={styles.floatingIcon} style={{ animationDelay: '4s' }}>
-          <Brain size={16} />
-        </div>
-      </div>
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
-      {/* Logo Section */}
-      <div className={styles.logoSection}>
-        <div className={styles.logoContainer}>
-          <div className={styles.logoIcon}>
-            <Brain className={styles.logoBrain} />
-            <div className={styles.logoGlow}></div>
-          </div>
-          <div className={styles.logoTextContainer}>
-            <h1 className={styles.logo}>MINDFUL AI</h1>
-            <span className={styles.logoTagline}>Mental Wellness Revolution</span>
-          </div>
-        </div>
-      </div>
-      
-      {/* Desktop Navigation */}
-      <div className={styles.controls}>
-        <a
-          href="https://www.google.com/maps/search/mental+health+professionals+near+me"
-          className={styles.link}
-          title="Find Support Nearby"
-        >
-          <Shield size={16} />
-          <span>Find Support Nearby</span>
-        </a>
-        <button
-          onClick={() => handleNavigation('/profile')}
-          className={styles.link}
-          title="My Wellbeing Profile"
-        >
-          <Heart size={16} />
-          <span>My Wellbeing Profile</span>
-        </button>
-        <button
-          onClick={() => handleNavigation('/')}
-          className={styles.link}
-          title="Sign Out"
-        >
-          <Target size={16} />
-          <span>Sign Out</span>
-        </button>
-      </div>
-
-      {/* Mobile Menu Toggle */}
+  // Mobile menu component
+  const MobileMenu = () => (
+    <div 
+      ref={mobileMenuRef}
+      className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}
+    >
+      {/* Close button */}
       <button 
-        className={`${styles.menuToggle} ${isMobileMenuOpen ? styles.open : ''}`}
-        onClick={toggleMobileMenu}
-        aria-label="Toggle mobile menu"
+        onClick={closeMobileMenu}
+        className={styles.mobileMenuClose}
+        aria-label="Close mobile menu"
       >
-        <span></span>
-        <span></span>
-        <span></span>
+        ✕
       </button>
+      
+      <button
+        onClick={() => handleNavigation('/profile')}
+        className={styles.mobileMenuItem}
+      >
+        <Heart size={18} />
+        <span>My Wellbeing Profile</span>
+      </button>
+      <a
+        href="https://www.google.com/maps/search/mental+health+professionals+near+me"
+        className={styles.mobileMenuItem}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Shield size={18} />
+        <span>Find Support Nearby</span>
+      </a>
+      <button
+        onClick={() => handleNavigation('/')}
+        className={styles.mobileMenuItem}
+      >
+        <Target size={18} />
+        <span>Sign Out</span>
+      </button>
+    </div>
+  );
 
-      {/* Mobile Menu */}
-      <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
-        <button
-          onClick={() => handleNavigation('/profile')}
-          className={styles.mobileMenuItem}
+  return (
+    <>
+      <header className={styles.header}>
+        {/* Animated Background Canvas */}
+        <canvas ref={canvasRef} className={styles.backgroundCanvas} />
+        
+        {/* Floating Icons */}
+        <div className={styles.floatingIcons}>
+          <div className={styles.floatingIcon} style={{ animationDelay: '0s' }}>
+            <Sparkles size={16} />
+          </div>
+          <div className={styles.floatingIcon} style={{ animationDelay: '2s' }}>
+            <Zap size={16} />
+          </div>
+          <div className={styles.floatingIcon} style={{ animationDelay: '4s' }}>
+            <Brain size={16} />
+          </div>
+        </div>
+
+        {/* Logo Section */}
+        <div className={styles.logoSection}>
+          <div className={styles.logoContainer}>
+            <div className={styles.logoIcon}>
+              <Brain className={styles.logoBrain} />
+              <div className={styles.logoGlow}></div>
+            </div>
+            <div className={styles.logoTextContainer}>
+              <h1 className={styles.logo}>MINDFUL AI</h1>
+              <span className={styles.logoTagline}>Mental Wellness Revolution</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Desktop Navigation */}
+        <div className={styles.controls}>
+          <a
+            href="https://www.google.com/maps/search/mental+health+professionals+near+me"
+            className={styles.link}
+            title="Find Support Nearby"
+          >
+            <Shield size={16} />
+            <span>Find Support Nearby</span>
+          </a>
+          <button
+            onClick={() => handleNavigation('/profile')}
+            className={styles.link}
+            title="My Wellbeing Profile"
+          >
+            <Heart size={16} />
+            <span>My Wellbeing Profile</span>
+          </button>
+          <button
+            onClick={() => handleNavigation('/')}
+            className={styles.link}
+            title="Sign Out"
+          >
+            <Target size={16} />
+            <span>Sign Out</span>
+          </button>
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <button 
+          className={`${styles.menuToggle} ${isMobileMenuOpen ? styles.open : ''}`}
+          onClick={toggleMobileMenu}
+          aria-label="Toggle mobile menu"
+          aria-expanded={isMobileMenuOpen}
         >
-          <Heart size={18} />
-          <span>My Wellbeing Profile</span>
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-        <a
-          href="https://www.google.com/maps/search/mental+health+professionals+near+me"
-          className={styles.mobileMenuItem}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Shield size={18} />
-          <span>Find Support Nearby</span>
-        </a>
-        <button
-          onClick={() => handleNavigation('/')}
-          className={styles.mobileMenuItem}
-        >
-          <Target size={18} />
-          <span>Sign Out</span>
-        </button>
-      </div>
-    </header>
+      </header>
+
+      {/* Render mobile menu as portal to body */}
+      {isMobileMenuOpen && createPortal(
+        <MobileMenu />,
+        document.body
+      )}
+    </>
   );
 };
 

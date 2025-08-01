@@ -7,9 +7,6 @@ import { RLState, useRLAgent } from "../hooks/useRLAgent"; // adjust path if nee
 import styles from "../styles/Gratitude.module.css";
 import { logFeedback } from "../utils/reinforcement";
 
-
-
-
 const sentiment = new Sentiment();
 
 // Define the JournalEntry type
@@ -17,6 +14,26 @@ interface JournalEntry {
 	title: string;
 	content: string;
 	mood: string;
+	date?: string;
+}
+
+// Define SpeechRecognition types
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+    SpeechRecognition: any;
+  }
+}
+
+interface SpeechRecognitionEvent {
+  results: {
+    [index: number]: {
+      [index: number]: {
+        transcript: string;
+      };
+    };
+    length: number;
+  };
 }
 
 const moods = [
@@ -38,13 +55,14 @@ const isMood = (m: string): boolean => {
 
 const getMotivationalQuote = (tone: string): string => {
 	const quotes: Record<string, string[]> = {
-		positive: ["Keep going! You’re doing great 🌟", "Joy radiates from you ✨"],
-		neutral: ["Stillness is growth too 🌱", "Breathe. You’re allowed to be still 🌤"],
-		negative: ["It’s okay to feel this way 💜", "You're not alone 🫂"],
+		positive: ["Keep going! You're doing great 🌟", "Joy radiates from you ✨"],
+		neutral: ["Stillness is growth too 🌱", "Breathe. You're allowed to be still 🌤"],
+		negative: ["It's okay to feel this way 💜", "You're not alone 🫂"],
 	};
 	const list = quotes[tone] || [];
 	return list[Math.floor(Math.random() * list.length)];
 };
+
 const Journal = () => {
 	const [newEntry, setNewEntry] = useState(false);
 	const [entries, setEntries] = useState<JournalEntry[]>([]);
@@ -55,19 +73,12 @@ const Journal = () => {
 	const [tone, setTone] = useState<"positive" | "negative" | "neutral" | null>(null);
 	const [quote, setQuote] = useState("");
 	const [listening, setListening] = useState(false);
-	const recognitionRef = useRef<SpeechRecognition | null>(null);
+	const recognitionRef = useRef<any>(null);
 	const [random, setRandom] = useState(Math.random());
 	const [feedbackGiven, setFeedbackGiven] = useState(false);
 
-	
-
-	// useEffect(() => {
-	// 	const source = localStorage.getItem("rl_action_source");
-	// 	if (source === "journal") setCameFromRL(true);
-	// }, []);
-
 	const storedMood = localStorage.getItem("todayMood");
-	const currentMood = storedMood !== null && isMood(storedMood) ? storedMood : null;
+	const currentMood = storedMood !== null && isMood(storedMood) ? storedMood : "unknown";
 
 	const handleSubmit = () => {
 	if (!title.trim() || !entry.trim() || !selectedMood || selectedMood === "default") {
@@ -108,6 +119,7 @@ const Journal = () => {
 		title: title,
 		content: entry,
 		mood: selectedMood,
+		date: new Date().toISOString(),
 	};
 
 	axios
@@ -126,7 +138,7 @@ const Journal = () => {
 };
 
 	const toggleListening = () => {
-		const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+		const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
 		if (!SpeechRecognition) return alert("Voice input not supported.");
 
 		if (!recognitionRef.current) {
@@ -147,6 +159,19 @@ const Journal = () => {
 
 	return (
 		<div className={styles.container}>
+			{/* Magical Floating Particles */}
+			<div className={styles.particles}>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+				<div className={styles.particle}></div>
+			</div>
+
 			<h1 className={styles.heading}>🖋 Reflect. Release. Reconnect.</h1>
 
 			{newEntry ? (
@@ -183,7 +208,11 @@ const Journal = () => {
 						rows={6}
 					/>
 					<div className={styles.actions}>
-						<button onClick={toggleListening} title="Voice Input" className={styles.micButton}>
+						<button 
+							onClick={toggleListening} 
+							title="Voice Input" 
+							className={`${styles.micButton} ${listening ? styles.listening : ''}`}
+						>
 							<FiMic />
 						</button>
 						<button onClick={handleSubmit} title="Submit" className={styles.sendButton}>
@@ -204,14 +233,16 @@ const Journal = () => {
 				)}
 				</>) : (
 					<div className={styles.journals}>
-						<button className={styles.newButton} onClick={()=>{setNewEntry(true)}}>New Entry</button>
+						<button className={styles.newButton} onClick={()=>{setNewEntry(true)}}>
+							✨ New Entry
+						</button>
 						<div className={styles.journalList}>
 							{entries.map((entry, index) => (
 								<div key={index} className={styles.entry}>
 									<h2 className={styles.entryTitle}>{entry.title}</h2>
 									<p className={styles.entryContent}>{entry.content}</p>
 									<p className={styles.entryMood}>Mood: {entry.mood}</p>
-									<p className={styles.entryDate}>{(entry.date.split("T")[0])}</p>
+									<p className={styles.entryDate}>{(entry.date?.split("T")[0]) || new Date().toISOString().split("T")[0]}</p>
 								</div>
 							))}
 						</div>
@@ -220,8 +251,8 @@ const Journal = () => {
 			{!feedbackGiven && (
         <div className={styles.feedbackFloat}>
           <span>Was this helpful?</span>
-		  <button onClick={() => { logFeedback(currentMood, "Journal", 1); setFeedbackGiven(true); }}>Yes</button>
-		  <button onClick={() => { logFeedback(currentMood, "Journal", 0); setFeedbackGiven(true); }}>No</button>
+		  <button onClick={() => { logFeedback(currentMood as any, "Journal", 1); setFeedbackGiven(true); }}>Yes</button>
+		  <button onClick={() => { logFeedback(currentMood as any, "Journal", 0); setFeedbackGiven(true); }}>No</button>
         </div>
       )}
 		</div>
