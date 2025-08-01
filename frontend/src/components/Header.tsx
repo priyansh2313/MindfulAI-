@@ -41,7 +41,12 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <a href="#" className="text-nature-800 font-medium border-b-2 border-nature-500 pb-1">Home</a>
-            <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">How It Works</a>
+            <button 
+              onClick={() => handleNavigation('/how-it-works')}
+              className="text-nature-600 hover:text-nature-800 transition-colors"
+            >
+              How It Works
+            </button>
             <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">Features</a>
             <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">Contact</a>
           </nav>
@@ -80,7 +85,12 @@ const Header = () => {
         <div className="md:hidden bg-white border-t border-nature-100">
           <div className="px-4 py-6 space-y-4">
             <a href="#" className="block text-nature-800 font-medium border-b-2 border-nature-500 pb-1">Home</a>
-            <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">How It Works</a>
+            <button 
+              onClick={() => handleNavigation('/how-it-works')}
+              className="block w-full text-left text-nature-600 hover:text-nature-800 transition-colors"
+            >
+              How It Works
+            </button>
             <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">Features</a>
             <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">Contact</a>
             <div className="pt-4 border-t border-nature-100 space-y-3">

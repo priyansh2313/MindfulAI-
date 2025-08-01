@@ -14,6 +14,7 @@ import Dashboard from './pages/Dashboard';
 import ElderDashboard from './pages/ElderDashboard';
 import Encyclopedia from "./pages/Encyclopedia";
 import Evaluation from './pages/Evaluation';
+import HowItWorks from './pages/HowItWorks';
 import ImageAnalyzer from './pages/ImageAnalyser';
 import Introduction from './pages/Introduction';
 import Journal from './pages/Journal';
@@ -51,6 +52,7 @@ function App() {
           <Route path="/SleepCycleSection" element={<SleepCycleSection />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/elder-dashboard" element={<ElderDashboard />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
           {/* <Route path="/gratitudeJournal" element={<GratitudeJournal />} /> */}
         </Routes>
         <FloatingMusicPlayer />

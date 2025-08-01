@@ -22,7 +22,7 @@ export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover
   return (
     <div className="space-y-12">
       {/* Assessment & Analysis Section */}
-      <div className="animate-slide-up">
+      <div>
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-nature-400 to-nature-600 rounded-full flex items-center justify-center shadow-nature">
@@ -37,16 +37,16 @@ export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {assessmentServices.map(service => (
             <div
               key={service.title}
-              className="nature-card p-6 hover:shadow-nature-lg transition-all duration-300 group cursor-pointer"
+              className="nature-card p-6 hover:shadow-nature-lg transition-shadow duration-300 cursor-pointer"
               onClick={() => navigate(service.path)}
               onMouseEnter={() => onCardHover && onCardHover(service.title)}
               onMouseLeave={() => onCardLeave && onCardLeave()}
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-nature-100 to-nature-200 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-gradient-to-br from-nature-100 to-nature-200 rounded-xl flex items-center justify-center mb-4">
                 <div className="text-nature-600">
                   {service.icon}
                 </div>
@@ -59,7 +59,7 @@ export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover
       </div>
 
       {/* Wellness & Healing Section */}
-      <div className="animate-slide-up">
+      <div>
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-nature-400 to-nature-600 rounded-full flex items-center justify-center shadow-nature">
@@ -74,16 +74,16 @@ export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {wellnessServices.map(service => (
             <div
               key={service.title}
-              className="nature-card p-6 hover:shadow-nature-lg transition-all duration-300 group cursor-pointer"
+              className="nature-card p-6 hover:shadow-nature-lg transition-shadow duration-300 cursor-pointer"
               onClick={() => navigate(service.path)}
               onMouseEnter={() => onCardHover && onCardHover(service.title)}
               onMouseLeave={() => onCardLeave && onCardLeave()}
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-nature-100 to-nature-200 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-gradient-to-br from-nature-100 to-nature-200 rounded-xl flex items-center justify-center mb-4">
                 <div className="text-nature-600">
                   {service.icon}
                 </div>
