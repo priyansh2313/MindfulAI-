@@ -136,7 +136,7 @@ export default function MusicDashboard() {
       </aside>
 
       <div className="mt-4 text-center text-white">
-        {!feedbackGiven ? (
+        {!feedbackGiven && currentTrack ? (
           <>
             <p>🎧 Was this music helpful for your mood?</p>
             <div className="flex justify-center gap-4 mt-2">
@@ -147,6 +147,8 @@ export default function MusicDashboard() {
                   logFeedback(mood, "music", 1);
                   updateExplorationRate();
                   setFeedbackGiven(true);
+                  // Dispatch custom event to refresh wellness journey
+                  window.dispatchEvent(new Event('feedback-given'));
                 }}
               >
                 Yes
@@ -158,15 +160,17 @@ export default function MusicDashboard() {
                   logFeedback(mood, "music", 0);
                   updateExplorationRate();
                   setFeedbackGiven(true);
+                  // Dispatch custom event to refresh wellness journey
+                  window.dispatchEvent(new Event('feedback-given'));
                 }}
               >
                 No
               </button>
             </div>
           </>
-        ) : (
+        ) : feedbackGiven ? (
           <p className="mt-4 text-green-300">Thanks for your feedback! 😊</p>
-        )}
+        ) : null}
       </div>
     </div>
   );

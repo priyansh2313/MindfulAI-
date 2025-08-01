@@ -248,11 +248,21 @@ const Journal = () => {
 						</div>
 					</div>
 			)}
-			{!feedbackGiven && (
+			{!feedbackGiven && entries.length > 0 && (
         <div className={styles.feedbackFloat}>
           <span>Was this helpful?</span>
-		  <button onClick={() => { logFeedback(currentMood as any, "Journal", 1); setFeedbackGiven(true); }}>Yes</button>
-		  <button onClick={() => { logFeedback(currentMood as any, "Journal", 0); setFeedbackGiven(true); }}>No</button>
+		  <button onClick={() => { 
+        logFeedback(currentMood as any, "journal", 1); 
+        setFeedbackGiven(true); 
+        // Dispatch custom event to refresh wellness journey
+        window.dispatchEvent(new Event('feedback-given'));
+      }}>Yes</button>
+		  <button onClick={() => { 
+        logFeedback(currentMood as any, "journal", 0); 
+        setFeedbackGiven(true); 
+        // Dispatch custom event to refresh wellness journey
+        window.dispatchEvent(new Event('feedback-given'));
+      }}>No</button>
         </div>
       )}
 		</div>

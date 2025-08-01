@@ -153,10 +153,11 @@ const disorders = [
 const categories = ["All", "Anxiety", "Mood", "Psychotic", "Trauma", "Personality", "Neurodevelopmental", "Eating", "Dissociative"];
 
 const Encyclopedia = () => {
-  const [search, setSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedDisorder, setSelectedDisorder] = useState(null);
+  const [selectedDisorder, setSelectedDisorder] = useState<any>(null);
   const [chatbotOpen, setChatbotOpen] = useState(false);
+  const [feedbackGiven, setFeedbackGiven] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -165,8 +166,8 @@ const Encyclopedia = () => {
   }, []);
 
   const filteredDisorders = disorders.filter((d) => {
-    const matchesSearch = d.name.toLowerCase().includes(search.toLowerCase()) ||
-                         d.description.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         d.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "All" || d.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -285,8 +286,8 @@ const Encyclopedia = () => {
               type="text"
               placeholder="🔍 Search disorders, symptoms, or treatments..."
               className={styles.searchInput}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <motion.div 
@@ -472,6 +473,32 @@ const Encyclopedia = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {!feedbackGiven && (searchTerm || selectedDisorder) && (
+        <div className={styles.feedbackSection}>
+          <p>📚 Was this mental health encyclopedia helpful?</p>
+          <div className={styles.feedbackButtons}>
+            <button onClick={() => {
+              const mood = (localStorage.getItem("todayMood") || "unknown") as any;
+              logFeedback(mood, "encyclopedia", 1);
+              setFeedbackGiven(true);
+              // Dispatch custom event to refresh wellness journey
+              window.dispatchEvent(new Event('feedback-given'));
+            }}>
+              Yes
+            </button>
+            <button onClick={() => {
+              const mood = (localStorage.getItem("todayMood") || "unknown") as any;
+              logFeedback(mood, "encyclopedia", 0);
+              setFeedbackGiven(true);
+              // Dispatch custom event to refresh wellness journey
+              window.dispatchEvent(new Event('feedback-given'));
+            }}>
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

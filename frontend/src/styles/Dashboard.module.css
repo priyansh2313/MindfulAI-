@@ -82,62 +82,93 @@ body {
 
 .analyticsSection {
   animation: fadeInUp 0.6s ease;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.analyticsGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.progressSection {
-  animation: fadeInUp 0.6s ease;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.progressSection::before {
+.analyticsSection::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23667eea' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.3;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  border-radius: 20px 20px 0 0;
 }
 
-.progressGrid {
+.analyticsContent {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
 }
 
-.effectivenessSection {
-  animation: fadeInUp 0.6s ease;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  background: rgba(255, 255, 255, 0.95);
+.analyticsLeft,
+.analyticsRight {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.analyticsTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.evaluationSummary,
+.learningSummary {
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.evaluationSummary:hover,
+.learningSummary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.evaluationGraph {
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Remove card styling from child components */
+.analyticsContent .card {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.analyticsContent .card h3 {
+  display: none !important;
+}
+
+.analyticsContent .card p {
+  margin: 0.5rem 0 0 0 !important;
+  font-size: 1rem !important;
+  color: #64748b !important;
 }
 
 .wellnessSection {
@@ -256,7 +287,6 @@ body {
   }
   
   .analyticsSection,
-  .progressSection,
   .wellnessSection,
   .insightsSection,
   .tipsSection {
@@ -264,16 +294,9 @@ body {
     margin-bottom: 2rem;
   }
   
-  .analyticsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-  }
-  
-  .progressGrid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+  .analyticsContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
   
   .tipsGrid {
@@ -304,7 +327,6 @@ body {
   }
   
   .analyticsSection,
-  .progressSection,
   .wellnessSection,
   .insightsSection,
   .tipsSection {
@@ -312,16 +334,9 @@ body {
     margin-bottom: 2.5rem;
   }
   
-  .analyticsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  
-  .progressGrid {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+  .analyticsContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
   }
   
   .tipsGrid {
@@ -348,12 +363,9 @@ body {
     font-size: 2.25rem;
   }
   
-  .analyticsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  }
-  
-  .progressGrid {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  .analyticsContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
   }
   
   .tipsGrid {
@@ -418,7 +430,6 @@ body {
 
   /* Immersive mobile interactions */
   .analyticsSection::after,
-  .progressSection::after,
   .wellnessSection::after,
   .insightsSection::after,
   .tipsSection::after {
@@ -440,7 +451,6 @@ body {
 
   /* Touch-friendly interactions */
   .analyticsSection:active,
-  .progressSection:active,
   .wellnessSection:active,
   .insightsSection:active,
   .tipsSection:active {
@@ -448,8 +458,20 @@ body {
     transition: transform 0.1s ease;
   }
 
-  .analyticsGrid,
-  .progressGrid,
+  .analyticsContent {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .evaluationSummary,
+  .learningSummary {
+    padding: 1rem;
+  }
+
+  .analyticsTitle {
+    font-size: 1.1rem;
+  }
+
   .tipsGrid {
     gap: 0.75rem;
   }
@@ -467,13 +489,25 @@ body {
   }
 
   .analyticsSection,
-  .progressSection,
   .wellnessSection,
   .insightsSection,
   .tipsSection {
     padding: 0.75rem;
     margin-bottom: 0.75rem;
     border-radius: 12px;
+  }
+
+  .analyticsContent {
+    gap: 0.75rem;
+  }
+
+  .evaluationSummary,
+  .learningSummary {
+    padding: 0.75rem;
+  }
+
+  .analyticsTitle {
+    font-size: 1rem;
   }
 
   .sectionTitle {

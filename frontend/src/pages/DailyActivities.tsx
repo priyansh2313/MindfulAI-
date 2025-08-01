@@ -458,7 +458,7 @@ export default function DailyActivities() {
         )}
       </motion.div>
 
-      {!feedbackGiven && (
+      {!feedbackGiven && (gratitude.length > 10 || sessionProgress > 0) && (
         <div className={styles.feedbackSection}>
           <p>🧘 Was this session helpful?</p>
           <div className={styles.feedbackButtons}>
@@ -466,6 +466,8 @@ export default function DailyActivities() {
               const mood = (localStorage.getItem("todayMood") || "unknown") as Mood;
               logFeedback(mood, "daily-activities", 1);
               setFeedbackGiven(true);
+              // Dispatch custom event to refresh wellness journey
+              window.dispatchEvent(new Event('feedback-given'));
             }}>
               Yes
             </button>
@@ -473,6 +475,8 @@ export default function DailyActivities() {
               const mood = (localStorage.getItem("todayMood") || "unknown") as Mood;
               logFeedback(mood, "daily-activities", 0);
               setFeedbackGiven(true);
+              // Dispatch custom event to refresh wellness journey
+              window.dispatchEvent(new Event('feedback-given'));
             }}>
               No
             </button>

@@ -22,7 +22,8 @@ const MindfulAssistantFusion = () => {
   const [hasVoiceInput, setHasVoiceInput] = useState(false);
   const [hasTextInput, setHasTextInput] = useState(false);
   const [chatbotMessages, setChatbotMessages] = useState<string[]>([]);
-const [chatbotOpen, setChatbotOpen] = useState(false); // Already existing or add
+  const [chatbotOpen, setChatbotOpen] = useState(false); // Already existing or add
+  const [feedbackGiven, setFeedbackGiven] = useState(false);
 
 useEffect(() => {
   if (chatbotMessages.length > 0 && !chatbotOpen) {
@@ -195,6 +196,32 @@ const handleTextDetected = (mood: string) => {
           </>
         )}
       </AnimatePresence>
+
+      {!feedbackGiven && step === 4 && finalMood && (
+        <div className={styles.feedbackSection}>
+          <p>🤖 Was this AI assistant helpful for understanding your emotions?</p>
+          <div className={styles.feedbackButtons}>
+            <button onClick={() => {
+              const mood = (localStorage.getItem("todayMood") || "unknown") as any;
+              logFeedback(mood, "assistant", 1);
+              setFeedbackGiven(true);
+              // Dispatch custom event to refresh wellness journey
+              window.dispatchEvent(new Event('feedback-given'));
+            }}>
+              Yes
+            </button>
+            <button onClick={() => {
+              const mood = (localStorage.getItem("todayMood") || "unknown") as any;
+              logFeedback(mood, "assistant", 0);
+              setFeedbackGiven(true);
+              // Dispatch custom event to refresh wellness journey
+              window.dispatchEvent(new Event('feedback-given'));
+            }}>
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

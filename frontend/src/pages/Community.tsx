@@ -54,6 +54,7 @@ export default function CommunityChat() {
 	const [connectionError, setConnectionError] = useState<string | null>(null);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const [feedbackGiven, setFeedbackGiven] = useState(false);
 
 	// New state for enhanced signup
 	const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
@@ -655,6 +656,32 @@ export default function CommunityChat() {
 							onClick={() => setIsSidebarOpen(false)}
 						></div>
 					)}
+				</div>
+			)}
+
+			{!feedbackGiven && messages.length > 0 && (
+				<div className={styles.feedbackSection}>
+					<p>👥 Was this community chat helpful for your mental wellness?</p>
+					<div className={styles.feedbackButtons}>
+						<button onClick={() => {
+							const mood = (localStorage.getItem("todayMood") || "unknown") as any;
+							logFeedback(mood, "community", 1);
+							setFeedbackGiven(true);
+							// Dispatch custom event to refresh wellness journey
+							window.dispatchEvent(new Event('feedback-given'));
+						}}>
+							Yes
+						</button>
+						<button onClick={() => {
+							const mood = (localStorage.getItem("todayMood") || "unknown") as any;
+							logFeedback(mood, "community", 0);
+							setFeedbackGiven(true);
+							// Dispatch custom event to refresh wellness journey
+							window.dispatchEvent(new Event('feedback-given'));
+						}}>
+							No
+						</button>
+					</div>
 				</div>
 			)}
 		</div>
