@@ -1,6 +1,7 @@
 import { Heart, Leaf, Menu, Shield, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/Header.module.css';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,53 +28,52 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className={styles.header}>
+      <div className={styles.headerContent}>
+        <div className={styles.headerContainer}>
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-nature-500 rounded-lg flex items-center justify-center">
-              <Leaf className="w-5 h-5 text-white" />
+          <div className={styles.logoContainer}>
+            <div className={styles.logoIcon}>
+              <Leaf className={styles.logoLeaf} />
             </div>
-            <h1 className="text-xl font-display font-bold text-nature-800">Mindful AI</h1>
+            <h1 className={styles.logoTitle}>Mindful AI</h1>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-nature-800 font-medium border-b-2 border-nature-500 pb-1">Home</a>
+          <nav className={styles.desktopNav}>
+            <a href="#" className={styles.navLink}>Home</a>
             <button 
               onClick={() => handleNavigation('/how-it-works')}
-              className="text-nature-600 hover:text-nature-800 transition-colors"
+              className={styles.navButton}
             >
               How It Works
             </button>
-            <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">Features</a>
-            <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">Contact</a>
+            <a href="#" className={styles.navLink}>Features</a>
+            <a href="#" className={styles.navLink}>Contact</a>
           </nav>
 
           {/* Action Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className={styles.actionButtons}>
             <button 
               onClick={handleFindSupportNearby}
-              className="flex items-center space-x-2 text-nature-600 hover:text-nature-800 transition-colors"
+              className={styles.actionButton}
             >
               <Shield size={16} />
               <span>Find Support Nearby</span>
             </button>
             <button 
               onClick={handleMyProfile}
-              className="flex items-center space-x-2 text-nature-600 hover:text-nature-800 transition-colors"
+              className={styles.actionButton}
             >
               <Heart size={16} />
               <span>My Profile</span>
             </button>
-            
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMobileMenu}
-            className="md:hidden p-2 rounded-lg text-nature-600 hover:text-nature-800 transition-colors"
+            className={styles.mobileMenuButton}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -82,36 +82,35 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-nature-100">
-          <div className="px-4 py-6 space-y-4">
-            <a href="#" className="block text-nature-800 font-medium border-b-2 border-nature-500 pb-1">Home</a>
+        <div className={styles.mobileMenu}>
+          <div className={styles.mobileMenuContent}>
+            <a href="#" className={styles.mobileNavLink}>Home</a>
             <button 
               onClick={() => handleNavigation('/how-it-works')}
-              className="block w-full text-left text-nature-600 hover:text-nature-800 transition-colors"
+              className={styles.mobileNavButton}
             >
               How It Works
             </button>
-            <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">Features</a>
-            <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">Contact</a>
-            <div className="pt-4 border-t border-nature-100 space-y-3">
+            <a href="#" className={styles.mobileNavLink}>Features</a>
+            <a href="#" className={styles.mobileNavLink}>Contact</a>
+            <div className={styles.mobileActionSection}>
               <button 
                 onClick={handleFindSupportNearby}
-                className="flex items-center space-x-3 text-nature-600 hover:text-nature-800 transition-colors py-2 w-full text-left"
+                className={styles.mobileActionButton}
               >
                 <Shield size={20} />
                 <span>Find Support Nearby</span>
               </button>
               <button 
                 onClick={handleMyProfile}
-                className="flex items-center space-x-3 text-nature-600 hover:text-nature-800 transition-colors py-2 w-full text-left"
+                className={styles.mobileActionButton}
               >
                 <Heart size={20} />
                 <span>My Profile</span>
               </button>
-              <button className="block w-full text-left text-nature-600 hover:text-nature-800 transition-colors py-2">
+              <button className={styles.mobileActionButton}>
                 Sign In
               </button>
-              
             </div>
           </div>
         </div>
