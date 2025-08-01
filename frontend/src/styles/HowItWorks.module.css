@@ -1,0 +1,436 @@
+/* HowItWorks Styles */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #dcf2e3 0%, #bbf7d0 50%, #dcf2e3 100%);
+}
+
+/* Header Section */
+.header {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.headerContent {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .headerContent {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .headerContent {
+    padding: 0 2rem;
+  }
+}
+
+.headerText {
+  text-align: center;
+}
+
+.headerTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.25rem, 6vw, 3rem);
+  font-weight: 700;
+  color: #1e472e;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .headerTitle {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+  }
+}
+
+.headerSubtitle {
+  font-size: 1.25rem;
+  color: #22c55e;
+  max-width: 48rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Navigation */
+.navigation {
+  background: white;
+  border-bottom: 1px solid #dcf2e3;
+}
+
+.navigationContent {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .navigationContent {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navigationContent {
+    padding: 0 2rem;
+  }
+}
+
+.tabContainer {
+  display: flex;
+  gap: 2rem;
+}
+
+.tab {
+  padding: 1rem 1.5rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  border-bottom: 2px solid transparent;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #22c55e;
+}
+
+.tab:hover {
+  color: #1e472e;
+}
+
+.activeTab {
+  color: #1e472e;
+  border-bottom-color: #22c55e;
+}
+
+.tabContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Content */
+.content {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 640px) {
+  .content {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content {
+    padding: 0 2rem;
+  }
+}
+
+/* Section Header */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionIconContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionIcon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.assessment {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+}
+
+.wellness {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.sectionTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.875rem, 5vw, 2.5rem);
+  font-weight: 700;
+  color: #1e472e;
+  margin-bottom: 1rem;
+}
+
+.sectionSubtitle {
+  font-size: 1.125rem;
+  color: #22c55e;
+  max-width: 32rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Features Grid */
+.featuresGrid {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Feature Cards */
+.featureCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border: 1px solid rgba(34, 197, 94, 0.1);
+}
+
+.featureCard:hover {
+  box-shadow: 
+    0 8px 20px rgba(34, 197, 94, 0.12),
+    0 4px 12px rgba(34, 197, 94, 0.08);
+}
+
+.featureHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.featureIconContainer {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #dcf2e3, #bbf7d0);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.featureIconInner {
+  color: #22c55e;
+}
+
+.featureIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.featureContent {
+  flex: 1;
+}
+
+.featureTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e472e;
+  margin-bottom: 0.5rem;
+}
+
+.featureDescription {
+  color: #22c55e;
+  line-height: 1.6;
+}
+
+/* Benefits Section */
+.benefitsSection {
+  margin-bottom: 1.5rem;
+}
+
+.benefitsTitle {
+  font-weight: 600;
+  color: #1e472e;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.benefitsIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #22c55e;
+  margin-right: 0.5rem;
+}
+
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.benefitBullet {
+  width: 0.375rem;
+  height: 0.375rem;
+  background: #4ade80;
+  border-radius: 50%;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.benefitText {
+  color: #22c55e;
+  line-height: 1.5;
+}
+
+/* Action Button */
+.actionButton {
+  width: 100%;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.actionButton:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.actionIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Together Section */
+.togetherSection {
+  margin-top: 4rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.1);
+}
+
+.togetherHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.togetherIconContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.togetherIcon {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.togetherIconInner {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+}
+
+.togetherTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e472e;
+  margin-bottom: 1rem;
+}
+
+.togetherDescription {
+  color: #22c55e;
+  max-width: 48rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Journey Flow */
+.journeyFlow {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .journeyFlow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.journeyStep {
+  text-align: center;
+}
+
+.journeyIcon {
+  width: 3rem;
+  height: 3rem;
+  background: #dcf2e3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.journeyIconInner {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #22c55e;
+}
+
+.journeyTitle {
+  font-weight: 600;
+  color: #1e472e;
+  margin-bottom: 0.5rem;
+}
+
+.journeyDescription {
+  font-size: 0.875rem;
+  color: #22c55e;
+  line-height: 1.5;
+} 

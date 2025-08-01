@@ -14,7 +14,7 @@ import Dashboard from './pages/Dashboard';
 import ElderDashboard from './pages/ElderDashboard';
 import Encyclopedia from "./pages/Encyclopedia";
 import Evaluation from './pages/Evaluation';
-import HowItWorks from './pages/HowItWorks';
+import HowItWorks from './pages/HowItWorks.module';
 import ImageAnalyzer from './pages/ImageAnalyser';
 import Introduction from './pages/Introduction';
 import Journal from './pages/Journal';
