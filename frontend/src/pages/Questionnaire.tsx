@@ -49,7 +49,7 @@ const Questionnaire = () => {
   };
 
   const handleSkip = () => {
-    navigate("/login");
+    navigate("/signup");
   };
 
   const handleStartTest = () => {
@@ -132,7 +132,7 @@ const Questionnaire = () => {
                 onClick={handleSkip} 
                 className={styles.skipBtn}
               >
-                Skip to Login
+                Skip to Signup
               </button>
               <button 
                 onClick={handleStartTest} 

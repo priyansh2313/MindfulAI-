@@ -1,10 +1,9 @@
-import { Apple, Calendar, Facebook, Hash, Lock, Mail, Phone, User } from 'lucide-react';
+import { Apple, Brain, Calendar, Facebook, Hash, Heart, Lock, Mail, Phone, Shield, User } from 'lucide-react';
 import React, { useState } from "react";
 import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
-import mentalBg from '../assets/images/login.jpg';
 import axios from "../hooks/axios/axios";
-import styles from "../styles/Login.module.css";
+import styles from "../styles/signup.module.css";
 
 const Signup = () => {
 	const [formData, setFormData] = useState({
@@ -28,6 +27,10 @@ const Signup = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
+  const handleskip =()=>{
+    navigate("/login");
+  }
+
   const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (formData.password !== confirmPassword) {
@@ -44,11 +47,7 @@ const Signup = () => {
       const response = await axios.post("/users/register", dataToSend, { withCredentials: true });
       const user = response.data.data;
       localStorage.setItem("user", JSON.stringify(user));
-      if (user.age > 60) {
-        navigate("/elder-dashboard");
-      } else {
-        navigate("/dashboard");
-      }
+      navigate("/dashboard");
     } catch (err) {
       setError("Signup failed! " + (err.response?.data?.error || ""));
     } finally {
@@ -57,149 +56,234 @@ const Signup = () => {
 	};
 
 	return (
-  <div className={styles.splitContainer}>
-    <div className={styles.leftPane}>
-      <div className={styles.logoBox}>InsideBox</div>
-      <div className={styles.formBox}>
-        <h2 className={styles.subtitle}>Start your journey</h2>
-        <h1 className={styles.mainTitle}>Sign Up to InsideBox</h1>
-        {error && <p className={styles.error}>{error}</p>}
-        <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Full Name*</label>
-            <div className={styles.inputIconWrapper}>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className={styles.input}
-                required
-              />
-              <User className={styles.inputIcon} size={18} />
+    <div className={styles.container}>
+      {/* Floating Particles */}
+      <div className={styles.particles}>
+        {[...Array(9)].map((_, i) => (
+          <div key={i} className={styles.particle}></div>
+        ))}
+      </div>
+
+      <div className={styles.signupContainer}>
+        {/* Left Panel - Form */}
+        <div className={styles.leftPanel}>
+          <div className={styles.formCard}>
+            {/* Logo Section */}
+            <div className={styles.logoSection}>
+              <div className={styles.logoContainer}>
+                <div className={styles.logoIcon}>
+                  <Brain />
+                </div>
+                <div>
+                  <h1 className={styles.logoText}>MINDFUL AI</h1>
+                  <span className={styles.logoTagline}>Mental Wellness Revolution</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Email Address*</label>
-            <div className={styles.inputIconWrapper}>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={styles.input}
-                required
-              />
-              <Mail className={styles.inputIcon} size={18} />
+
+            {/* Form Header */}
+            <div className={styles.formHeader}>
+              <h2 className={styles.formTitle}>Join the Revolution</h2>
+              <p className={styles.formSubtitle}>🌟 Start your mental wellness journey</p>
+              <p className={styles.formDescription}>
+                Experience AI-powered insights and personalized care designed just for you
+              </p>
             </div>
-          </div>
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Phone Number*</label>
-            <div className={styles.inputIconWrapper}>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className={styles.input}
-                required
-              />
-              <Phone className={styles.inputIcon} size={18} />
+
+            {error && <div className={styles.error}>{error}</div>}
+
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>Full Name*</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className={styles.input}
+                    placeholder="Enter your full name"
+                    required
+                  />
+                  <User className={styles.inputIcon} size={18} />
+                </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>Email Address*</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={styles.input}
+                    placeholder="Enter your email"
+                    required
+                  />
+                  <Mail className={styles.inputIcon} size={18} />
+                </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>Phone Number*</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={styles.input}
+                    placeholder="Enter your phone number"
+                    required
+                  />
+                  <Phone className={styles.inputIcon} size={18} />
+                </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>Date of Birth*</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="date"
+                    name="dob"
+                    value={formData.dob}
+                    onChange={handleChange}
+                    className={styles.input}
+                    required
+                  />
+                  <Calendar className={styles.inputIcon} size={18} />
+                </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>Age*</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="number"
+                    name="age"
+                    value={formData.age}
+                    onChange={handleChange}
+                    min="1"
+                    className={styles.input}
+                    placeholder="Enter your age"
+                    required
+                  />
+                  <Hash className={styles.inputIcon} size={18} />
+                </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>Password*</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={styles.input}
+                    placeholder="Create a strong password"
+                    required
+                  />
+                  <Lock className={styles.inputIcon} size={18} />
+                  <button
+                    type="button"
+                    className={styles.passwordToggle}
+                    onClick={() => setShowPassword(!showPassword)}
+                    tabIndex={-1}
+                  >
+                    {showPassword ? "🙈" : "👁"}
+                  </button>
+                </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>Confirm Password*</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className={styles.input}
+                    placeholder="Confirm your password"
+                    required
+                  />
+                  <Lock className={styles.inputIcon} size={18} />
+                  <button
+                    type="button"
+                    className={styles.passwordToggle}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    tabIndex={-1}
+                  >
+                    {showConfirmPassword ? "🙈" : "👁"}
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" className={styles.submitButton} disabled={loading}>
+                {loading ? (
+                  <div className={styles.loadingContent}>
+                    <div className={styles.spinner}></div>
+                    <span>Creating Account...</span>
+                  </div>
+                ) : (
+                  <div className={styles.buttonContent}>
+                    <span>Create Account</span>
+                    <Shield size={20} />
+                  </div>
+                )}
+              </button>
+            </form>
+
+            <div className={styles.divider}>
+              <span>or sign up with</span>
             </div>
-          </div>
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Date of Birth*</label>
-            <div className={styles.inputIconWrapper}>
-              <input
-                type="date"
-                name="dob"
-                value={formData.dob}
-                onChange={handleChange}
-                className={styles.input}
-                required
-              />
-              <Calendar className={styles.inputIcon} size={18} />
-            </div>
-          </div>
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Age*</label>
-            <div className={styles.inputIconWrapper}>
-              <input
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                min="1"
-                className={styles.input}
-                required
-              />
-              <Hash className={styles.inputIcon} size={18} />
-            </div>
-          </div>
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Password*</label>
-            <div className={styles.inputIconWrapper}>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={styles.input}
-                required
-              />
-              <Lock className={styles.inputIcon} size={18} />
-              <button
-                type="button"
-                className={styles.inputIcon}
-                style={{ right: 36, background: 'none', border: 'none', cursor: 'pointer' }}
-                onClick={() => setShowPassword(!showPassword)}
-                tabIndex={-1}
-              >
-                {showPassword ? "🙈" : "👁"}
+
+            <div className={styles.socialButtons}>
+              <button className={styles.socialButton}>
+                <Facebook size={20} />
+              </button>
+              <button className={styles.socialButton}>
+                <FaGoogle size={20} />
+              </button>
+              <button className={styles.socialButton}>
+                <Apple size={20} />
               </button>
             </div>
-          </div>
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Confirm Password*</label>
-            <div className={styles.inputIconWrapper}>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className={styles.input}
-                required
-              />
-              <Lock className={styles.inputIcon} size={18} />
-              <button
-                type="button"
-                className={styles.inputIcon}
-                style={{ right: 36, background: 'none', border: 'none', cursor: 'pointer' }}
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                tabIndex={-1}
-              >
-                {showConfirmPassword ? "🙈" : "👁"}
-              </button>
+
+            <div className={styles.loginLink}>
+              <span>Already have an account? </span>
+              <button onClick={handleskip}>Login</button>
             </div>
           </div>
-          <button type="submit" className={styles.button} disabled={loading}>
-            {loading ? "Creating Account..." : "Create Account"}
-          </button>
-        </form>
-        <div className={styles.orDivider}><span>or sign up with</span></div>
-        <div className={styles.socialRow}>
-          <button className={styles.socialBtn}><Facebook size={20} /></button>
-          <button className={styles.socialBtn}><FaGoogle size={20} /></button>
-          <button className={styles.socialBtn}><Apple size={20} /></button>
         </div>
-        <div className={styles.linksRow}>
-          <span>Already have an account?</span>
-          <a href="/login" className={styles.smallLink}>Login</a>
+
+        {/* Right Panel */}
+        <div className={styles.rightPanel}>
+          <div className={styles.rightContent}>
+            <h2 className={styles.rightTitle}>Welcome to Mindful AI</h2>
+            <p className={styles.rightDescription}>
+              Join thousands of users who have transformed their mental wellness journey with our cutting-edge AI technology
+            </p>
+            <div className={styles.features}>
+              <div className={styles.feature}>
+                <Brain className={styles.featureIcon} />
+                <span className={styles.featureText}>AI-Powered Insights</span>
+              </div>
+              <div className={styles.feature}>
+                <Heart className={styles.featureIcon} />
+                <span className={styles.featureText}>Personalized Care</span>
+              </div>
+              <div className={styles.feature}>
+                <Shield className={styles.featureIcon} />
+                <span className={styles.featureText}>Privacy First</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div className={styles.rightPane} style={{ backgroundImage: `url(${mentalBg})` }} />
-  </div>
-);
+  );
 };
 
 export default Signup;

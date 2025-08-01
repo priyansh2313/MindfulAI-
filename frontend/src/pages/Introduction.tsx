@@ -1,4 +1,4 @@
-import { ArrowRight, Brain, Heart, Pause, Play, RotateCcw, Shield, Sparkles, Target, Zap } from "lucide-react";
+import { ArrowRight, Brain, Heart, Shield, Sparkles, Target, Zap } from "lucide-react";
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/Introduction.module.css";
@@ -127,7 +127,7 @@ export default function Introduction() {
 
       {/* Main Content */}
       <div className={styles.content}>
-        {/* Header */}
+        {/* Header - Logo Only */}
         <div className={styles.header}>
           <div className={styles.logoContainer}>
             <div className={styles.logoIcon}>
@@ -138,37 +138,6 @@ export default function Introduction() {
               <h1 className={styles.logoText}>Mindful AI</h1>
               <span className={styles.logoTagline}>Mental Wellness Revolution</span>
             </div>
-          </div>
-          
-          <div className={styles.headerCenter}>
-            <div className={styles.statusIndicator}>
-              <div className={styles.statusDot}></div>
-              <span className={styles.statusText}>AI Active</span>
-            </div>
-          </div>
-          
-          <div className={styles.controls}>
-            <button 
-              className={styles.controlBtn}
-              onClick={() => setIsPlaying(!isPlaying)}
-              title={isPlaying ? "Pause Experience" : "Start Experience"}
-            >
-              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-            </button>
-            <button 
-              className={styles.controlBtn}
-              title="Reset Experience"
-            >
-              <RotateCcw size={20} />
-            </button>
-            <div className={styles.controlDivider}></div>
-            <button className={styles.controlBtn} title="Settings">
-              <div className={styles.settingsIcon}>
-                <div className={styles.settingsDot}></div>
-                <div className={styles.settingsDot}></div>
-                <div className={styles.settingsDot}></div>
-              </div>
-            </button>
           </div>
         </div>
 
