@@ -1,4 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Nature Theme Global Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #f0f9f4;
+    color: #1e472e;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  .nature-gradient {
+    background: linear-gradient(135deg, #f0f9f4 0%, #dcf2e3 50%, #bce5c9 100%);
+  }
+  
+  .nature-card {
+    @apply bg-white rounded-2xl shadow-nature border border-nature-100/50 backdrop-blur-sm;
+  }
+  
+  .nature-button {
+    @apply bg-gradient-to-r from-nature-500 to-nature-600 text-white px-6 py-3 rounded-xl font-medium shadow-nature hover:shadow-nature-lg transition-all duration-300 hover:scale-105;
+  }
+  
+  .nature-button-outline {
+    @apply border-2 border-nature-500 text-nature-600 px-6 py-3 rounded-xl font-medium hover:bg-nature-50 transition-all duration-300;
+  }
+  
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+}
 
 .react-hot-toast {
-    font-family: 'Poppins, sans-serif';
+    font-family: 'Inter', sans-serif;
 }

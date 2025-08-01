@@ -1,112 +1,65 @@
 // src/components/DashboardFooter.tsx
-import { Brain, Github, Heart, Instagram, Linkedin, Sparkles, Twitter } from "lucide-react";
+import { Brain, Heart, Sparkles, Leaf, TreePine } from "lucide-react";
 import React from "react";
-import styles from "../styles/DashboardFooter.module.css";
 
 const DashboardFooter = () => {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.footerContent}>
-        {/* Main Footer Section */}
-        <div className={styles.mainSection}>
+    <footer className="bg-white/90 backdrop-blur-sm border-t border-nature-100 mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Main Footer Content */}
+        <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
-          <div className={styles.brandSection}>
-            <div className={styles.logoContainer}>
-              <Brain className={styles.logoIcon} />
-              <h3 className={styles.brandTitle}>Mindful AI</h3>
+          <div className="md:col-span-2">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-nature-400 to-nature-600 rounded-xl flex items-center justify-center shadow-nature">
+                <Brain className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-bold text-nature-800">Mindful</h3>
+                <p className="text-sm text-nature-500">Your path to emotional wellness</p>
+              </div>
             </div>
-            <p className={styles.brandDescription}>
-              Empowering mental wellness through AI-driven personalized care and support.
+            <p className="text-nature-600 mb-6 max-w-md leading-relaxed">
+              Empowering mental wellness through AI-driven personalized care and support. 
+              Your journey to emotional wellness begins with a single step, like planting seeds of peace.
             </p>
-            <div className={styles.socialLinks}>
-              <a
-                href="https://github.com/your-profile"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-                title="GitHub"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="https://twitter.com/your-handle"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-                title="Twitter"
-              >
-                <Twitter size={20} />
-              </a>
-              <a
-                href="https://instagram.com/your-handle"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-                title="Instagram"
-              >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="https://linkedin.com/in/your-profile"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.socialLink}
-                title="LinkedIn"
-              >
-                <Linkedin size={20} />
-              </a>
-            </div>
           </div>
 
-          {/* Quick Links Section */}
-          <div className={styles.linksSection}>
-            <h4 className={styles.sectionTitle}>Quick Links</h4>
-            <ul className={styles.linksList}>
-              <li><a href="/dashboard" className={styles.footerLink}>Dashboard</a></li>
-              <li><a href="/profile" className={styles.footerLink}>My Profile</a></li>
-              <li><a href="/journal" className={styles.footerLink}>Journal</a></li>
-              <li><a href="/music" className={styles.footerLink}>Music Therapy</a></li>
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-display font-semibold text-nature-800 mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              <li><a href="/dashboard" className="text-nature-600 hover:text-nature-700 transition-colors">Dashboard</a></li>
+              <li><a href="/profile" className="text-nature-600 hover:text-nature-700 transition-colors">My Profile</a></li>
+              <li><a href="/journal" className="text-nature-600 hover:text-nature-700 transition-colors">Journal</a></li>
+              <li><a href="/music" className="text-nature-600 hover:text-nature-700 transition-colors">Music Therapy</a></li>
             </ul>
           </div>
 
-          {/* Features Section */}
-          <div className={styles.linksSection}>
-            <h4 className={styles.sectionTitle}>Features</h4>
-            <ul className={styles.linksList}>
-              <li><a href="/chat" className={styles.footerLink}>AI Chat Support</a></li>
-              <li><a href="/mood-tracking" className={styles.footerLink}>Mood Tracking</a></li>
-              <li><a href="/meditation" className={styles.footerLink}>Meditation</a></li>
-              <li><a href="/community" className={styles.footerLink}>Community</a></li>
-            </ul>
-          </div>
-
-          {/* Support Section */}
-          <div className={styles.linksSection}>
-            <h4 className={styles.sectionTitle}>Support</h4>
-            <ul className={styles.linksList}>
-              <li><a href="/help" className={styles.footerLink}>Help Center</a></li>
-              <li><a href="/contact" className={styles.footerLink}>Contact Us</a></li>
-              <li><a href="/privacy" className={styles.footerLink}>Privacy Policy</a></li>
-              <li><a href="/terms" className={styles.footerLink}>Terms of Service</a></li>
+          {/* Support */}
+          <div>
+            <h4 className="font-display font-semibold text-nature-800 mb-4">Support</h4>
+            <ul className="space-y-2">
+              <li><a href="/help" className="text-nature-600 hover:text-nature-700 transition-colors">Help Center</a></li>
+              <li><a href="/contact" className="text-nature-600 hover:text-nature-700 transition-colors">Contact Us</a></li>
+              <li><a href="/privacy" className="text-nature-600 hover:text-nature-700 transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms" className="text-nature-600 hover:text-nature-700 transition-colors">Terms of Service</a></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className={styles.bottomSection}>
-          <div className={styles.bottomContent}>
-            <div className={styles.copyright}>
-              <p>© 2024 Mindful AI. All rights reserved.</p>
+        <div className="border-t border-nature-200 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="text-nature-500 text-sm">
+              © 2024 Mindful. All rights reserved.
             </div>
             
-            <div className={styles.developerCredit}>
-              <div className={styles.creditContainer}>
-                <Sparkles className={styles.creditIcon} />
-                <span className={styles.creditText}>
-                  Developed with <Heart className={styles.heartIcon} /> by 
-                  <span className={styles.teamName}> Team MindfulAI</span>
-                </span>
-              </div>
+            <div className="flex items-center space-x-2 text-nature-500 text-sm">
+              <Sparkles className="w-4 h-4" />
+              <span>Developed with</span>
+              <Heart className="w-4 h-4 text-red-500" />
+              <span>by Team MindfulAI</span>
             </div>
           </div>
         </div>

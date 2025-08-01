@@ -1,252 +1,112 @@
-import { Brain, Heart, Shield, Sparkles, Target, Zap } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { Heart, Leaf, Menu, Shield, X } from 'lucide-react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/Header.module.css';
-
-// Add Google Fonts link to index.html for 'Merriweather' if not already present
-// <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 
 const Header = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [particles, setParticles] = useState<Array<{x: number, y: number, vx: number, vy: number, life: number}>>([]);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
-
-  // Animated background particles
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = 80; // Header height
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Update and draw particles
-      particles.forEach((particle, index) => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        particle.life -= 0.02;
-
-        if (particle.life > 0) {
-          ctx.beginPath();
-          ctx.arc(particle.x, particle.y, 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(127, 142, 252, ${particle.life * 0.6})`;
-          ctx.fill();
-        } else {
-          particles.splice(index, 1);
-        }
-      });
-
-      // Add new particles
-      if (particles.length < 15) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 1,
-          vy: (Math.random() - 0.5) * 1,
-          life: 1
-        });
-      }
-
-      requestAnimationFrame(animate);
-    };
-
-    animate();
-  }, [particles]);
-
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    if (isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleEscapeKey);
-      // Prevent body scroll when menu is open
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'auto';
-    };
-  }, [isMobileMenuOpen]);
-
-  const toggleMobileMenu = () => {
-    console.log('Toggle mobile menu:', !isMobileMenuOpen); // Debug log
-    const newState = !isMobileMenuOpen;
-    setIsMobileMenuOpen(newState);
-    console.log('Mobile menu state changed to:', newState);
-    
-    // Force a re-render
-    setTimeout(() => {
-      console.log('Mobile menu element:', mobileMenuRef.current);
-      console.log('Mobile menu classes:', mobileMenuRef.current?.className);
-      console.log('Mobile menu display:', mobileMenuRef.current?.style.display);
-      console.log('Mobile menu position:', mobileMenuRef.current?.style.position);
-      console.log('Mobile menu dimensions:', {
-        width: mobileMenuRef.current?.style.width,
-        height: mobileMenuRef.current?.style.height,
-        top: mobileMenuRef.current?.style.top,
-        left: mobileMenuRef.current?.style.left
-      });
-      console.log('Mobile menu computed styles:', {
-        width: window.getComputedStyle(mobileMenuRef.current!).width,
-        height: window.getComputedStyle(mobileMenuRef.current!).height,
-        position: window.getComputedStyle(mobileMenuRef.current!).position
-      });
-    }, 100);
-  };
 
   const handleNavigation = (path: string) => {
     navigate(path);
     setIsMobileMenuOpen(false);
   };
 
-  const closeMobileMenu = () => {
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleFindSupportNearby = () => {
+    // Open Google Maps with mental health professionals search
+    const searchQuery = encodeURIComponent('mental health professionals near me');
+    window.open(`https://www.google.com/maps/search/${searchQuery}`, '_blank');
+  };
+
+  const handleMyProfile = () => {
+    navigate('/profile');
     setIsMobileMenuOpen(false);
   };
 
-  // Mobile menu component
-  const MobileMenu = () => (
-    <div 
-      ref={mobileMenuRef}
-      className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}
-    >
-      {/* Close button */}
-      <button 
-        onClick={closeMobileMenu}
-        className={styles.mobileMenuClose}
-        aria-label="Close mobile menu"
-      >
-        ✕
-      </button>
-      
-      <button
-        onClick={() => handleNavigation('/profile')}
-        className={styles.mobileMenuItem}
-      >
-        <Heart size={18} />
-        <span>My Wellbeing Profile</span>
-      </button>
-      <a
-        href="https://www.google.com/maps/search/mental+health+professionals+near+me"
-        className={styles.mobileMenuItem}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Shield size={18} />
-        <span>Find Support Nearby</span>
-      </a>
-      <button
-        onClick={() => handleNavigation('/')}
-        className={styles.mobileMenuItem}
-      >
-        <Target size={18} />
-        <span>Sign Out</span>
-      </button>
-    </div>
-  );
-
   return (
-    <>
-      <header className={styles.header}>
-        {/* Animated Background Canvas */}
-        <canvas ref={canvasRef} className={styles.backgroundCanvas} />
-        
-        {/* Floating Icons */}
-        <div className={styles.floatingIcons}>
-          <div className={styles.floatingIcon} style={{ animationDelay: '0s' }}>
-            <Sparkles size={16} />
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-nature-500 rounded-lg flex items-center justify-center">
+              <Leaf className="w-5 h-5 text-white" />
+            </div>
+            <h1 className="text-xl font-display font-bold text-nature-800">Mindful AI</h1>
           </div>
-          <div className={styles.floatingIcon} style={{ animationDelay: '2s' }}>
-            <Zap size={16} />
-          </div>
-          <div className={styles.floatingIcon} style={{ animationDelay: '4s' }}>
-            <Brain size={16} />
-          </div>
-        </div>
 
-        {/* Logo Section */}
-        <div className={styles.logoSection}>
-          <div className={styles.logoContainer}>
-            <div className={styles.logoIcon}>
-              <Brain className={styles.logoBrain} />
-              <div className={styles.logoGlow}></div>
-            </div>
-            <div className={styles.logoTextContainer}>
-              <h1 className={styles.logo}>MINDFUL AI</h1>
-              <span className={styles.logoTagline}>Mental Wellness Revolution</span>
-            </div>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <a href="#" className="text-nature-800 font-medium border-b-2 border-nature-500 pb-1">Home</a>
+            <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">How It Works</a>
+            <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">Features</a>
+            <a href="#" className="text-nature-600 hover:text-nature-800 transition-colors">Contact</a>
+          </nav>
+
+          {/* Action Buttons */}
+          <div className="hidden md:flex items-center space-x-4">
+            <button 
+              onClick={handleFindSupportNearby}
+              className="flex items-center space-x-2 text-nature-600 hover:text-nature-800 transition-colors"
+            >
+              <Shield size={16} />
+              <span>Find Support Nearby</span>
+            </button>
+            <button 
+              onClick={handleMyProfile}
+              className="flex items-center space-x-2 text-nature-600 hover:text-nature-800 transition-colors"
+            >
+              <Heart size={16} />
+              <span>My Profile</span>
+            </button>
+            
           </div>
-        </div>
-        
-        {/* Desktop Navigation */}
-        <div className={styles.controls}>
-          <a
-            href="https://www.google.com/maps/search/mental+health+professionals+near+me"
-            className={styles.link}
-            title="Find Support Nearby"
-          >
-            <Shield size={16} />
-            <span>Find Support Nearby</span>
-          </a>
+
+          {/* Mobile Menu Button */}
           <button
-            onClick={() => handleNavigation('/profile')}
-            className={styles.link}
-            title="My Wellbeing Profile"
+            onClick={toggleMobileMenu}
+            className="md:hidden p-2 rounded-lg text-nature-600 hover:text-nature-800 transition-colors"
           >
-            <Heart size={16} />
-            <span>My Wellbeing Profile</span>
-          </button>
-          <button
-            onClick={() => handleNavigation('/')}
-            className={styles.link}
-            title="Sign Out"
-          >
-            <Target size={16} />
-            <span>Sign Out</span>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Menu Toggle */}
-        <button 
-          className={`${styles.menuToggle} ${isMobileMenuOpen ? styles.open : ''}`}
-          onClick={toggleMobileMenu}
-          aria-label="Toggle mobile menu"
-          aria-expanded={isMobileMenuOpen}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </header>
-
-      {/* Render mobile menu as portal to body */}
-      {isMobileMenuOpen && createPortal(
-        <MobileMenu />,
-        document.body
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-nature-100">
+          <div className="px-4 py-6 space-y-4">
+            <a href="#" className="block text-nature-800 font-medium border-b-2 border-nature-500 pb-1">Home</a>
+            <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">How It Works</a>
+            <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">Features</a>
+            <a href="#" className="block text-nature-600 hover:text-nature-800 transition-colors">Contact</a>
+            <div className="pt-4 border-t border-nature-100 space-y-3">
+              <button 
+                onClick={handleFindSupportNearby}
+                className="flex items-center space-x-3 text-nature-600 hover:text-nature-800 transition-colors py-2 w-full text-left"
+              >
+                <Shield size={20} />
+                <span>Find Support Nearby</span>
+              </button>
+              <button 
+                onClick={handleMyProfile}
+                className="flex items-center space-x-3 text-nature-600 hover:text-nature-800 transition-colors py-2 w-full text-left"
+              >
+                <Heart size={20} />
+                <span>My Profile</span>
+              </button>
+              <button className="block w-full text-left text-nature-600 hover:text-nature-800 transition-colors py-2">
+                Sign In
+              </button>
+              
+            </div>
+          </div>
+        </div>
       )}
-    </>
+    </header>
   );
 };
 
