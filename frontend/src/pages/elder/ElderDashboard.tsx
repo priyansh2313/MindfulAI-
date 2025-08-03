@@ -1,13 +1,13 @@
 import { Brain, Flower2, Heart, Leaf, Sparkles, Sun, TreePine } from 'lucide-react';
 import React, { useState } from 'react';
+import ServicesGrid from '../../components/elder/ServicesGrid';
 import EvaluationCard from '../../components/EvaluationCard';
 import Header from '../../components/Header';
 import Hero from '../../components/Hero';
 import LearningSummaryCard from '../../components/LearningSummaryCard';
 import Recommendations from '../../components/Recommendations';
-import ServicesGrid from '../../components/ServicesGrid';
 import WellnessActivitiesSummary from '../../components/Widgets/WellnessActivitiesSummary';
-import styles from '../../styles/Dashboard.module.css';
+import styles from '../../styles/elder/Dashboard.module.css';
 import FloatingChatbot from '../FloatingChatbot';
 import FloatingLeaves from '../FloatingLeaves';
 

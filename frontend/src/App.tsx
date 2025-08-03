@@ -51,7 +51,7 @@ function App() {
           <Route path="/case-history" element={<CaseHistory />} />
           <Route path="/SleepCycleSection" element={<SleepCycleSection />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/elder-dashboard" element={<ElderDashboard />} />
+          <Route path="/elder-dashboard" element={user ? <><ElderDashboard /><DashboardFooter/></> : <Navigate to="/login" />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           {/* <Route path="/gratitudeJournal" element={<GratitudeJournal />} /> */}
         </Routes>
