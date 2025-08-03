@@ -13,7 +13,7 @@ const wellnessServices = [
   { title: 'Peaceful Music', desc: 'Listen to calming sounds and meditation', icon: <Music className={styles.serviceIcon} />, path: '/music' },
   { title: 'Encyclopedia', desc: 'Learn about mental health and wellness', icon: <Brain className={styles.serviceIcon} />, path: '/encyclopedia' },
   { title: 'Daily Activities', desc: 'Mindfulness exercises and practices', icon: <Activity className={styles.serviceIcon} />, path: '/daily-activities' },
-  {title:'emotional support',desc:'Get instant emotional support',icon:<Heart className={styles.serviceIcon} />,path:'/emotional-support'}
+  { title: 'Care Connect', desc: 'Share health wins, ask for help, and respond to family check-ins', icon: <Heart className={styles.serviceIcon} />, path: '/care-connect' }
 ];
 
 export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover?: (title: string) => void, onCardLeave?: () => void }) {

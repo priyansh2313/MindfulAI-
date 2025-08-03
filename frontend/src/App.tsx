@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import 'regenerator-runtime/runtime';
 import DashboardFooter from './components/DashboardFooter';
+import CareConnect from './components/elder/CareConnect/CareConnectDashboard';
 import FloatingMusicPlayer from './components/FloatingMusicPlayer';
 import { MusicProvider } from './components/MusicContext';
 import SleepCycleSection from './components/SleepCycleSection';
+import CareConnectTest from './pages/CareConnectTest';
 import CaseHistory from './pages/CaseHistory';
 import Community from './pages/Community';
 import DailyActivities from "./pages/DailyActivities";
@@ -53,6 +55,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/elder-dashboard" element={user ? <><ElderDashboard /><DashboardFooter/></> : <Navigate to="/login" />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/care-connect" element={user ? <CareConnect /> : <Navigate to="/login" />} />
+          <Route path="/care-connect-test" element={<CareConnectTest />} />
           {/* <Route path="/gratitudeJournal" element={<GratitudeJournal />} /> */}
         </Routes>
         <FloatingMusicPlayer />
