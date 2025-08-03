@@ -1974,4 +1974,991 @@
   color: #92400e;
   margin: 0;
   font-weight: 500;
+}
+
+/* Loading State */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-size: 20px;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+/* Error State */
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 40px;
+}
+
+.errorIcon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.errorTitle {
+  font-size: 28px;
+  color: #1e293b;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.errorMessage {
+  font-size: 18px;
+  color: #64748b;
+  margin-bottom: 30px;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.retryButton {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-height: 60px;
+  min-width: 120px;
+}
+
+.retryButton:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.retryButton:active {
+  transform: translateY(0);
+}
+
+/* Invite Button */
+.inviteButton {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.inviteButton .actionIcon {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.inviteButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+/* Family Invitation Container */
+.familyInvitationContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 1.5rem;
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+}
+
+.invitationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.invitationHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.invitationHeaderIcon {
+  width: 3.5rem;
+  height: 3.5rem;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.invitationHeaderIconInner {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.invitationHeaderText {
+  display: flex;
+  flex-direction: column;
+}
+
+.invitationHeaderTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.invitationHeaderSubtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin: 0;
+  margin-top: 0.25rem;
+}
+
+/* Quick Actions */
+.quickActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.quickActionButton {
+  flex: 1;
+  padding: 1rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+}
+
+.quickActionButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  transform: translateY(-1px);
+}
+
+.quickActionIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Invitation Form */
+.invitationForm {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.formHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.formSubtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.inviteCard {
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.inviteCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.inviteCardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.removeInviteButton {
+  padding: 0.5rem 1rem;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.removeInviteButton:hover {
+  background: #dc2626;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fieldIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+}
+
+.inputWrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #1e293b;
+  background: white;
+  transition: all 0.3s ease;
+  min-height: 3rem;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 4rem;
+}
+
+.voiceButton {
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: white;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.voiceButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.voiceButton.listening {
+  border-color: #ef4444;
+  color: #ef4444;
+  animation: pulse 2s infinite;
+}
+
+/* Quick Messages */
+.quickMessages {
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.quickMessagesTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+}
+
+.quickMessageButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quickMessageButton {
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.quickMessageButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  background: #f8fafc;
+}
+
+.addInviteButton {
+  padding: 1rem 2rem;
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+}
+
+.addInviteButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  background: #f8fafc;
+}
+
+.addIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.formActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sendInvitationButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+}
+
+.sendInvitationButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+.sendInvitationButton:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.sendIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.secondaryActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.templateButton,
+.pendingButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+}
+
+.templateButton:hover,
+.pendingButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.templateIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Success Actions */
+.successActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.successActionButton {
+  padding: 1rem 2rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+}
+
+.successActionButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  transform: translateY(-1px);
+}
+
+.successActionIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Templates Container */
+.templatesContainer {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.templatesHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.templatesHeaderContent {
+  flex: 1;
+}
+
+.templatesHeaderTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.templatesHeaderSubtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.templatesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.templateCard {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.templateCard:hover {
+  border-color: #8b5cf6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.templateCard.selected {
+  border-color: #8b5cf6;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.templateCardHeader {
+  padding: 1.5rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.templateCardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.categoryIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.templateCardContent {
+  padding: 1.5rem;
+}
+
+.templateCardMessage {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.templateCardCategory {
+  font-size: 0.75rem;
+  color: #8b5cf6;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.templateSelectedIndicator {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.templateSelectedIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.templateActions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.useTemplateButton,
+.customizeTemplateButton {
+  flex: 1;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+}
+
+.useTemplateButton {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  border: none;
+}
+
+.useTemplateButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+.customizeTemplateButton {
+  background: white;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+}
+
+.customizeTemplateButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.useTemplateIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.templatesFooter {
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.templatesFooterText {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+}
+
+/* Pending Invitations */
+.pendingInvitationsContainer {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.pendingHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.pendingHeaderContent {
+  flex: 1;
+}
+
+.pendingHeaderTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.pendingHeaderSubtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.pendingSection,
+.otherSection {
+  margin-bottom: 2rem;
+}
+
+.pendingSectionTitle,
+.otherSectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pendingSectionIcon,
+.otherSectionIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #f59e0b;
+}
+
+.otherSectionIcon {
+  color: #10b981;
+}
+
+.invitationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.invitationCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.invitationCard:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.invitationCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.invitationInfo {
+  flex: 1;
+}
+
+.invitationName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+}
+
+.invitationEmail {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0 0 0.25rem 0;
+}
+
+.invitationRelationship {
+  font-size: 0.875rem;
+  color: #8b5cf6;
+  font-weight: 500;
+  margin: 0;
+}
+
+.invitationStatus {
+  display: flex;
+  align-items: center;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+}
+
+.statusIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.statusText {
+  text-transform: capitalize;
+}
+
+.invitationMessage {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.messageText {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.invitationMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.metaIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-right: 0.25rem;
+}
+
+.invitationDate,
+.invitationExpiry,
+.invitationAccepted {
+  display: flex;
+  align-items: center;
+}
+
+.expiredText {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.invitationActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.resendButton,
+.cancelButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.5rem;
+}
+
+.resendButton {
+  background: #f59e0b;
+  color: white;
+  border: none;
+}
+
+.resendButton:hover {
+  background: #d97706;
+}
+
+.cancelButton {
+  background: #ef4444;
+  color: white;
+  border: none;
+}
+
+.cancelButton:hover {
+  background: #dc2626;
+}
+
+.resendIcon,
+.cancelIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.emptyStateIcon {
+  width: 4rem;
+  height: 4rem;
+  color: #cbd5e1;
+  margin: 0 auto 1rem;
+}
+
+.emptyStateTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 0.5rem 0;
+}
+
+.emptyStateMessage {
+  font-size: 1rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.invitationsSummary {
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.summaryItem {
+  text-align: center;
+}
+
+.summaryLabel {
+  display: block;
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.summaryValue {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
 } 

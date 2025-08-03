@@ -1,31 +1,42 @@
-import { Calendar, Heart, HelpCircle, Mic, MicOff, Share2 } from 'lucide-react';
-import React, { useState } from 'react';
+import { Calendar, Heart, HelpCircle, Mic, MicOff, Share2, Users } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useCareConnect } from '../../../hooks/useCareConnect';
 import styles from '../../../styles/elder/CareConnect.module.css';
+import careConnectAnalytics from '../../../utils/careConnectAnalytics';
 import AskForHelp from './AskForHelp/AskForHelpMain';
+import FamilyInvitationMain from './FamilyInvitation/FamilyInvitationMain';
 import HealthCheckins from './HealthCheckins/CheckinReceiver';
 import ShareHealthWin from './ShareHealthWin/ShareHealthWinMain';
-
-// Mock data for demonstration
-const mockFamilyMembers = [
-  { id: '1', name: 'Sarah Johnson', relationship: 'Daughter', isOnline: true, avatar: 'SJ' },
-  { id: '2', name: 'Michael Johnson', relationship: 'Son', isOnline: false, avatar: 'MJ' },
-  { id: '3', name: 'Emma Johnson', relationship: 'Granddaughter', isOnline: true, avatar: 'EJ' },
-];
-
-const mockRecentActivity = [
-  { id: '1', type: 'win', message: 'Went for a walk today', timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), familyMember: 'Sarah Johnson' },
-  { id: '2', type: 'help', message: 'Need help with medication schedule', timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), familyMember: 'Michael Johnson' },
-  { id: '3', type: 'checkin', message: 'Weekly health check-in', timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), familyMember: 'Emma Johnson' },
-];
 
 interface CareConnectDashboardProps {
   onComplete?: () => void;
 }
 
 export default function CareConnectDashboard({ onComplete }: CareConnectDashboardProps) {
-  const [activeFeature, setActiveFeature] = useState<'share' | 'help' | 'checkin' | null>(null);
+  const [activeFeature, setActiveFeature] = useState<'share' | 'help' | 'checkin' | 'invite' | null>(null);
   const [isListening, setIsListening] = useState(false);
   const [voiceInput, setVoiceInput] = useState('');
+  
+  // Use the Care Connect hook for real data
+  const {
+    familyMembers,
+    recentActivity,
+    loading,
+    error,
+    user,
+    subscribeToNotifications,
+    refreshData,
+  } = useCareConnect();
+
+  // Subscribe to notifications on mount
+  useEffect(() => {
+    subscribeToNotifications();
+  }, [subscribeToNotifications]);
+
+  // Track analytics when component mounts
+  useEffect(() => {
+    careConnectAnalytics.trackFeatureUsage('dashboard', 'view', true);
+  }, []);
 
   // Voice recognition setup
   const startListening = () => {
@@ -92,6 +103,41 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
     return <HealthCheckins onComplete={handleFeatureComplete} />;
   }
 
+  if (activeFeature === 'invite') {
+    return <FamilyInvitationMain onComplete={handleFeatureComplete} />;
+  }
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className={styles.careConnectContainer}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}></div>
+          <p className={styles.loadingText}>Loading your family connections...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className={styles.careConnectContainer}>
+        <div className={styles.errorContainer}>
+          <div className={styles.errorIcon}>⚠️</div>
+          <h2 className={styles.errorTitle}>Connection Issue</h2>
+          <p className={styles.errorMessage}>{error}</p>
+          <button 
+            className={styles.retryButton}
+            onClick={refreshData}
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.careConnectContainer}>
       {/* Header */}
@@ -156,13 +202,26 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
             <p className={styles.actionDescription}>Respond to family check-ins</p>
           </div>
         </button>
+
+        <button 
+          className={`${styles.actionButton} ${styles.inviteButton}`}
+          onClick={() => setActiveFeature('invite')}
+        >
+          <div className={styles.actionIcon}>
+            <Users className={styles.actionIconInner} />
+          </div>
+          <div className={styles.actionContent}>
+            <h3 className={styles.actionTitle}>Invite Family</h3>
+            <p className={styles.actionDescription}>Invite family members to join your care circle</p>
+          </div>
+        </button>
       </div>
 
       {/* Family Status */}
       <div className={styles.familyStatus}>
         <h2 className={styles.familyStatusTitle}>Family Status</h2>
         <div className={styles.familyMembers}>
-          {mockFamilyMembers.map(member => (
+          {familyMembers.map(member => (
             <div key={member.id} className={styles.familyMember}>
               <div className={`${styles.memberAvatar} ${member.isOnline ? styles.online : styles.offline}`}>
                 <span className={styles.memberInitials}>{member.avatar}</span>
@@ -184,7 +243,7 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
       <div className={styles.recentActivity}>
         <h2 className={styles.recentActivityTitle}>Recent Activity</h2>
         <div className={styles.activityList}>
-          {mockRecentActivity.map(activity => (
+          {recentActivity.map(activity => (
             <div key={activity.id} className={styles.activityItem}>
               <div className={`${styles.activityIcon} ${styles[`activity${activity.type}`]}`}>
                 {activity.type === 'win' && <Share2 className={styles.activityIconInner} />}

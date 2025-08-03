@@ -1,9 +1,9 @@
 import { Brain, Flower2, Heart, Leaf, Sparkles, Sun, TreePine } from 'lucide-react';
 import React, { useState } from 'react';
-import ServicesGrid from '../../components/elder/ServicesGrid';
+import Header from '../../components/elder/Header';
+import Hero from '../../components/elder/Hero';
+import ServicesGrid from '../../components/elder/servicesGrid';
 import EvaluationCard from '../../components/EvaluationCard';
-import Header from '../../components/Header';
-import Hero from '../../components/Hero';
 import LearningSummaryCard from '../../components/LearningSummaryCard';
 import Recommendations from '../../components/Recommendations';
 import WellnessActivitiesSummary from '../../components/Widgets/WellnessActivitiesSummary';
