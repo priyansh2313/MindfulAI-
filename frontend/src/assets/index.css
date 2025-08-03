@@ -2,14 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 :root{
-    height: 100dvh;
-    width: 100dvw;
-    /* overflow: hidden; */
-    position: absolute;
-    top: 0;
-    z-index: 999;
+    height: 100vh;
+    width: 100vw;
     margin: 0;
+    padding: 0;
+}
+
+/* Mobile-specific viewport handling */
+@media (max-width: 768px) {
+  :root {
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  body {
+    overflow-x: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 ::-webkit-scrollbar {

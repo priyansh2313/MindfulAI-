@@ -1,11 +1,16 @@
 /* Dashboard Styles */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* Mobile-specific container reset */
 .container {
   min-height: 100vh;
   background: linear-gradient(135deg, #f0f9f4 0%, #dcf2e3 50%, #bce5c9 100%);
   position: relative;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .backgroundPattern {
@@ -755,6 +760,25 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .container {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .mainContent {
+    padding: 1rem 0.5rem;
+    margin: 0;
+    width: 100%;
+  }
+
+  .servicesSection {
+    padding: 1rem 0.5rem;
+    margin: 0;
+  }
+
   .heroButtons {
     flex-direction: column;
   }
@@ -770,22 +794,64 @@
   .floatingElement {
     display: none;
   }
+
+  .heroCard,
+  .analyticsCard,
+  .wellnessCard,
+  .recommendationsCard,
+  .testimonialCard,
+  .ctaCard {
+    margin: 0 0.5rem 1rem 0.5rem;
+    border-radius: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .container {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+  }
+
+  .mainContent {
+    padding: 0.5rem;
+    margin: 0;
+  }
+
+  .servicesSection {
+    padding: 0.5rem;
+    margin: 0;
+  }
+
   .heroCard {
-    padding: 1.5rem;
+    padding: 1rem;
+    margin: 0 0.25rem 0.5rem 0.25rem;
   }
   
   .analyticsCard,
   .wellnessCard,
   .recommendationsCard {
-    padding: 1.5rem;
+    padding: 1rem;
+    margin: 0 0.25rem 0.5rem 0.25rem;
   }
   
   .testimonialCard,
   .ctaCard {
-    padding: 1.5rem;
+    padding: 1rem;
+    margin: 0 0.25rem 0.5rem 0.25rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
   }
 }
 

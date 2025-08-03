@@ -1,4 +1,4 @@
-/* Signup.module.css - Modern, Eye-Catching Design */
+/* Magical Signup.module.css - Enhanced with Modern Animations */
 
 .container {
   min-height: 100vh;
@@ -9,7 +9,7 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Animated Background */
+/* Enhanced Animated Background */
 .container::before {
   content: '';
   position: absolute;
@@ -18,18 +18,45 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
-  animation: backgroundShift 20s ease-in-out infinite;
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  animation: backgroundShift 25s ease-in-out infinite;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.05) 2px, transparent 2px);
+  background-size: 50px 50px, 100px 100px;
+  animation: shimmer 20s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @keyframes backgroundShift {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.1) rotate(1deg); }
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 0.8;
+  }
+  50% { 
+    transform: scale(1.2) rotate(2deg); 
+    opacity: 1;
+  }
 }
 
-/* Floating Particles */
+@keyframes shimmer {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* Enhanced Floating Particles */
 .particles {
   position: absolute;
   top: 0;
@@ -42,28 +69,41 @@
 
 .particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.8);
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
   border-radius: 50%;
-  animation: float 6s ease-in-out infinite;
+  animation: float 8s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-.particle:nth-child(2) { left: 20%; animation-delay: 1s; }
-.particle:nth-child(3) { left: 30%; animation-delay: 2s; }
-.particle:nth-child(4) { left: 40%; animation-delay: 3s; }
-.particle:nth-child(5) { left: 50%; animation-delay: 4s; }
-.particle:nth-child(6) { left: 60%; animation-delay: 5s; }
-.particle:nth-child(7) { left: 70%; animation-delay: 6s; }
-.particle:nth-child(8) { left: 80%; animation-delay: 7s; }
-.particle:nth-child(9) { left: 90%; animation-delay: 8s; }
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 6s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 1s; animation-duration: 7s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 2s; animation-duration: 8s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 3s; animation-duration: 6.5s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 4s; animation-duration: 7.5s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 8.5s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 6s; animation-duration: 6s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 7s; animation-duration: 7s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 8s; animation-duration: 8s; }
 
 @keyframes float {
-  0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-100px) scale(1); opacity: 0; }
+  0%, 100% { 
+    transform: translateY(100vh) scale(0) rotate(0deg); 
+    opacity: 0; 
+  }
+  10% { 
+    opacity: 1; 
+    transform: translateY(90vh) scale(1) rotate(10deg);
+  }
+  90% { 
+    opacity: 1; 
+    transform: translateY(10vh) scale(1) rotate(-10deg);
+  }
+  100% { 
+    transform: translateY(-100px) scale(0) rotate(0deg); 
+    opacity: 0; 
+  }
 }
 
 /* Main Layout */
@@ -86,6 +126,7 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   position: relative;
+  min-height: 100vh;
 }
 
 .formCard {
@@ -96,11 +137,11 @@
   border-radius: 24px;
   padding: 3rem 2rem;
   box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.1),
-    0 8px 16px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
-  overflow: hidden;
+  animation: slideUp 0.8s ease-out;
 }
 
 .formCard::before {
@@ -109,20 +150,32 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-  border-radius: 24px 24px 0 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border-radius: 24px;
+  pointer-events: none;
 }
 
-/* Logo Section */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .logoSection {
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .logoContainer {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -131,18 +184,19 @@
   width: 60px;
   height: 60px;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 50%;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
   animation: logoPulse 3s ease-in-out infinite;
 }
 
 .logoIcon svg {
+  width: 32px;
+  height: 32px;
   color: white;
-  width: 28px;
-  height: 28px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 @keyframes logoPulse {
@@ -158,24 +212,23 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .logoTagline {
   font-size: 0.9rem;
   color: #6b7280;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
 }
 
-/* Form Header */
 .formHeader {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .formTitle {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 0.5rem;
@@ -188,17 +241,16 @@
 .formSubtitle {
   font-size: 1.1rem;
   color: #6b7280;
-  font-weight: 500;
   margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .formDescription {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #9ca3af;
   line-height: 1.5;
 }
 
-/* Form Elements */
 .form {
   display: flex;
   flex-direction: column;
@@ -215,6 +267,7 @@
   font-weight: 600;
   color: #374151;
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .inputWrapper {
@@ -232,20 +285,27 @@
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
-  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .input:focus {
+  outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .inputIcon {
   position: absolute;
   left: 1rem;
-  color: #667eea;
+  color: #9ca3af;
+  transition: color 0.3s ease;
   z-index: 2;
+}
+
+.input:focus + .inputIcon {
+  color: #667eea;
 }
 
 .passwordToggle {
@@ -263,7 +323,6 @@
   transform: scale(1.1);
 }
 
-/* Submit Button */
 .submitButton {
   width: 100%;
   padding: 1rem 2rem;
@@ -271,13 +330,13 @@
   color: white;
   border: none;
   border-radius: 12px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  margin-top: 1rem;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
 .submitButton::before {
@@ -297,12 +356,14 @@
 
 .submitButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
 }
 
 .submitButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  transform: none;
 }
 
 .buttonContent {
@@ -333,24 +394,29 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Error Message */
 .error {
-  background: rgba(239, 68, 68, 0.1);
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border: 1px solid #fecaca;
   color: #dc2626;
   padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
   font-size: 0.9rem;
-  margin-bottom: 1rem;
+  font-weight: 500;
   text-align: center;
+  animation: shake 0.5s ease-in-out;
 }
 
-/* Divider */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
 .divider {
   position: relative;
   text-align: center;
   margin: 2rem 0;
-  color: #6b7280;
+  color: #9ca3af;
   font-size: 0.9rem;
 }
 
@@ -371,52 +437,97 @@
   z-index: 1;
 }
 
-/* Social Buttons */
 .socialButtons {
   display: flex;
-  justify-content: center;
   gap: 1rem;
+  justify-content: center;
   margin-bottom: 2rem;
 }
 
 .socialButton {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
   border: 2px solid #e5e7eb;
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: #6b7280;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .socialButton:hover {
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 0.95);
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
-  border-color: #667eea;
-  color: #667eea;
 }
 
-/* Login Link */
+.socialButton img {
+  width: 20px;
+  height: 20px;
+}
+
 .loginLink {
   text-align: center;
-  color: #6b7280;
   font-size: 0.9rem;
+  color: #6b7280;
 }
 
 .loginLink a {
   color: #667eea;
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .loginLink a:hover {
-  color: #764ba2;
+  color: #5a67d8;
+  text-decoration: underline;
+}
+
+/* Age Info Styles */
+.ageInfo {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.elderInfo {
+  color: #7c3aed;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #7c3aed;
+}
+
+.regularInfo {
+  color: #059669;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(5, 150, 105, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #059669;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Right Panel */
@@ -425,127 +536,134 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
   position: relative;
-  overflow: hidden;
 }
 
 .rightContent {
   text-align: center;
-  color: white;
-  z-index: 2;
-  position: relative;
-  padding: 2rem;
+  max-width: 500px;
+  animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .rightTitle {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
+  color: white;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .rightDescription {
-  font-size: 1.2rem;
-  margin-bottom: 3rem;
-  opacity: 0.9;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
+  margin-bottom: 2rem;
 }
 
 .features {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 400px;
-  margin: 0 auto;
+  gap: 1rem;
 }
 
 .feature {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .feature:hover {
-  transform: translateX(10px);
   background: rgba(255, 255, 255, 0.15);
+  transform: translateX(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .featureIcon {
-  color: white;
   width: 24px;
   height: 24px;
+  color: white;
   flex-shrink: 0;
 }
 
 .featureText {
-  font-size: 1rem;
+  color: white;
   font-weight: 500;
+  font-size: 1rem;
 }
 
-/* Responsive Design */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .container {
-    min-height: 100vh;
-    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
-  
+
   .signupContainer {
     flex-direction: column;
-    min-height: 100vh;
   }
-  
+
   .leftPanel {
     padding: 1rem;
-    min-height: 100vh;
-    justify-content: center;
+    min-height: auto;
   }
-  
+
   .formCard {
     padding: 2rem 1.5rem;
     max-width: 100%;
-    margin: 0;
   }
-  
+
   .rightPanel {
+    padding: 2rem 1rem;
     display: none;
   }
-  
+
   .formTitle {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
-  
+
   .logoText {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
   }
-  
+
   .logoIcon {
     width: 50px;
     height: 50px;
   }
-  
+
   .logoIcon svg {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
-  
+
   .input {
-    padding: 0.875rem 1rem 0.875rem 2.75rem;
-    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.875rem 0.875rem 0.875rem 2.5rem;
   }
-  
+
   .submitButton {
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
   }
-  
+
   .particles {
-    display: none; /* Hide particles on mobile for performance */
+    display: none;
   }
 }
 
@@ -553,70 +671,64 @@
   .leftPanel {
     padding: 0.5rem;
   }
-  
+
   .formCard {
     padding: 1.5rem 1rem;
-    border-radius: 16px;
   }
-  
+
   .formTitle {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
-  
+
   .formSubtitle {
     font-size: 1rem;
   }
-  
+
   .logoText {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
-  
+
   .logoIcon {
     width: 45px;
     height: 45px;
   }
-  
+
   .logoIcon svg {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
-  
+
   .input {
-    padding: 0.75rem 1rem 0.75rem 2.5rem;
-    font-size: 16px;
+    padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+    font-size: 0.9rem;
   }
-  
+
   .inputLabel {
     font-size: 0.85rem;
   }
-  
+
   .submitButton {
-    padding: 0.875rem 1.25rem;
-    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
   }
-  
+
   .socialButtons {
     gap: 0.75rem;
   }
-  
+
   .socialButton {
     width: 45px;
     height: 45px;
   }
-  
-  .socialButton svg {
-    width: 18px;
-    height: 18px;
-  }
-  
+
   .form {
     gap: 1.25rem;
   }
-  
+
   .formHeader {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
-  
+
   .logoSection {
     margin-bottom: 1.5rem;
   }
@@ -626,45 +738,59 @@
   .leftPanel {
     padding: 0.25rem;
   }
-  
+
   .formCard {
     padding: 1.25rem 0.75rem;
   }
-  
+
   .formTitle {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
-  
+
   .logoText {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
   }
-  
+
   .logoIcon {
     width: 40px;
     height: 40px;
   }
-  
+
   .logoIcon svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
-  
+
   .input {
-    padding: 0.625rem 0.875rem 0.625rem 2.25rem;
+    padding: 0.625rem 0.625rem 0.625rem 2rem;
+    font-size: 0.85rem;
   }
-  
+
   .submitButton {
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.85rem;
   }
-  
+
   .socialButton {
     width: 40px;
     height: 40px;
   }
-  
-  .socialButton svg {
-    width: 16px;
-    height: 16px;
+
+  .socialButton svg,
+  .socialButton img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .form {
+    gap: 1rem;
+  }
+
+  .formHeader {
+    margin-bottom: 1.25rem;
+  }
+
+  .logoSection {
+    margin-bottom: 1.25rem;
   }
 }

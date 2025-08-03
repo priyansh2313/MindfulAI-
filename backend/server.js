@@ -9,6 +9,10 @@ const http = require('http');
 const { Server } = require('socket.io');
 const CaseHistory = require('./models/CaseHistory');
 const Journal = require('./models/Journal');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const careConnectRoutes = require('./routes/careConnect');
+const familyInvitationRoutes = require('./routes/familyInvitations');
 
 const app = express();
 const server = http.createServer(app);
@@ -147,8 +151,6 @@ function updateOnlineUsers(room) {
   io.to(room).emit('updateUsers', usersInRoom);
 }
 
-app.use(express.json());
-
 // CORS configuration for different environments
 const allowedOrigins = [
   'http://localhost:5173',
@@ -185,6 +187,14 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+app.use(express.json());
+
+// Use Care Connect routes
+app.use('/api/care-connect', careConnectRoutes);
+
+// Use Family Invitation routes
+app.use('/api/family', familyInvitationRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
@@ -331,6 +341,10 @@ app.get('/journals', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch journals.' });
   }
 });
+
+
+
+
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

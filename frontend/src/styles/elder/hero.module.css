@@ -1,0 +1,181 @@
+/* Hero Styles */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+.heroSection {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-image: url('../../assets/images/hero.jpg');
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.heroContainer {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .heroContainer {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroContainer {
+    padding: 0 2rem;
+  }
+}
+
+.heroGrid {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .heroGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.heroContent {
+  color: white;
+}
+
+.heroTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: clamp(3.5rem, 10vw, 5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroTitle {
+    font-size: clamp(4rem, 12vw, 6rem);
+  }
+}
+
+.heroSubtitle {
+  font-size: clamp(1.125rem, 4vw, 1.5rem);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  max-width: 48rem;
+}
+
+@media (min-width: 768px) {
+  .heroSubtitle {
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+  }
+}
+
+.heroButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .heroButtons {
+    flex-direction: row;
+  }
+}
+
+.primaryButton {
+  background: white;
+  color: #22c55e;
+  border: 2px solid white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primaryButton:hover {
+  background: #f9fafb;
+}
+
+.secondaryButton {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background: white;
+  color: #22c55e;
+}
+
+/* Score Section */
+.scoreContainer {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .scoreContainer {
+    display: flex;
+  }
+}
+
+.scoreCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 28rem;
+}
+
+.scoreContent {
+  text-align: center;
+}
+
+.scoreCircle {
+  width: 5rem;
+  height: 5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.scoreNumber {
+  color: white;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.scoreTitle {
+  color: white;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.scoreDescription {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}

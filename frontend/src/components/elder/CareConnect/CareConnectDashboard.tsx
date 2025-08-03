@@ -253,7 +253,7 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
               <div className={styles.activityContent}>
                 <p className={styles.activityMessage}>{activity.message}</p>
                 <p className={styles.activityMeta}>
-                  {activity.familyMember} • {activity.timestamp.toLocaleDateString()}
+                  {activity.familyMember} • {new Date(activity.timestamp).toLocaleDateString()}
                 </p>
               </div>
             </div>

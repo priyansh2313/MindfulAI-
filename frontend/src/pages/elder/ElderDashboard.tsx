@@ -1,13 +1,11 @@
 import { Brain, Flower2, Heart, Leaf, Sparkles, Sun, TreePine } from 'lucide-react';
 import React, { useState } from 'react';
-import Header from '../../components/elder/Header';
-import Hero from '../../components/elder/Hero';
+import Header from '../../components/elder/header';
+import Hero from '../../components/elder/hero';
 import ServicesGrid from '../../components/elder/servicesGrid';
-import EvaluationCard from '../../components/EvaluationCard';
-import LearningSummaryCard from '../../components/LearningSummaryCard';
 import Recommendations from '../../components/Recommendations';
 import WellnessActivitiesSummary from '../../components/Widgets/WellnessActivitiesSummary';
-import styles from '../../styles/elder/Dashboard.module.css';
+import styles from '../../styles/elder/dashboard.module.css';
 import FloatingChatbot from '../FloatingChatbot';
 import FloatingLeaves from '../FloatingLeaves';
 
@@ -143,42 +141,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Analytics & Insights Section */}
-        <section className={styles.analyticsSection}>
-          <div className={styles.analyticsCard}>
-            <div className={styles.analyticsHeader}>
-              <div className={styles.analyticsIcon}>
-                <Sparkles className={styles.analyticsIconInner} />
-              </div>
-              <h2 className={styles.analyticsTitle}>
-                📊 Analytics & Insights
-              </h2>
-              <p className={styles.analyticsSubtitle}>
-                Track your mental wellness journey with detailed analytics
-              </p>
-            </div>
-            
-            <div className={styles.analyticsGrid}>
-              <div className={styles.analyticsColumn}>
-                <div className={styles.analyticsBox}>
-                  <h3 className={styles.analyticsBoxTitle}>Your Evaluation Summary</h3>
-                  <div className={styles.analyticsContent}>
-                    <EvaluationCard />
-                  </div>
-                </div>
-              </div>
-              
-              <div className={styles.analyticsColumn}>
-                <div className={styles.analyticsBox}>
-                  <h3 className={styles.analyticsBoxTitle}>Mental Health Analytics</h3>
-                  <div className={styles.analyticsContent}>
-                    <LearningSummaryCard />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+       
 
         {/* Wellness Activities Summary Section */}
         <section className={styles.wellnessSection}>

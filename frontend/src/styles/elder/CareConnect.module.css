@@ -372,13 +372,19 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .careConnectContainer {
-    padding: 1rem;
+    padding: 0.5rem;
+    margin: 0;
+    min-height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
   }
   
   .header {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+    margin: 0;
+    border-radius: 0;
   }
   
   .headerContent {
@@ -390,6 +396,7 @@
     flex-direction: column;
     text-align: center;
     gap: 1rem;
+    margin: 0;
   }
   
   .actionContent {
@@ -400,10 +407,46 @@
     flex-direction: column;
     text-align: center;
     gap: 0.75rem;
+    margin: 0;
   }
   
   .memberStatus {
     align-self: center;
+  }
+
+  /* Family Dashboard Mobile Styles */
+  .familyDashboardContainer {
+    padding: 0.5rem;
+    margin: 0;
+    min-height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+
+  .familyDashboardHeader {
+    margin: 0 0 1rem 0;
+    border-radius: 0;
+  }
+
+  .familyDashboardTabs {
+    margin: 0 0 1rem 0;
+    border-radius: 0;
+    flex-wrap: wrap;
+  }
+
+  .familyDashboardContent {
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .actionGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .actionCard {
+    margin: 0;
+    border-radius: 8px;
   }
 }
 
@@ -2961,4 +3004,720 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: #1e293b;
+}
+
+/* Invitation Acceptance Page */
+.invitationAcceptContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invitationAcceptContent {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.invitationAcceptHeader {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.invitationAcceptHeaderIcon {
+  width: 3rem;
+  height: 3rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invitationAcceptHeaderIconInner {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+}
+
+.invitationAcceptHeaderTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.invitationAcceptHeaderSubtitle {
+  font-size: 1.125rem;
+  margin: 0.5rem 0 0 0;
+  opacity: 0.9;
+}
+
+.invitationDetails {
+  padding: 2rem;
+  background: #f8fafc;
+}
+
+.invitationDetailCard {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.invitationDetailTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+}
+
+.invitationDetailText {
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+.invitationMessage {
+  background: #f1f5f9;
+  border-left: 4px solid #8b5cf6;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.invitationMessageTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #8b5cf6;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.invitationMessageText {
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
+.invitationFeatures {
+  margin-top: 1.5rem;
+}
+
+.invitationFeaturesTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+}
+
+.invitationFeature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.invitationFeatureIcon {
+  width: 1rem;
+  height: 1rem;
+  color: #8b5cf6;
+  flex-shrink: 0;
+}
+
+.registrationForm {
+  padding: 2rem;
+}
+
+.registrationFormTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1.5rem 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.formInput {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.checkboxText {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.link {
+  color: #8b5cf6;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #7c3aed;
+}
+
+.acceptInvitationButton {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  margin-top: 1rem;
+}
+
+.acceptInvitationButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+.acceptInvitationButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.acceptIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.expiryNotice {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.expiryIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.expiryText {
+  font-size: 0.875rem;
+  color: #92400e;
+  margin: 0;
+}
+
+.errorMessage {
+  background: #fef2f2;
+  border: 1px solid #ef4444;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+/* Family Dashboard Styles */
+.familyDashboardContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 2rem;
+}
+
+.familyDashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.headerContent h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.headerContent p {
+  margin: 0.5rem 0 0 0;
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.headerActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.headerActions button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.headerActions button:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+.familyDashboardTabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.tabButton:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.tabButton.activeTab {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+}
+
+.tabIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.familyDashboardContent {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+.quickActions {
+  margin-bottom: 2rem;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.actionCard {
+  padding: 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.actionCard:hover {
+  border-color: #8b5cf6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+}
+
+.actionCard h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.actionCard p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.actionIcon {
+  width: 24px;
+  height: 24px;
+  color: #8b5cf6;
+}
+
+.familyStatus {
+  margin-bottom: 2rem;
+}
+
+.familyMembers {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.familyMember {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.memberAvatar {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.onlineIndicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid white;
+}
+
+.memberInfo {
+  flex: 1;
+}
+
+.memberName {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.memberRelationship {
+  margin: 0.25rem 0 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.memberStatus {
+  font-size: 0.9rem;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.recentActivity {
+  margin-bottom: 2rem;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.activityIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityMessage {
+  margin: 0;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.activityMeta {
+  margin: 0.25rem 0 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.celebrateButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  background: #fef3c7;
+  color: #d97706;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.celebrateButton:hover {
+  background: #fde68a;
+  transform: scale(1.05);
+}
+
+.checkinsTab, .winsTab, .settingsTab {
+  /* Inherit from familyDashboardContent */
+}
+
+.checkinsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.newCheckinButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.newCheckinButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.checkinsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.checkinItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.checkinStatus {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkinContent {
+  flex: 1;
+}
+
+.checkinQuestion {
+  margin: 0;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.checkinMeta {
+  margin: 0.25rem 0 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.checkinActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.remindButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.remindButton:hover {
+  background: #e2e8f0;
+}
+
+.winsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.winItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.winContent {
+  flex: 1;
+}
+
+.winMessage {
+  margin: 0;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.winMeta {
+  margin: 0.25rem 0 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.settingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.settingItem {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.settingItem:hover {
+  background: #f1f5f9;
+  border-color: #8b5cf6;
+}
+
+.settingItem h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.settingItem p {
+  margin: 0.25rem 0 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
 } 

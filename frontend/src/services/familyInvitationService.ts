@@ -34,6 +34,16 @@ class FamilyInvitationService {
   // Send invitation to family member
   async sendInvitation(invite: FamilyMemberInvite): Promise<FamilyInvitation> {
     try {
+      // Generate unique invitation ID
+      const invitationId = `inv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Create invitation link
+      const invitationLink = `${window.location.origin}/invitation/${invitationId}`;
+      
+      // Get current user info
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const fromName = currentUser.name || 'Your Family Member';
+      
       const response = await fetch(`${this.baseUrl}/api/family/invitations`, {
         method: 'POST',
         headers: {
@@ -43,6 +53,9 @@ class FamilyInvitationService {
         body: JSON.stringify({
           ...invite,
           fromUserId: this.userId,
+          invitationId,
+          invitationLink,
+          fromName,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
         }),
       });
@@ -51,7 +64,19 @@ class FamilyInvitationService {
         throw new Error('Failed to send invitation');
       }
 
-      return await response.json();
+      const invitation = await response.json();
+      
+      // Send email invitation
+      await this.sendEmailInvitation({
+        toEmail: invite.email,
+        toName: invite.name,
+        fromName,
+        invitationLink,
+        message: invite.message,
+        expiresAt: invitation.expiresAt,
+      });
+
+      return invitation;
     } catch (error) {
       console.error('Error sending invitation:', error);
       // Mock success response for demo
@@ -69,10 +94,41 @@ class FamilyInvitationService {
     }
   }
 
+  // Send email invitation
+  private async sendEmailInvitation(emailData: {
+    toEmail: string;
+    toName: string;
+    fromName: string;
+    invitationLink: string;
+    message?: string;
+    expiresAt: Date;
+  }) {
+    try {
+              const response = await fetch(`${this.baseUrl}/api/family/email/send-invitation`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email invitation');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error sending email invitation:', error);
+      // In demo mode, log the email details
+      console.log('Email invitation would be sent:', emailData);
+    }
+  }
+
   // Get pending invitations
   async getPendingInvitations(): Promise<FamilyInvitation[]> {
     try {
-      const response = await fetch(`${this.baseUrl}/api/family/invitations/pending`, {
+      const response = await fetch(`${this.baseUrl}/api/family/invitations?fromUserId=${this.userId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -82,7 +138,8 @@ class FamilyInvitationService {
         throw new Error('Failed to fetch pending invitations');
       }
 
-      return await response.json();
+      const invitations = await response.json();
+      return invitations.filter(inv => inv.status === 'pending');
     } catch (error) {
       console.error('Error fetching pending invitations:', error);
       return [];
@@ -92,8 +149,8 @@ class FamilyInvitationService {
   // Cancel invitation
   async cancelInvitation(invitationId: string): Promise<void> {
     try {
-      const response = await fetch(`${this.baseUrl}/api/family/invitations/${invitationId}/cancel`, {
-        method: 'POST',
+      const response = await fetch(`${this.baseUrl}/api/family/invitations/${invitationId}`, {
+        method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -130,48 +187,33 @@ class FamilyInvitationService {
 
   // Get invitation templates
   async getInvitationTemplates(): Promise<InvitationTemplate[]> {
-    try {
-      const response = await fetch(`${this.baseUrl}/api/family/invitation-templates`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch invitation templates');
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching invitation templates:', error);
-      // Return default templates
-      return [
-        {
-          id: '1',
-          title: 'General Care Support',
-          message: 'Hi! I\'d love to have you join my Care Connect family circle. This will help us stay connected and support each other better.',
-          category: 'general',
-        },
-        {
-          id: '2',
-          title: 'Health Monitoring',
-          message: 'I\'m using Care Connect to track my health and would appreciate your support. You can help me stay on top of my health goals.',
-          category: 'health',
-        },
-        {
-          id: '3',
-          title: 'Daily Check-ins',
-          message: 'I\'d like to set up regular check-ins through Care Connect. This will help us stay connected and ensure I\'m doing well.',
-          category: 'care',
-        },
-        {
-          id: '4',
-          title: 'Emergency Support',
-          message: 'I\'m setting up emergency contacts in Care Connect and would like to add you. This will help in case I need assistance.',
-          category: 'support',
-        },
-      ];
-    }
+    // Return default templates (backend doesn't have this endpoint yet)
+    return [
+      {
+        id: '1',
+        title: 'General Care Support',
+        message: 'Hi! I\'d love to have you join my Care Connect family circle. This will help us stay connected and support each other better.',
+        category: 'general',
+      },
+      {
+        id: '2',
+        title: 'Health Monitoring',
+        message: 'I\'m using Care Connect to track my health and would appreciate your support. You can help me stay on top of my health goals.',
+        category: 'health',
+      },
+      {
+        id: '3',
+        title: 'Daily Check-ins',
+        message: 'I\'d like to set up regular check-ins through Care Connect. This will help us stay connected and ensure I\'m doing well.',
+        category: 'care',
+      },
+      {
+        id: '4',
+        title: 'Emergency Support',
+        message: 'I\'m setting up emergency contacts in Care Connect and would like to add you. This will help in case I need assistance.',
+        category: 'support',
+      },
+    ];
   }
 
   // Send bulk invitations

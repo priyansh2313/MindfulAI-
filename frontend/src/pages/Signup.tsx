@@ -47,7 +47,16 @@ const Signup = () => {
       const response = await axios.post("/users/register", dataToSend, { withCredentials: true });
       const user = response.data.data;
       localStorage.setItem("user", JSON.stringify(user));
-      navigate("/dashboard");
+      
+      // Age-based navigation logic
+      const userAge = Number(formData.age);
+      if (userAge >= 55) {
+        // Navigate to elder dashboard for users 55 and older
+        navigate("/elder-dashboard");
+      } else {
+        // Navigate to normal dashboard for users under 55
+        navigate("/dashboard");
+      }
     } catch (err) {
       setError("Signup failed! " + (err.response?.data?.error || ""));
     } finally {
@@ -171,6 +180,15 @@ const Signup = () => {
                   />
                   <Hash className={styles.inputIcon} size={18} />
                 </div>
+                {formData.age && (
+                  <div className={styles.ageInfo}>
+                    {Number(formData.age) >= 55 ? (
+                      <span className={styles.elderInfo}>👴 You'll be directed to the Elder Dashboard</span>
+                    ) : (
+                      <span className={styles.regularInfo}>👤 You'll be directed to the Regular Dashboard</span>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className={styles.inputGroup}>

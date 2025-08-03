@@ -1,20 +1,43 @@
+/* Enhanced ActionEffectivenessWidget with Mobile Responsiveness */
 .widget {
-  background: white;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(226, 232, 240, 0.8);
   transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.widget::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .widget:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border-color: rgba(102, 126, 234, 0.2);
 }
 
 .activityContainer {
   text-align: center;
   padding: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .activityH1 {
@@ -26,6 +49,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.1));
 }
 
 .activityP {
@@ -44,7 +68,7 @@
 }
 
 .moodSelect {
-  background: #f7fafc;
+  background: rgba(247, 250, 252, 0.9);
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   padding: 0.75rem 1rem;
@@ -54,24 +78,31 @@
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 200px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .moodSelect:focus {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .moodSelect:hover {
   border-color: #667eea;
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .noDataMessage {
   text-align: center;
   padding: 2rem;
-  background: #f7fafc;
+  background: rgba(247, 250, 252, 0.9);
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
 }
 
 .noDataMessage p {
@@ -86,29 +117,104 @@
   font-style: italic;
 }
 
-/* Responsive Design */
+/* Enhanced Mobile Responsiveness */
 @media (max-width: 768px) {
+  .widget {
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .activityContainer {
+    padding: 0.75rem;
+  }
+  
   .activityH1 {
     font-size: 1.3rem;
+    margin-bottom: 1rem;
   }
   
   .moodSelect {
     min-width: 180px;
     font-size: 0.9rem;
+    padding: 0.625rem 0.875rem;
   }
   
   .noDataMessage {
     padding: 1.5rem;
   }
+  
+  .activityP {
+    margin-bottom: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .widget {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  
+  .activityContainer {
+    padding: 0.5rem;
+  }
+  
   .activityH1 {
     font-size: 1.2rem;
+    margin-bottom: 0.875rem;
   }
   
   .moodSelect {
     min-width: 160px;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .noDataMessage {
+    padding: 1.25rem;
+  }
+  
+  .activityP {
+    margin-bottom: 1.25rem;
+  }
+  
+  .moodLabel {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .widget {
+    padding: 0.75rem;
+    border-radius: 8px;
+  }
+  
+  .activityContainer {
+    padding: 0.25rem;
+  }
+  
+  .activityH1 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .moodSelect {
+    min-width: 140px;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.625rem;
+  }
+  
+  .noDataMessage {
+    padding: 1rem;
+  }
+  
+  .activityP {
+    margin-bottom: 1rem;
+  }
+  
+  .moodLabel {
     font-size: 0.85rem;
   }
 }

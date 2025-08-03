@@ -18,7 +18,7 @@ const Header = () => {
 
   const handleFindSupportNearby = () => {
     // Open Google Maps with mental health professionals search
-    const searchQuery = encodeURIComponent('mental health professionals near me');
+    const searchQuery = encodeURIComponent('hospitals near me');
     window.open(`https://www.google.com/maps/search/${searchQuery}`, '_blank');
   };
 
@@ -36,7 +36,7 @@ const Header = () => {
             <div className={styles.logoIcon}>
               <Leaf className={styles.logoLeaf} />
             </div>
-            <h1 className={styles.logoTitle}>Mindful AI</h1>
+            <h1 className={styles.logoTitle}>Mindful AI <p>senior</p></h1>
           </div>
 
           {/* Desktop Navigation */}
@@ -59,7 +59,7 @@ const Header = () => {
               className={styles.actionButton}
             >
               <Shield size={16} />
-              <span>Find Support Nearby</span>
+              <span>Find Hospitals Nearby</span>
             </button>
             <button 
               onClick={handleMyProfile}

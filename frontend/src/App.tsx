@@ -16,9 +16,11 @@ import Dashboard from './pages/Dashboard';
 import ElderDashboard from './pages/elder/ElderDashboard';
 import Encyclopedia from "./pages/Encyclopedia";
 import Evaluation from './pages/Evaluation';
+import FamilyDashboard from './pages/FamilyDashboard';
 import HowItWorks from './pages/HowItWorks';
 import ImageAnalyzer from './pages/ImageAnalyser';
 import Introduction from './pages/Introduction';
+import InvitationAccept from './pages/InvitationAccept';
 import Journal from './pages/Journal';
 import Login from './pages/Login';
 import MindfulAssistant from './pages/MindfulAssistant';
@@ -57,6 +59,10 @@ function App() {
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/care-connect" element={user ? <CareConnect /> : <Navigate to="/login" />} />
           <Route path="/care-connect-test" element={<CareConnectTest />} />
+          <Route path="/invitation/:invitationId" element={<InvitationAccept />} />
+        <Route path="/family-dashboard" element={
+          user && user.role === 'family' ? <FamilyDashboard /> : <Navigate to="/login" />
+        } />
           {/* <Route path="/gratitudeJournal" element={<GratitudeJournal />} /> */}
         </Routes>
         <FloatingMusicPlayer />

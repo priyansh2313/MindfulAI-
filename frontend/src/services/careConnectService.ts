@@ -61,7 +61,7 @@ export interface FamilyMember {
     // Family Members
     async getFamilyMembers(): Promise<FamilyMember[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/care-connect/family-members`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/family-members?userId=${this.userId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export interface FamilyMember {
     // Health Wins
     async shareHealthWin(healthWin: Omit<HealthWin, 'id' | 'timestamp'>): Promise<HealthWin> {
       try {
-        const response = await fetch(`${this.baseUrl}/care-connect/health-wins`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/health-wins`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -123,7 +123,7 @@ export interface FamilyMember {
   
     async getHealthWins(): Promise<HealthWin[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/care-connect/health-wins`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/health-wins?userId=${this.userId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -143,7 +143,7 @@ export interface FamilyMember {
     // Help Requests
     async createHelpRequest(helpRequest: Omit<HelpRequest, 'id' | 'timestamp' | 'responses' | 'status'>): Promise<HelpRequest> {
       try {
-        const response = await fetch(`${this.baseUrl}/care-connect/help-requests`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/help-requests`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -183,7 +183,7 @@ export interface FamilyMember {
   
     async getHelpRequests(): Promise<HelpRequest[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/care-connect/help-requests`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/help-requests?userId=${this.userId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -203,7 +203,7 @@ export interface FamilyMember {
     // Health Check-ins
     async getHealthCheckins(): Promise<HealthCheckin[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/care-connect/checkins`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/health-checkins?userId=${this.userId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -252,7 +252,7 @@ export interface FamilyMember {
       rating?: number;
     }): Promise<HealthCheckin> {
       try {
-        const responseData = await fetch(`${this.baseUrl}/care-connect/checkins/${checkinId}/respond`, {
+        const responseData = await fetch(`${this.baseUrl}/api/care-connect/health-checkins/${checkinId}/respond`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -289,7 +289,7 @@ export interface FamilyMember {
     // Recent Activity
     async getRecentActivity(): Promise<RecentActivity[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/care-connect/recent-activity`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/data?userId=${this.userId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -299,7 +299,8 @@ export interface FamilyMember {
           throw new Error('Failed to fetch recent activity');
         }
         
-        return await response.json();
+        const data = await response.json();
+        return data.recentActivity || [];
       } catch (error) {
         console.error('Error fetching recent activity:', error);
         // Mock data
@@ -321,7 +322,7 @@ export interface FamilyMember {
           applicationServerKey: (typeof process !== 'undefined' && process.env?.REACT_APP_VAPID_PUBLIC_KEY) || '',
         });
   
-          await fetch(`${this.baseUrl}/care-connect/notifications/subscribe`, {
+          await fetch(`${this.baseUrl}/api/care-connect/notifications/subscribe`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`,

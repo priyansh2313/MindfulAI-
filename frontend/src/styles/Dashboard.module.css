@@ -344,23 +344,42 @@
   line-height: 1.6;
 }
 
-/* Analytics Section */
+/* Enhanced Analytics Section with Mobile Responsiveness */
 .analyticsSection {
   margin-bottom: 4rem;
   animation: slideUp 1s ease-out 0.4s both;
+  padding: 0 1rem;
 }
 
 .analyticsCard {
-  background: white;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
   border-radius: 2rem;
   padding: 2rem;
   box-shadow: 0 16px 64px rgba(34, 197, 94, 0.15);
   border: 1px solid rgba(34, 197, 94, 0.1);
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.analyticsCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .analyticsHeader {
   text-align: center;
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .analyticsIcon {
@@ -372,12 +391,20 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 1rem;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 .analyticsIconInner {
   width: 1.5rem;
   height: 1.5rem;
   color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .analyticsTitle {
@@ -386,15 +413,23 @@
   font-weight: 700;
   color: #1e472e;
   margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .analyticsSubtitle {
   color: #22c55e;
+  font-weight: 500;
+  font-size: 1rem;
 }
 
 .analyticsGrid {
   display: grid;
   gap: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 1024px) {
@@ -404,10 +439,32 @@
 }
 
 .analyticsBox {
-  background: linear-gradient(135deg, #f0f9f4 0%, #dcf2e3 100%);
-  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(240, 249, 244, 0.9), rgba(220, 242, 227, 0.8));
+  border-radius: 1.5rem;
   padding: 1.5rem;
-  border: 1px solid rgba(34, 197, 94, 0.5);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.analyticsBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+
+.analyticsBox:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.3);
 }
 
 .analyticsBoxTitle {
@@ -416,13 +473,19 @@
   font-weight: 600;
   color: #1e472e;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .analyticsContent {
-  background: white;
-  border-radius: 0.5rem;
-  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1rem;
+  padding: 1.5rem;
   box-shadow: 0 4px 16px rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
 }
 
 /* Wellness Section */
@@ -753,7 +816,7 @@
   }
 }
 
-/* Responsive Design */
+/* Enhanced Mobile Responsiveness */
 @media (max-width: 768px) {
   .heroButtons {
     flex-direction: column;
@@ -769,6 +832,45 @@
   
   .floatingElement {
     display: none;
+  }
+
+  .analyticsSection {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+  }
+
+  .analyticsCard {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .analyticsGrid {
+    gap: 1rem;
+  }
+
+  .analyticsBox {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .analyticsContent {
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .analyticsTitle {
+    font-size: 1.5rem;
+  }
+
+  .analyticsSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .analyticsBoxTitle {
+    font-size: 1.1rem;
   }
 }
 
@@ -786,6 +888,235 @@
   .testimonialCard,
   .ctaCard {
     padding: 1.5rem;
+  }
+
+  .analyticsSection {
+    padding: 0 0.25rem;
+  }
+
+  .analyticsCard {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .analyticsBox {
+    padding: 0.75rem;
+  }
+
+  .analyticsContent {
+    padding: 0.75rem;
+  }
+
+  .analyticsTitle {
+    font-size: 1.3rem;
+  }
+
+  .analyticsSubtitle {
+    font-size: 0.85rem;
+  }
+
+  .analyticsBoxTitle {
+    font-size: 1rem;
+  }
+
+  .analyticsIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .analyticsIconInner {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .analyticsSection {
+    padding: 0;
+  }
+
+  .analyticsCard {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+  }
+
+  .analyticsBox {
+    padding: 0.5rem;
+  }
+
+  .analyticsContent {
+    padding: 0.5rem;
+  }
+
+  .analyticsTitle {
+    font-size: 1.2rem;
+  }
+
+  .analyticsBoxTitle {
+    font-size: 0.9rem;
+  }
+}
+
+/* Additional Mobile Responsiveness Fixes */
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .mainContent {
+    padding: 0.5rem;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .heroCard,
+  .analyticsCard,
+  .wellnessCard,
+  .recommendationsCard,
+  .testimonialCard,
+  .ctaCard {
+    margin: 0 0.5rem 1rem 0.5rem;
+    border-radius: 1rem;
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+  }
+
+  .analyticsSection {
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+
+  .analyticsCard {
+    margin: 0;
+    width: 100%;
+    border-radius: 1rem;
+  }
+
+  .analyticsGrid {
+    gap: 0.75rem;
+  }
+
+  .analyticsBox {
+    margin: 0;
+    width: 100%;
+  }
+
+  .analyticsContent {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .mainContent {
+    padding: 0.25rem;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .heroCard,
+  .analyticsCard,
+  .wellnessCard,
+  .recommendationsCard,
+  .testimonialCard,
+  .ctaCard {
+    margin: 0 0.25rem 0.75rem 0.25rem;
+    border-radius: 0.75rem;
+    width: calc(100% - 0.5rem);
+    box-sizing: border-box;
+  }
+
+  .analyticsSection {
+    padding: 0;
+    margin-bottom: 0.75rem;
+  }
+
+  .analyticsCard {
+    margin: 0;
+    width: 100%;
+    border-radius: 0.75rem;
+  }
+
+  .analyticsGrid {
+    gap: 0.5rem;
+  }
+
+  .analyticsBox {
+    margin: 0;
+    width: 100%;
+  }
+
+  .analyticsContent {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .mainContent {
+    padding: 0.125rem;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .heroCard,
+  .analyticsCard,
+  .wellnessCard,
+  .recommendationsCard,
+  .testimonialCard,
+  .ctaCard {
+    margin: 0 0.125rem 0.5rem 0.125rem;
+    border-radius: 0.5rem;
+    width: calc(100% - 0.25rem);
+    box-sizing: border-box;
+  }
+
+  .analyticsSection {
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .analyticsCard {
+    margin: 0;
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+
+  .analyticsGrid {
+    gap: 0.25rem;
+  }
+
+  .analyticsBox {
+    margin: 0;
+    width: 100%;
+  }
+
+  .analyticsContent {
+    margin: 0;
+    width: 100%;
   }
 }
 

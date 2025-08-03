@@ -1,3 +1,4 @@
+/* Enhanced LearningSummaryCard with Mobile Responsiveness */
 .card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
   border-radius: 20px;
@@ -7,6 +8,8 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card::before {
@@ -16,8 +19,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23667eea' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.3;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .header {
@@ -39,6 +45,7 @@
   width: 24px;
   height: 24px;
   color: #667eea;
+  filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.2));
 }
 
 .title {
@@ -69,18 +76,34 @@
 }
 
 .metricCard {
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 15px;
   padding: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   text-align: center;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.metricCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border-radius: 15px;
+  pointer-events: none;
 }
 
 .metricCard:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  border-color: rgba(102, 126, 234, 0.2);
 }
 
 .metricHeader {
@@ -89,12 +112,15 @@
   justify-content: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .metricIcon {
   width: 20px;
   height: 20px;
   color: #667eea;
+  filter: drop-shadow(0 1px 2px rgba(102, 126, 234, 0.2));
 }
 
 .metricLabel {
@@ -107,12 +133,16 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .metricDescription {
   font-size: 0.85rem;
   color: #64748b;
   font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
 
 .chartSection {
@@ -130,11 +160,12 @@
 }
 
 .chartContainer {
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 15px;
   padding: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
 }
 
 .chartPlaceholder {
@@ -152,6 +183,7 @@
   border-radius: 4px 4px 0 0;
   transition: all 0.3s ease;
   position: relative;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
 }
 
 .chartBar:hover {
@@ -183,22 +215,25 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .insightItem:hover {
   transform: translateX(5px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: rgba(102, 126, 234, 0.2);
 }
 
 .insightIcon {
   font-size: 1.2rem;
   flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 .insightText {
@@ -233,10 +268,14 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
+/* Enhanced Mobile Responsiveness */
 @media (max-width: 768px) {
   .card {
     padding: 1.5rem;
+    border-radius: 16px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .analyticsGrid {
@@ -246,6 +285,7 @@
   
   .metricCard {
     padding: 1.25rem;
+    border-radius: 12px;
   }
   
   .metricValue {
@@ -259,15 +299,36 @@
   .chartBar {
     width: 25px;
   }
+  
+  .title {
+    font-size: 1.3rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+  
+  .chartContainer {
+    padding: 1.25rem;
+  }
+  
+  .insightItem {
+    padding: 0.875rem;
+  }
 }
 
 @media (max-width: 480px) {
   .card {
     padding: 1rem;
+    border-radius: 12px;
   }
   
   .title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
   
   .analyticsGrid {
@@ -277,6 +338,11 @@
   
   .metricCard {
     padding: 1rem;
+    border-radius: 10px;
+  }
+  
+  .metricValue {
+    font-size: 1.4rem;
   }
   
   .chartPlaceholder {
@@ -289,5 +355,56 @@
   
   .insightItem {
     padding: 0.75rem;
+  }
+  
+  .chartContainer {
+    padding: 1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .card {
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+  
+  .title {
+    font-size: 1.1rem;
+  }
+  
+  .subtitle {
+    font-size: 0.85rem;
+  }
+  
+  .metricCard {
+    padding: 0.75rem;
+  }
+  
+  .metricValue {
+    font-size: 1.3rem;
+  }
+  
+  .chartPlaceholder {
+    height: 70px;
+  }
+  
+  .chartBar {
+    width: 18px;
+  }
+  
+  .insightItem {
+    padding: 0.625rem;
+  }
+  
+  .chartContainer {
+    padding: 0.75rem;
+  }
+  
+  .sectionTitle {
+    font-size: 0.9rem;
   }
 }
