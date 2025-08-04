@@ -13,6 +13,7 @@ import {
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/elder/CareConnect.module.css';
+import { logout } from '../utils/auth';
 
 interface FamilyMember {
   id: string;
@@ -75,9 +76,7 @@ export default function FamilyDashboard() {
   ]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    navigate('/login');
+    logout(navigate);
   };
 
   const sendCheckin = () => {
