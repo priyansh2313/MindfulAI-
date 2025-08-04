@@ -1,283 +1,358 @@
-/* MindfulAssistant.module.css */
-
-/* Overall Layout */
+/* Mindful Assistant - Magical Design */
 .container {
   min-height: 100vh;
-  padding: 2rem;
-  background: linear-gradient(to right, #eef2ff, #e0f7fa);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  gap: 2rem;
-  overflow-x: hidden;
-  background-image:url('./images/fuzzy.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-align: center;
-  background: linear-gradient(to right, #6366f1, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 2rem;
-}
-
-/* Progress Bar */
-.progressBar {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
   justify-content: center;
-}
-
-.progressStep {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(6px);
-  color: #4f46e5;
-  font-weight: 600;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.95rem;
-  opacity: 0.4;
-  border: 1px solid #c7d2fe;
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.15);
-  transition: all 0.3s ease;
-}
-
-.activeStep {
-  background: linear-gradient(to right, #6366f1, #7c3aed);
-  color: white;
-  opacity: 1;
-  transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
-}
-
-/* Module Section Box */
-.moduleBox {
-  background: linear-gradient(to bottom right, #ffffff, #f0f4ff);
-  border-radius: 20px;
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  width: 100%;
-  max-width: 640px;
-  text-align: center;
-  animation: fadeIn 0.6s ease, float 6s ease-in-out infinite;
-  border: 1px solid #e0e7ff;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Animated background particles */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(120deg); }
+  66% { transform: translateY(10px) rotate(240deg); }
 }
 
-/* Prompts */
-.prompt {
-  font-size: 1.25rem;
-  font-weight: 600;
+/* Main content wrapper */
+.contentWrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Magical title */
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
   margin-bottom: 1rem;
-  color: #374151;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: titleGlow 3s ease-in-out infinite;
 }
 
-/* Continue Button */
-.continueButton {
-  margin-top: 1.5rem;
-  background: linear-gradient(to right, #6366f1, #7c3aed);
-  color: white;
+@keyframes titleGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)); }
+  50% { filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.6)); }
+}
+
+/* Progress steps */
+.progressBar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.progressStep {
+  position: relative;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.3);
+}
+
+.progressStep.activeStep {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
+}
+
+.progressStep:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+/* Main module container */
+.moduleBox {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 30px;
+  padding: 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.moduleBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 30px;
+  pointer-events: none;
+}
+
+/* Prompt text */
+.prompt {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Continue button */
+.continueButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.continueButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.continueButton:hover::before {
+  left: 100%;
 }
 
 .continueButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(99, 102, 241, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
 }
 
-/* Final Fused Result */
-.fusedResult {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  padding: 1.5rem;
-  border-radius: 16px;
-  margin-bottom: 2rem;
+.continueButton:active {
+  transform: translateY(-1px);
 }
 
-.fusedResult h2 {
-  font-size: 1.8rem;
-  color: #0c4a6e;
-}
-
-/* Report Box */
-.reportBox {
-  background: #fefce8;
-  border-left: 6px solid #facc15;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  color: #78350f;
-  font-size: 0.95rem;
-  margin-top: 1rem;
-  line-height: 1.6;
-}
-
-.reportBox ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 0.75rem;
-}
-
-.reportBox li {
-  margin-bottom: 0.5rem;
-}
-
-.tipText {
-  margin-top: 1rem;
-  font-style: italic;
-  font-size: 0.9rem;
-  color: #6b7280;
-  text-align: center;
-}
-
-/* 🌬️ Breathing Transition Fullscreen */
+/* Transition screen */
 .transitionScreen {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(145deg, #d4fc79, #96e6a1);
-  background-size: 400% 400%;
-  animation: gradientBreath 12s ease infinite;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 999;
+  justify-content: center;
+  z-index: 1000;
 }
 
-@keyframes gradientBreath {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Breathing Pulse Animation */
 .breathingCircle {
+  position: relative;
+  width: 200px;
+  height: 200px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .pulse {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
-  animation: pulseAnim 2.5s infinite ease-in-out;
-}
-
-.pulse::after {
-  content: '';
   position: absolute;
-  width: 160px;
-  height: 160px;
-  top: -20px;
-  left: -20px;
-  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  height: 100%;
+  border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  animation: pulseOuter 4s infinite ease-in-out;
+  animation: breathe 4s ease-in-out infinite;
 }
 
-@keyframes pulseAnim {
-  0% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.7; }
+@keyframes breathe {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
 }
 
-@keyframes pulseOuter {
-  0% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.5); opacity: 0.1; }
-  100% { transform: scale(1); opacity: 0.4; }
-}
-
-/* Transition Text under pulse */
 .transitionText {
-  margin-top: 2rem;
-  font-size: 1.6rem;
-  color: #2b2b2b;
+  color: white;
+  font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
-  animation: fadeInOut 3s infinite;
+  z-index: 2;
+  position: relative;
 }
 
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+/* Fused result styling */
+.fusedResult {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-/* 📱 Responsive Design */
+.fusedResult h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.fusedResult h2 span {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.fusedResult p {
+  color: #64748b;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Report box */
+.reportBox {
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.reportBox h3 {
+  color: #1e293b;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.reportBox ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reportBox li {
+  padding: 0.5rem 0;
+  color: #64748b;
+  font-size: 1rem;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.reportBox li:last-child {
+  border-bottom: none;
+}
+
+.reportBox li strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.tipText {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(118, 75, 162, 0.05);
+  border-radius: 15px;
+  color: #764ba2;
+  font-style: italic;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
   }
-
+  
   .title {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
-
+  
+  .progressBar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .progressStep {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
   .moduleBox {
-    padding: 1.25rem;
-    width: 100%;
+    padding: 2rem;
+    margin: 0 1rem;
   }
-
+  
   .prompt {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
-
+  
   .continueButton {
-    width: 100%;
-  }
-
-  .fusedResult h2 {
-    font-size: 1.4rem;
-  }
-
-  .reportBox {
-    font-size: 0.85rem;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .title {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
-
+  
+  .moduleBox {
+    padding: 1.5rem;
+  }
+  
   .prompt {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
-
-  .continueButton {
-    font-size: 1rem;
-    padding: 0.75rem 1rem;
-  }
-
-  .reportBox li {
-    font-size: 0.85rem;
+  
+  .fusedResult h2 {
+    font-size: 1.5rem;
   }
 }

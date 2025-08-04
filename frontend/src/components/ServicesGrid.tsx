@@ -5,7 +5,7 @@ import styles from '../styles/ServicesGrid.module.css';
 
 const assessmentServices = [
   { title: 'Evaluation Test', desc: 'Take a comprehensive mental wellness assessment', icon: <ClipboardCheck className={styles.serviceIcon} />, path: '/evaluation' },
-  { title: 'Mindful Assistant', desc: 'Get personalized AI support and guidance', icon: <MessageSquareHeart className={styles.serviceIcon} />, path: '/assistant' },
+  { title: 'Mindful Test', desc: 'A unique blend of face,text and voice analysis', icon: <MessageSquareHeart className={styles.serviceIcon} />, path: '/assistant' },
 ];
 
 const wellnessServices = [
