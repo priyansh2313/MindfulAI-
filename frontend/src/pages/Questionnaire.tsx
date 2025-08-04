@@ -21,7 +21,7 @@ const options = [
 ];
 
 const Questionnaire = () => {
-  const [responses, setResponses] = useState<string[]>(Array(questions.length).fill("0"));
+  const [responses, setResponses] = useState<string[]>(Array(questions.length).fill(""));
   const [step, setStep] = useState(0);
   const [showEmailInput, setShowEmailInput] = useState(false);
   const [email, setEmail] = useState("");
@@ -62,7 +62,7 @@ const Questionnaire = () => {
       return;
     }
 
-    const score = responses.reduce((acc, curr) => acc + parseInt(curr), 0);
+    const score = responses.reduce((acc, curr) => acc + (curr ? parseInt(curr) : 0), 0);
     let result = "";
     if (score <= 4) result = "Minimal Anxiety";
     else if (score <= 9) result = "Mild Anxiety";
@@ -76,13 +76,13 @@ const Questionnaire = () => {
         {
           email,
           subject: "Your Mental Health Assessment Report",
-          Response1: options[parseInt(responses[0])] || "N/A",
-          Response2: options[parseInt(responses[1])] || "N/A",
-          Response3: options[parseInt(responses[2])] || "N/A",
-          Response4: options[parseInt(responses[3])] || "N/A",
-          Response5: options[parseInt(responses[4])] || "N/A",
-          Response6: options[parseInt(responses[5])] || "N/A",
-          Response7: options[parseInt(responses[6])] || "N/A",
+          Response1: responses[0] ? options[parseInt(responses[0])] : "N/A",
+          Response2: responses[1] ? options[parseInt(responses[1])] : "N/A",
+          Response3: responses[2] ? options[parseInt(responses[2])] : "N/A",
+          Response4: responses[3] ? options[parseInt(responses[3])] : "N/A",
+          Response5: responses[4] ? options[parseInt(responses[4])] : "N/A",
+          Response6: responses[5] ? options[parseInt(responses[5])] : "N/A",
+          Response7: responses[6] ? options[parseInt(responses[6])] : "N/A",
           TOTAL_SCORE: score,
           RESULT: result,
         },
@@ -217,7 +217,7 @@ const Questionnaire = () => {
                 <button
                   onClick={showEmailInput ? handleSendReport : handleNext}
                   className={styles.nextBtn}
-                  disabled={!showEmailInput && responses[step] === "0"}
+                  disabled={!showEmailInput && responses[step] === ""}
                 >
                   {showEmailInput ? "Send Report" : step < questions.length - 1 ? "Next" : "Continue"}
                 </button>

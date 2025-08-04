@@ -1,272 +1,232 @@
-import React, { useRef, useState } from "react";
-import { toast } from "react-hot-toast";
-import { FiMic, FiSend } from "react-icons/fi";
-import Sentiment from "sentiment";
-import axios from "../hooks/axios/axios";
-import { RLState, useRLAgent } from "../hooks/useRLAgent"; // adjust path if needed
-import styles from "../styles/Gratitude.module.css";
-import { logFeedback } from "../utils/reinforcement";
+/* JournalPage.tsx */
+import React, { useEffect, useRef, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
+import styles from '../styles/Gratitude.module.css';
 
-const sentiment = new Sentiment();
+// Dummy data/functions for simplicity
+const THEMES = [ 'lined', 'grid', 'dot-grid', 'blank' ];
+const BADGES = [ '7-day Streak', '30-day Streak', 'First Entry' ];
 
-// Define the JournalEntry type
-interface JournalEntry {
-	title: string;
-	content: string;
-	mood: string;
-	date?: string;
-}
+const JournalPage: React.FC = () => {
+  const navigate = useNavigate();
+  
+  // Pass-lock
+  const [locked, setLocked] = useState(true);
+  const [passcode, setPasscode] = useState('');
+  const correctCode = '1234';
 
-// Define SpeechRecognition types
-declare global {
-  interface Window {
-    webkitSpeechRecognition: any;
-    SpeechRecognition: any;
-  }
-}
+  // Editor
+  const [content, setContent] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const quillRef = useRef<ReactQuill>(null);
 
-interface SpeechRecognitionEvent {
-  results: {
-    [index: number]: {
-      [index: number]: {
-        transcript: string;
-      };
-    };
-    length: number;
+  // Theme/Layout
+  const [theme, setTheme] = useState<string>(THEMES[0]);
+
+  // Search & Tags
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>('');
+
+  // Streaks & Gamification
+  const [streak, setStreak] = useState<number>(0);
+  const [earnedBadges, setEarnedBadges] = useState<string[]>([]);
+
+  // Multimedia
+  const [attachments, setAttachments] = useState<File[]>([]);
+
+  // Previous entries
+  const [previousEntries, setPreviousEntries] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Load streak and badges from storage (dummy)
+    const savedStreak = parseInt(localStorage.getItem('journalStreak') || '0');
+    setStreak(savedStreak);
+    const savedBadges = JSON.parse(localStorage.getItem('journalBadges') || '[]');
+    setEarnedBadges(savedBadges);
+    
+    // Load previous entries
+    const savedEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    setPreviousEntries(savedEntries);
+  }, []);
+
+  const handleUnlock = () => {
+    if (passcode === correctCode) {
+      setLocked(false);
+    } else {
+      alert('Incorrect passcode');
+    }
   };
-}
 
-const moods = [
-	{ value: "happy", label: "😊 Happy" },
-	{ value: "sad", label: "😔 Sad" },
-	{ value: "angry", label: "😠 Angry" },
-	{ value: "tired", label: "😴 Tired" },
-	{ value: "crying", label: "😢 Crying" },
-	{ value: "anxious", label: "😰 Anxious" },
-	{ value: "lonely", label: "🥺 Lonely" },
-	{ value: "depressed", label: "😞 Depressed" },
-	{ value: "empty", label: "😶 Empty" },
-	{ value: "guilty", label: "😔 Guilty" },
-];
+  const handleTagAdd = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && tagInput.trim()) {
+      setTags(prev => [...prev, tagInput.trim()]);
+      setTagInput('');
+    }
+  };
 
-const isMood = (m: string): boolean => {
-    return moods.some((mood) => mood.value === m);
-};
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length) {
+      setAttachments(prev => [...prev, ...Array.from(e.target.files || [])]);
+    }
+  };
 
-const getMotivationalQuote = (tone: string): string => {
-	const quotes: Record<string, string[]> = {
-		positive: ["Keep going! You're doing great 🌟", "Joy radiates from you ✨"],
-		neutral: ["Stillness is growth too 🌱", "Breathe. You're allowed to be still 🌤"],
-		negative: ["It's okay to feel this way 💜", "You're not alone 🫂"],
-	};
-	const list = quotes[tone] || [];
-	return list[Math.floor(Math.random() * list.length)];
-};
+  const handleSaveEntry = () => {
+    if (!title.trim() || !content.trim()) {
+      alert('Please add a title and content to your journal entry');
+      return;
+    }
 
-const Journal = () => {
-	const [newEntry, setNewEntry] = useState(false);
-	const [entries, setEntries] = useState<JournalEntry[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [selectedMood, setSelectedMood] = useState("default");
-	const [title, setTitle] = useState("");
-	const [entry, setEntry] = useState("");
-	const [tone, setTone] = useState<"positive" | "negative" | "neutral" | null>(null);
-	const [quote, setQuote] = useState("");
-	const [listening, setListening] = useState(false);
-	const recognitionRef = useRef<any>(null);
-	const [random, setRandom] = useState(Math.random());
-	const [feedbackGiven, setFeedbackGiven] = useState(false);
+    const newEntry = {
+      id: Date.now().toString(),
+      title: title,
+      content: content,
+      date: new Date().toISOString().split('T')[0],
+      tags: tags,
+      attachments: attachments.map(file => file.name)
+    };
 
-	const storedMood = localStorage.getItem("todayMood");
-	const currentMood = storedMood !== null && isMood(storedMood) ? storedMood : "unknown";
+    // Save to localStorage
+    const existingEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    const updatedEntries = [newEntry, ...existingEntries];
+    localStorage.setItem('journalEntries', JSON.stringify(updatedEntries));
+    
+    // Update streak
+    const newStreak = streak + 1;
+    setStreak(newStreak);
+    localStorage.setItem('journalStreak', newStreak.toString());
+    
+    // Update previous entries
+    setPreviousEntries(updatedEntries);
+    
+    // Clear form
+    setTitle('');
+    setContent('');
+    setTags([]);
+    setAttachments([]);
+    
+    alert('Journal entry saved successfully!');
+  };
 
-	const handleSubmit = () => {
-	if (!title.trim() || !entry.trim() || !selectedMood || selectedMood === "default") {
-		toast.error("Please fill in all fields.");
-		return;
-	}
+  const handleViewEntry = (entryId: string) => {
+    navigate(`/journal/view/${entryId}`);
+  };
 
-	// 1. Sentiment Analysis
-	const result = sentiment.analyze(entry);
-	let detectedTone: "positive" | "neutral" | "negative" = "neutral";
-	if (result.score > 2) detectedTone = "positive";
-	else if (result.score < -2) detectedTone = "negative";
-
-	setTone(detectedTone);
-
-	// 2. RL State
-	const state: RLState = {
-		mood: selectedMood,
-		timeOfDay: new Date().getHours() < 17 ? "morning" : "evening",
-		tone: detectedTone,
-	};
-
-	// 3. Use RL agent
-	const { chooseAction, updateReward } = useRLAgent(state);
-	const action = chooseAction();
-
-	// 4. Trigger action output
-	if (action === "quote") {
-		setQuote(getMotivationalQuote(detectedTone));
-	} else if (action === "music") {
-		toast("🎶 Playing mood-based music (mock)");
-	} else if (action === "visual") {
-		toast("🌸 Showing soothing animation (mock)");
-	}
-
-	// 5. Post journal entry
-	const newEntry: JournalEntry = {
-		title: title,
-		content: entry,
-		mood: selectedMood,
-		date: new Date().toISOString(),
-	};
-
-	axios
-		.post("/journals", { ...newEntry }, { withCredentials: true })
-		.then(() => {
-			setTitle("");
-			setEntry("");
-			setSelectedMood("default");
-			toast.success("Entry saved successfully!");
-			setNewEntry(false);
-			setRandom(Math.random());
-		})
-		.catch(() => {
-			toast.error("Failed to save entry. Please try again.");
-		});
-};
-
-	const toggleListening = () => {
-		const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-		if (!SpeechRecognition) return alert("Voice input not supported.");
-
-		if (!recognitionRef.current) {
-			recognitionRef.current = new SpeechRecognition();
-			recognitionRef.current.lang = "en-US";
-			recognitionRef.current.continuous = true;
-			recognitionRef.current.interimResults = false;
-			recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
-				const transcript = event.results[event.results.length - 1][0].transcript;
-				setEntry((prev) => prev + " " + transcript);
-			};
-		}
-
-		if (listening) recognitionRef.current.stop();
-		else recognitionRef.current.start();
-		setListening(!listening);
-	};
-
-	return (
-		<div className={styles.container}>
-			{/* Magical Floating Particles */}
-			<div className={styles.particles}>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-				<div className={styles.particle}></div>
-			</div>
-
-			<h1 className={styles.heading}>🖋 Reflect. Release. Reconnect.</h1>
-
-			{newEntry ? (
-				<>
-				<div className={styles.controls}>
-					<div className={styles.dropdown}>
-						<label htmlFor="mood">💭 Mood</label>
-						<select id="mood" value={selectedMood} onChange={(e) => setSelectedMood(e.target.value)}>
-							<option value="default">Choose how you feel...</option>
-							{moods.map((m) => (
-								<option key={m.value} value={m.value}>
-									{m.label}
-								</option>
-							))}
-						</select>
-					</div>
-				</div>
-
-				<div className={styles.journalBox}>
-					<input
-						type="text"
-						placeholder="Your title..."
-						value={title}
-						onChange={(e) => {
-							setTitle(e.target.value);
-						}}
-						className={styles.titleInput}
-					/>
-					<textarea
-						placeholder="Write or speak your thoughts..."
-						value={entry}
-						onChange={(e) => setEntry(e.target.value)}
-						className={styles.textarea}
-						rows={6}
-					/>
-					<div className={styles.actions}>
-						<button 
-							onClick={toggleListening} 
-							title="Voice Input" 
-							className={`${styles.micButton} ${listening ? styles.listening : ''}`}
-						>
-							<FiMic />
-						</button>
-						<button onClick={handleSubmit} title="Submit" className={styles.sendButton}>
-							<FiSend />
-						</button>
-					</div>
-				</div>
-
-				{tone && (
-					<div className={styles.result}>
-						<p className={styles.toneText}>
-							{tone === "positive" && "🌞 You sound joyful."}
-							{tone === "negative" && "🌧 You sound heavy."}
-							{tone === "neutral" && "🌿 You sound calm."}
-						</p>
-						<p className={styles.quote}>💬 {quote}</p>
-					</div>
-				)}
-				</>) : (
-					<div className={styles.journals}>
-						<button className={styles.newButton} onClick={()=>{setNewEntry(true)}}>
-							✨ New Entry
-						</button>
-						<div className={styles.journalList}>
-							{entries.map((entry, index) => (
-								<div key={index} className={styles.entry}>
-									<h2 className={styles.entryTitle}>{entry.title}</h2>
-									<p className={styles.entryContent}>{entry.content}</p>
-									<p className={styles.entryMood}>Mood: {entry.mood}</p>
-									<p className={styles.entryDate}>{(entry.date?.split("T")[0]) || new Date().toISOString().split("T")[0]}</p>
-								</div>
-							))}
-						</div>
-					</div>
-			)}
-			{!feedbackGiven && entries.length > 0 && (
-        <div className={styles.feedbackFloat}>
-          <span>Was this helpful?</span>
-		  <button onClick={() => { 
-        logFeedback(currentMood as any, "journal", 1); 
-        setFeedbackGiven(true); 
-        // Dispatch custom event to refresh wellness journey
-        window.dispatchEvent(new Event('feedback-given'));
-      }}>Yes</button>
-		  <button onClick={() => { 
-        logFeedback(currentMood as any, "journal", 0); 
-        setFeedbackGiven(true); 
-        // Dispatch custom event to refresh wellness journey
-        window.dispatchEvent(new Event('feedback-given'));
-      }}>No</button>
+  return locked ? (
+    <div className={styles.lockContainer}>
+      <h2>Enter Passcode</h2>
+      <input
+        type="password"
+        value={passcode}
+        onChange={e => setPasscode(e.target.value)}
+        className={styles.passInput}
+      />
+      <button onClick={handleUnlock} className={styles.unlockBtn}>
+        Unlock
+      </button>
+    </div>
+  ) : (
+    <div className={styles.pageContainer + ' ' + styles[theme]}>
+      <aside className={styles.sidebar}>
+        <input
+          type="text"
+          placeholder="Search entries..."
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          className={styles.searchBox}
+        />
+        <div className={styles.themeSelector}>
+          <label>Theme/Layout:</label>
+          <select value={theme} onChange={e => setTheme(e.target.value)}>
+            {THEMES.map(t => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
         </div>
-      )}
-		</div>
-	);
+        <div className={styles.streaks}>
+          <h4>Current Streak: {streak} days</h4>
+          <div className={styles.badges}>
+            {BADGES.map(b => (
+              <span
+                key={b}
+                className={styles.badge + (earnedBadges.includes(b) ? ' ' + styles.active : '')}
+              >
+                {b}
+              </span>
+            ))}
+          </div>
+        </div>
+        
+        <div className={styles.previousEntries}>
+          <h4>Previous Entries</h4>
+          <div className={styles.entriesList}>
+            {previousEntries
+              .filter(entry => 
+                entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                entry.content.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .slice(0, 5)
+              .map(entry => (
+                <div 
+                  key={entry.id} 
+                  className={styles.entryCard}
+                  onClick={() => handleViewEntry(entry.id)}
+                >
+                  <h5>{entry.title}</h5>
+                  <p>{entry.date}</p>
+                  <div className={styles.entryTags}>
+                    {entry.tags.slice(0, 2).map((tag: string, index: number) => (
+                      <span key={index} className={styles.tag}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      </aside>
+
+      <main className={styles.editorSection}>
+        <div className={styles.toolbar}>
+          <input
+            type="text"
+            placeholder="Entry title..."
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            className={styles.titleInput}
+          />
+          <input
+            type="text"
+            placeholder="Add tag and press Enter"
+            value={tagInput}
+            onChange={e => setTagInput(e.target.value)}
+            onKeyDown={handleTagAdd}
+            className={styles.tagInput}
+          />
+          <div className={styles.tagList}>
+            {tags.map((t,i) => <span key={i} className={styles.tag}>{t}</span>)}
+          </div>
+          <input type="file" multiple onChange={handleFileUpload} />
+        </div>
+        <ReactQuill
+          ref={quillRef}
+          value={content}
+          onChange={setContent}
+          className={styles.editor}
+          modules={{ toolbar: true }}
+          formats={[ 'bold','italic','underline','list','bullet','link' ]}
+        />
+      </main>
+
+      <footer className={styles.footer}>
+        <button className={styles.saveBtn} onClick={handleSaveEntry}>Save Entry</button>
+      </footer>
+    </div>
+  );
 };
 
-export default Journal;
+export default JournalPage;
+
+
+/* JournalPage.module.css */
