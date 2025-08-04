@@ -8,8 +8,30 @@ interface JournalEntry {
   content: string;
   date: string;
   tags: string[];
-  mood?: string;
+  theme?: string;
   attachments?: string[];
+  images?: Array<{
+    id: string;
+    src: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    rotation: number;
+  }>;
+  textBoxes?: Array<{
+    id: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    text: string;
+    fontSize: number;
+    fontFamily: string;
+    color: string;
+    backgroundColor: string;
+    rotation: number;
+  }>;
 }
 
 const JournalView: React.FC = () => {
@@ -19,29 +41,14 @@ const JournalView: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate fetching entry data
-    setTimeout(() => {
-      const dummyEntry: JournalEntry = {
-        id: entryId || '1',
-        title: 'My Journal Entry',
-        content: `Today was an incredible day filled with learning and growth. I spent time reflecting on my goals and realized how far I've come in my journey.
-
-The morning started with a peaceful meditation session that helped me center myself for the day ahead. I felt grateful for the quiet moments and the opportunity to practice mindfulness.
-
-Later in the day, I had a meaningful conversation with a friend that reminded me of the importance of connection and support in our lives. It's amazing how a simple conversation can shift your perspective and bring clarity to your thoughts.
-
-I also worked on some personal projects and felt a sense of accomplishment when I completed a challenging task. It reminded me that growth often comes from stepping outside our comfort zones and embracing challenges as opportunities for learning.
-
-As I write this entry, I'm feeling grateful for all the experiences that have shaped me into who I am today. Each day brings new opportunities for growth, learning, and connection.`,
-        date: '2024-01-15',
-        tags: ['gratitude', 'reflection', 'growth', 'mindfulness'],
-        mood: 'grateful',
-        attachments: ['image1.jpg', 'document.pdf']
-      };
-      
-      setEntry(dummyEntry);
-      setLoading(false);
-    }, 1000);
+    // Load actual entry data from localStorage
+    const savedEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    const foundEntry = savedEntries.find((entry: JournalEntry) => entry.id === entryId);
+    
+    if (foundEntry) {
+      setEntry(foundEntry);
+    }
+    setLoading(false);
   }, [entryId]);
 
   const handleEdit = () => {
@@ -50,13 +57,16 @@ As I write this entry, I'm feeling grateful for all the experiences that have sh
 
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this entry?')) {
-      // Handle deletion logic here
-      navigate('/journal/list');
+      // Remove entry from localStorage
+      const savedEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+      const updatedEntries = savedEntries.filter((entry: JournalEntry) => entry.id !== entryId);
+      localStorage.setItem('journalEntries', JSON.stringify(updatedEntries));
+      navigate('/journal');
     }
   };
 
   const handleBackToList = () => {
-    navigate('/journal/list');
+    navigate('/journal');
   };
 
   if (loading) {
@@ -73,7 +83,7 @@ As I write this entry, I'm feeling grateful for all the experiences that have sh
         <div className={styles.error}>
           <h2>Entry not found</h2>
           <button onClick={handleBackToList} className={styles.backBtn}>
-            Back to Journal List
+            Back to Journal
           </button>
         </div>
       </div>
@@ -84,7 +94,7 @@ As I write this entry, I'm feeling grateful for all the experiences that have sh
     <div className={styles.pageContainer}>
       <header className={styles.entryHeader}>
         <button onClick={handleBackToList} className={styles.backBtn}>
-          ← Back to List
+          ← Back to Journal
         </button>
         <div className={styles.entryActions}>
           <button onClick={handleEdit} className={styles.editBtn}>
@@ -101,9 +111,9 @@ As I write this entry, I'm feeling grateful for all the experiences that have sh
           <h1>{entry.title}</h1>
           <div className={styles.entryInfo}>
             <span className={styles.entryDate}>{entry.date}</span>
-            {entry.mood && (
-              <span className={styles.moodIndicator}>
-                Mood: {entry.mood}
+            {entry.theme && (
+              <span className={styles.themeIndicator}>
+                Theme: {entry.theme}
               </span>
             )}
           </div>
@@ -115,11 +125,78 @@ As I write this entry, I'm feeling grateful for all the experiences that have sh
         </div>
 
         <div className={styles.entryBody}>
-          <div className={styles.content}>
-            {entry.content.split('\n\n').map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
+                  <div 
+          className={styles.content}
+          dangerouslySetInnerHTML={{ __html: entry.content }}
+        />
+          
+          {/* Display images if any */}
+          {entry.images && entry.images.length > 0 && (
+            <div className={styles.entryImages}>
+              <h3>Images</h3>
+              <div className={styles.imageGallery}>
+                {entry.images.map((image) => (
+                  <div
+                    key={image.id}
+                    className={styles.viewImageContainer}
+                    style={{
+                      width: image.width,
+                      height: image.height,
+                      transform: `rotate(${image.rotation}deg)`,
+                    }}
+                  >
+                    <img
+                      src={image.src}
+                      alt="Journal image"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '4px',
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Display text boxes if any */}
+          {entry.textBoxes && entry.textBoxes.length > 0 && (
+            <div className={styles.entryTextBoxes}>
+              <h3>Text Boxes</h3>
+              <div className={styles.textBoxGallery}>
+                {entry.textBoxes.map((textBox) => (
+                  <div
+                    key={textBox.id}
+                    className={styles.viewTextBoxContainer}
+                    style={{
+                      width: textBox.width,
+                      height: textBox.height,
+                      transform: `rotate(${textBox.rotation}deg)`,
+                      backgroundColor: textBox.backgroundColor,
+                      border: '1px solid #ccc',
+                      borderRadius: '4px',
+                      padding: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: textBox.fontFamily,
+                      fontSize: textBox.fontSize + 'px',
+                      color: textBox.color,
+                      overflow: 'hidden',
+                      wordWrap: 'break-word',
+                      margin: '10px'
+                    }}
+                  >
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {textBox.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {entry.attachments && entry.attachments.length > 0 && (
