@@ -171,16 +171,15 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    // For development, allow all origins temporarily
-    if (process.env.NODE_ENV === 'development') {
-      return callback(null, true);
-    }
+    // For debugging, allow all origins temporarily
+    console.log('Request origin:', origin);
     
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       console.log('CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
+      // Temporarily allow all origins for debugging
+      callback(null, true);
     }
   },
   credentials: true,
@@ -190,6 +189,15 @@ app.use(cors({
 
 app.use(express.json());
 
+// Health check route
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
 // Use Care Connect routes
 app.use('/api/care-connect', careConnectRoutes);
 
@@ -197,8 +205,14 @@ app.use('/api/care-connect', careConnectRoutes);
 app.use('/api/family', familyInvitationRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => {
+    console.log('MongoDB connected successfully');
+    console.log('Database name:', mongoose.connection.name);
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    console.error('MONGO_URI:', process.env.MONGO_URI ? 'Set' : 'Not set');
+  });
 
 // Register
 app.post('/users/register', async (req, res) => {
@@ -323,21 +337,45 @@ app.get('/caseHistory', async (req, res) => {
 // Create a new journal entry
 app.post('/journals', async (req, res) => {
   try {
-    const { content } = req.body;
+    console.log('Creating journal entry with data:', req.body);
+    const { title, content, mood, sentiment } = req.body;
     // Optionally, associate with user: const userId = req.user.id;
-    const journal = await Journal.create({ content });
+    const journal = await Journal.create({ 
+      title, 
+      content, 
+      mood, 
+      sentiment: sentiment || 'neutral'
+    });
+    console.log('Journal created successfully:', journal._id);
     res.json({ message: 'Journal entry saved!', journal });
   } catch (err) {
+    console.error('Journal save error:', err);
     res.status(500).json({ error: 'Failed to save journal entry.' });
+  }
+});
+
+// Test route to check Journal model
+app.get('/test-journal', async (req, res) => {
+  try {
+    console.log('Testing Journal model...');
+    const count = await Journal.countDocuments();
+    console.log('Journal count:', count);
+    res.json({ message: 'Journal model working', count });
+  } catch (err) {
+    console.error('Journal test error:', err);
+    res.status(500).json({ error: 'Journal model test failed', details: err.message });
   }
 });
 
 // Get all journal entries (optionally, filter by user)
 app.get('/journals', async (req, res) => {
   try {
+    console.log('Fetching journals...');
     const journals = await Journal.find().sort({ createdAt: -1 });
+    console.log('Found journals:', journals.length);
     res.json(journals);
   } catch (err) {
+    console.error('Journal fetch error:', err);
     res.status(500).json({ error: 'Failed to fetch journals.' });
   }
 });

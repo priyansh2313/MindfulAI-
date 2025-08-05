@@ -22,6 +22,7 @@ import ImageAnalyzer from './pages/ImageAnalyser';
 import Introduction from './pages/Introduction';
 import InvitationAccept from './pages/InvitationAccept';
 import Journal from './pages/Journal';
+import JournalView from './pages/JournalView';
 import Login from './pages/Login';
 import MindfulAssistant from './pages/MindfulAssistant';
 import Music from './pages/Music';
@@ -51,6 +52,7 @@ function App() {
           <Route path="/dashboard" element={user ? <><Dashboard /><DashboardFooter /></> : <Navigate to="/login" />} />
           <Route path="/evaluation" element={user ? <Evaluation /> : <Navigate to="/login" />} />
           <Route path="/journal" element={user ? <Journal /> : <Navigate to="/login" />} />
+          <Route path="/journal/view/:entryId" element={user ? <JournalView /> : <Navigate to="/login" />} />
           <Route path="/community" element={user ? <Community /> : <Navigate to="/login" />} />
           <Route path="/music" element={user ? <Music /> : <Navigate to="/login" />} />
           <Route path="/image-analyzer" element={user ? <ImageAnalyzer /> : <Navigate to="/login" />} />

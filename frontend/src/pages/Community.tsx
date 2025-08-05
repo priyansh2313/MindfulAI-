@@ -24,16 +24,6 @@ const interestOptions = [
 	{ id: "gratitude", label: "Gratitude", emoji: "🙏" },
 ];
 
-// Mood options for users to select
-const moodOptions = [
-	{ value: "happy", label: "Happy", emoji: "😊", color: "#4ade80" },
-	{ value: "calm", label: "Calm", emoji: "😌", color: "#60a5fa" },
-	{ value: "anxious", label: "Anxious", emoji: "😰", color: "#fbbf24" },
-	{ value: "sad", label: "Sad", emoji: "😔", color: "#a78bfa" },
-	{ value: "excited", label: "Excited", emoji: "🤩", color: "#f87171" },
-	{ value: "neutral", label: "Neutral", emoji: "😐", color: "#9ca3af" },
-];
-
 export default function CommunityChat() {
 	const user = useSelector((state: any) => state.user.user);
 	console.log(user);
@@ -56,12 +46,9 @@ export default function CommunityChat() {
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const [feedbackGiven, setFeedbackGiven] = useState(false);
 
-	// New state for enhanced signup
+	// Simplified signup state
 	const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-	const [selectedMood, setSelectedMood] = useState<string>("neutral");
-	const [showInterests, setShowInterests] = useState(false);
-	const [showMoodSelector, setShowMoodSelector] = useState(false);
-	const [signupStep, setSignupStep] = useState(1); // 1: username, 2: interests, 3: mood
+	const [signupStep, setSignupStep] = useState(1); // 1: username, 2: interests
 	const [isLoading, setIsLoading] = useState(false);
 
 	// Initialize socket
@@ -136,12 +123,6 @@ export default function CommunityChat() {
 		);
 	};
 
-	// Mood selection
-	const selectMood = (mood: string) => {
-		setSelectedMood(mood);
-		setShowMoodSelector(false);
-	};
-
 	// Toggle sidebar for mobile
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
@@ -196,7 +177,7 @@ export default function CommunityChat() {
 	// Enhanced join function
 	const handleJoin = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (signupStep < 3) {
+		if (signupStep < 2) {
 			setSignupStep(signupStep + 1);
 			return;
 		}
@@ -210,7 +191,6 @@ export default function CommunityChat() {
 			setLoginName("");
 			setSignupStep(1);
 			setSelectedInterests([]);
-			setSelectedMood("neutral");
 		} catch (error) {
 			console.error("Error joining chat:", error);
 		} finally {
@@ -297,10 +277,6 @@ export default function CommunityChat() {
 						<div className={`${styles.progressStep} ${signupStep >= 2 ? styles.active : ''}`}>
 							<span className={styles.stepNumber}>2</span>
 							<span className={styles.stepLabel}>Interests</span>
-						</div>
-						<div className={`${styles.progressStep} ${signupStep >= 3 ? styles.active : ''}`}>
-							<span className={styles.stepNumber}>3</span>
-							<span className={styles.stepLabel}>Mood</span>
 						</div>
 					</div>
 
@@ -399,41 +375,6 @@ export default function CommunityChat() {
 							</div>
 						)}
 
-						{/* Step 3: Mood Selection */}
-						{signupStep === 3 && (
-							<div className={styles.signupStep}>
-								<h3 className={styles.stepTitle}>How are you feeling today?</h3>
-								<p className={styles.stepDescription}>This helps us personalize your experience</p>
-								
-								<div className={styles.moodSelector}>
-									{moodOptions.map((mood) => (
-										<button
-											key={mood.value}
-											type="button"
-											className={`${styles.moodOption} ${
-												selectedMood === mood.value ? styles.selected : ''
-											}`}
-											onClick={() => selectMood(mood.value)}
-											style={{ '--mood-color': mood.color } as React.CSSProperties}
-										>
-											<span className={styles.moodEmoji}>{mood.emoji}</span>
-											<span className={styles.moodLabel}>{mood.label}</span>
-										</button>
-									))}
-								</div>
-								
-								{selectedMood && (
-									<div className={styles.selectedMood}>
-										<span>Current mood: </span>
-										<span className={styles.moodDisplay}>
-											{moodOptions.find(m => m.value === selectedMood)?.emoji} 
-											{moodOptions.find(m => m.value === selectedMood)?.label}
-										</span>
-									</div>
-								)}
-							</div>
-						)}
-
 						{/* Navigation buttons */}
 						<div className={styles.signupNavigation}>
 							{signupStep > 1 && (
@@ -456,7 +397,7 @@ export default function CommunityChat() {
 										<span className={styles.spinner}></span>
 										Joining...
 									</>
-								) : signupStep < 3 ? (
+								) : signupStep < 2 ? (
 									'Continue →'
 								) : (
 									'Start Chatting'
@@ -634,7 +575,7 @@ export default function CommunityChat() {
 							<input
 								type="text"
 								value={input}
-								onChange={(e) => setInput(e.target.value)}
+								onChange={handleTyping}
 								onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
 								placeholder="Type a message..."
 								className={styles.inputField}
