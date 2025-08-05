@@ -209,6 +209,10 @@ const Evaluation = () => {
 			const score = updatedAnswers.reduce((a, b) => a + b, 0);
 			handleUpload(score);
 			localStorage.setItem("evaluationScore", score.toString());
+			
+			// Dispatch custom event to notify other components
+			window.dispatchEvent(new Event('evaluationCompleted'));
+			
 			setShowResults(true);
 		}
 	};
@@ -286,10 +290,12 @@ const Evaluation = () => {
 		axios
 			.post("/test", { ...scores, score }, { withCredentials: true })
 			.then(({ data }) => {
+				console.log("Test results saved successfully:", data);
 				toast.success("Test Results Updated");
 			})
 			.catch((error) => {
 				console.error("Error uploading data:", error);
+				toast.error("Failed to save test results");
 			});
 	};
 

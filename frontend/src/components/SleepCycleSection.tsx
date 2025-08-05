@@ -38,6 +38,13 @@ const SleepCycleSection = () => {
     try {
       const res = await fetch("/api/oratech/sleep/today");
       const data = await res.json();
+      
+      if (data === null) {
+        // No sleep data available for this user
+        alert("No sleep data available. Please complete your first sleep tracking session.");
+        return;
+      }
+      
       setOratechSleep({
         sleepScore: data.sleepScore,
         startTime: data.startTime,
@@ -46,6 +53,7 @@ const SleepCycleSection = () => {
       });
     } catch (error) {
       console.error("Failed to fetch OraTech data:", error);
+      alert("Unable to fetch sleep data. Please try again.");
     } finally {
       setLoadingOraTech(false);
     }

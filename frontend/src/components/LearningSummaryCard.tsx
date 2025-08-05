@@ -1,102 +1,177 @@
 import { Activity, Brain, Heart, Target, TrendingUp } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import axios from '../hooks/axios/axios';
 import styles from '../styles/LearningSummaryCard.module.css';
 
 interface MentalHealthMetrics {
-  overallScore: number;
-  weeklyTrend: number;
-  moodImprovement: number;
-  consistency: number;
+  overallScore: number | null;
+  weeklyTrend: number | null;
+  moodImprovement: number | null;
+  consistency: number | null;
   weeklyProgress: number[];
   insights: string[];
+  hasData: boolean;
 }
 
 const LearningSummaryCard: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [metrics, setMetrics] = useState<MentalHealthMetrics>({
-    overallScore: 0,
-    weeklyTrend: 0,
-    moodImprovement: 0,
-    consistency: 0,
+    overallScore: null,
+    weeklyTrend: null,
+    moodImprovement: null,
+    consistency: null,
     weeklyProgress: [],
-    insights: []
+    insights: [],
+    hasData: false
   });
 
   useEffect(() => {
     calculateMentalHealthMetrics();
   }, []);
 
-  const calculateMentalHealthMetrics = () => {
-    // Get user data from localStorage and calculate real metrics
-    const moodHistory = JSON.parse(localStorage.getItem('moodHistory') || '[]');
-    const activityHistory = JSON.parse(localStorage.getItem('activityHistory') || '[]');
-    const evaluationHistory = JSON.parse(localStorage.getItem('evaluationHistory') || '[]');
-    const todayMood = localStorage.getItem('todayMood') || '😐';
+  // Add refresh mechanism when evaluation data changes
+  useEffect(() => {
+    const handleStorageChange = () => {
+      // Refresh when evaluation data changes
+      const evaluationScore = localStorage.getItem('evaluationScore');
+      if (evaluationScore) {
+        calculateMentalHealthMetrics();
+      }
+    };
 
-    // Calculate overall score based on recent evaluations
-    const recentEvaluations = evaluationHistory.slice(-5);
-    const overallScore = recentEvaluations.length > 0 
-      ? Math.round(recentEvaluations.reduce((sum: number, evaluation: any) => sum + (evaluation.score || 0), 0) / recentEvaluations.length)
-      : 75; // Default if no evaluations
+    // Listen for storage changes
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for custom events (for same-tab updates)
+    window.addEventListener('evaluationCompleted', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('evaluationCompleted', handleStorageChange);
+    };
+  }, []);
 
-    // Calculate weekly trend
-    const weeklyMoods = moodHistory.slice(-7);
-    const weeklyTrend = weeklyMoods.length > 1 
-      ? Math.round(((weeklyMoods[weeklyMoods.length - 1]?.score || 0) - (weeklyMoods[0]?.score || 0)) / weeklyMoods.length * 100)
-      : 5; // Default small improvement
+  const calculateMentalHealthMetrics = async () => {
+    try {
+      // First try to get evaluation data from server
+      let evaluationData = [];
+      try {
+        const response = await axios.get('/test', { withCredentials: true });
+        console.log('Server evaluation data:', response.data);
+        if ((response.data as any).testResults && (response.data as any).testResults.length > 0) {
+          evaluationData = (response.data as any).testResults;
+          console.log('Found evaluation data from server:', evaluationData);
+        }
+      } catch (error) {
+        console.log('No evaluation data from server:', error);
+      }
 
-    // Calculate mood improvement (comparing current month to previous)
-    const currentMonthMoods = moodHistory.filter((mood: any) => {
-      const moodDate = new Date(mood.timestamp);
-      const now = new Date();
-      return moodDate.getMonth() === now.getMonth() && moodDate.getFullYear() === now.getFullYear();
-    });
-    const previousMonthMoods = moodHistory.filter((mood: any) => {
-      const moodDate = new Date(mood.timestamp);
-      const now = new Date();
-      return moodDate.getMonth() === now.getMonth() - 1 && moodDate.getFullYear() === now.getFullYear();
-    });
+      // Get user data from localStorage
+      const moodHistory = JSON.parse(localStorage.getItem('moodHistory') || '[]');
+      const activityHistory = JSON.parse(localStorage.getItem('activityHistory') || '[]');
+      const evaluationHistory = JSON.parse(localStorage.getItem('evaluationHistory') || '[]');
+      const todayMood = localStorage.getItem('todayMood') || '😐';
 
-    const moodImprovement = currentMonthMoods.length > 0 && previousMonthMoods.length > 0
-      ? Math.round(((currentMonthMoods.reduce((sum: number, mood: any) => sum + (mood.score || 0), 0) / currentMonthMoods.length) -
-                   (previousMonthMoods.reduce((sum: number, mood: any) => sum + (mood.score || 0), 0) / previousMonthMoods.length)) * 100)
-      : 15; // Default improvement
+      // Combine server and local evaluation data
+      const allEvaluations = [...evaluationData, ...evaluationHistory];
+      
+      // Check if user has any data
+      const hasAnyData = allEvaluations.length > 0 || moodHistory.length > 0 || activityHistory.length > 0;
 
-    // Calculate consistency (daily activity adherence)
-    const last30Days = activityHistory.filter((activity: any) => {
-      const activityDate = new Date(activity.timestamp);
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      return activityDate >= thirtyDaysAgo;
-    });
-    const consistency = last30Days.length > 0 
-      ? Math.round((last30Days.length / 30) * 100)
-      : 70; // Default consistency
+      if (!hasAnyData) {
+        // New user with no data
+        setMetrics({
+          overallScore: null,
+          weeklyTrend: null,
+          moodImprovement: null,
+          consistency: null,
+          weeklyProgress: [],
+          insights: ['Complete your first evaluation to see your mental health insights', 'Start tracking your daily mood to see patterns'],
+          hasData: false
+        });
+        setIsLoading(false);
+        return;
+      }
 
-    // Generate weekly progress data
-    const weeklyProgress = Array.from({ length: 7 }, (_, i) => {
-      const dayMoods = moodHistory.filter((mood: any) => {
+      // Calculate overall score based on recent evaluations
+      const recentEvaluations = allEvaluations.slice(-5);
+      console.log('Recent evaluations for overall score:', recentEvaluations);
+      const overallScore = recentEvaluations.length > 0 
+        ? Math.round(recentEvaluations.reduce((sum: number, evaluation: any) => sum + (evaluation.score || 0), 0) / recentEvaluations.length)
+        : null;
+      console.log('Calculated overall score:', overallScore);
+
+      // Calculate weekly trend
+      const weeklyMoods = moodHistory.slice(-7);
+      const weeklyTrend = weeklyMoods.length > 1 
+        ? Math.round(((weeklyMoods[weeklyMoods.length - 1]?.score || 0) - (weeklyMoods[0]?.score || 0)) / weeklyMoods.length * 100)
+        : null;
+
+      // Calculate mood improvement (comparing current month to previous)
+      const currentMonthMoods = moodHistory.filter((mood: any) => {
         const moodDate = new Date(mood.timestamp);
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() - (6 - i));
-        return moodDate.toDateString() === targetDate.toDateString();
+        const now = new Date();
+        return moodDate.getMonth() === now.getMonth() && moodDate.getFullYear() === now.getFullYear();
       });
-      return dayMoods.length > 0 
-        ? Math.round(dayMoods.reduce((sum: number, mood: any) => sum + (mood.score || 0), 0) / dayMoods.length)
-        : Math.floor(Math.random() * 30) + 60; // Random fallback
-    });
+      const previousMonthMoods = moodHistory.filter((mood: any) => {
+        const moodDate = new Date(mood.timestamp);
+        const now = new Date();
+        return moodDate.getMonth() === now.getMonth() - 1 && moodDate.getFullYear() === now.getFullYear();
+      });
 
-    // Generate insights based on actual data
-    const insights = generateInsights(moodHistory, activityHistory, evaluationHistory);
+      const moodImprovement = currentMonthMoods.length > 0 && previousMonthMoods.length > 0
+        ? Math.round(((currentMonthMoods.reduce((sum: number, mood: any) => sum + (mood.score || 0), 0) / currentMonthMoods.length) -
+                     (previousMonthMoods.reduce((sum: number, mood: any) => sum + (mood.score || 0), 0) / previousMonthMoods.length)) * 100)
+        : null;
 
-    setMetrics({
-      overallScore,
-      weeklyTrend,
-      moodImprovement,
-      consistency,
-      weeklyProgress,
-      insights
-    });
+      // Calculate consistency (daily activity adherence)
+      const last30Days = activityHistory.filter((activity: any) => {
+        const activityDate = new Date(activity.timestamp);
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        return activityDate >= thirtyDaysAgo;
+      });
+      const consistency = last30Days.length > 0 
+        ? Math.round((last30Days.length / 30) * 100)
+        : null;
+
+      // Generate weekly progress data
+      const weeklyProgress = Array.from({ length: 7 }, (_, i) => {
+        const dayMoods = moodHistory.filter((mood: any) => {
+          const moodDate = new Date(mood.timestamp);
+          const targetDate = new Date();
+          targetDate.setDate(targetDate.getDate() - (6 - i));
+          return moodDate.toDateString() === targetDate.toDateString();
+        });
+        return dayMoods.length > 0 
+          ? Math.round(dayMoods.reduce((sum: number, mood: any) => sum + (mood.score || 0), 0) / dayMoods.length)
+          : 0; // Show 0 instead of random fallback
+      });
+
+      // Generate insights based on actual data
+      const insights = generateInsights(moodHistory, activityHistory, allEvaluations);
+
+      setMetrics({
+        overallScore,
+        weeklyTrend,
+        moodImprovement,
+        consistency,
+        weeklyProgress,
+        insights,
+        hasData: true
+      });
+    } catch (error) {
+      console.error('Error calculating metrics:', error);
+      setMetrics({
+        overallScore: null,
+        weeklyTrend: null,
+        moodImprovement: null,
+        consistency: null,
+        weeklyProgress: [],
+        insights: ['Unable to load your data. Please try again.'],
+        hasData: false
+      });
+    }
 
     setTimeout(() => setIsLoading(false), 800);
   };
@@ -122,17 +197,19 @@ const LearningSummaryCard: React.FC = () => {
     }
 
     // Mood trend insight
-    if (metrics.moodImprovement > 0) {
+    if (metrics.moodImprovement !== null && metrics.moodImprovement > 0) {
       insights.push(`Your mood has improved ${Math.abs(metrics.moodImprovement)}% this month`);
     }
 
     // Consistency insight
-    if (metrics.consistency > 80) {
-      insights.push('Excellent daily activity adherence');
-    } else if (metrics.consistency > 60) {
-      insights.push('Good consistency with room for improvement');
-    } else {
-      insights.push('Consider increasing daily activity frequency');
+    if (metrics.consistency !== null) {
+      if (metrics.consistency >= 80) {
+        insights.push('Excellent daily activity adherence');
+      } else if (metrics.consistency > 60) {
+        insights.push('Good consistency with room for improvement');
+      } else {
+        insights.push('Consider increasing daily activity frequency');
+      }
     }
 
     return insights;
@@ -166,6 +243,15 @@ const LearningSummaryCard: React.FC = () => {
           <Brain className={styles.titleIcon} />
           <h3 className={styles.title}>Mental Health Analytics</h3>
         </div>
+        <div className={styles.headerActions}>
+          <button 
+            onClick={() => calculateMentalHealthMetrics()} 
+            className={styles.refreshButton}
+            title="Refresh data"
+          >
+            🔄
+          </button>
+        </div>
         <p className={styles.subtitle}>Your wellness journey insights</p>
       </div>
 
@@ -176,13 +262,15 @@ const LearningSummaryCard: React.FC = () => {
             <Target className={styles.metricIcon} />
             <span className={styles.metricLabel}>Overall Score</span>
           </div>
-          <div className={styles.metricValue} style={{ color: getScoreColor(metrics.overallScore) }}>
-            {metrics.overallScore}%
+          <div className={styles.metricValue} style={{ color: getScoreColor(metrics.overallScore || 0) }}>
+            {metrics.overallScore !== null ? `${metrics.overallScore}%` : 'N/A'}
           </div>
           <div className={styles.metricDescription}>
-            {metrics.overallScore >= 80 ? 'Excellent mental wellness' :
-             metrics.overallScore >= 60 ? 'Good mental wellness' :
-             metrics.overallScore >= 40 ? 'Moderate mental wellness' : 'Needs attention'}
+            {metrics.overallScore !== null ? (
+              metrics.overallScore >= 80 ? 'Excellent mental wellness' :
+              metrics.overallScore >= 60 ? 'Good mental wellness' :
+              metrics.overallScore >= 40 ? 'Moderate mental wellness' : 'Needs attention'
+            ) : 'No data available'}
           </div>
         </div>
 
@@ -192,12 +280,14 @@ const LearningSummaryCard: React.FC = () => {
             <TrendingUp className={styles.metricIcon} />
             <span className={styles.metricLabel}>Weekly Trend</span>
           </div>
-          <div className={styles.metricValue} style={{ color: getTrendColor(metrics.weeklyTrend) }}>
-            {metrics.weeklyTrend >= 0 ? '+' : ''}{metrics.weeklyTrend}%
+          <div className={styles.metricValue} style={{ color: getTrendColor(metrics.weeklyTrend || 0) }}>
+            {metrics.weeklyTrend !== null ? `${metrics.weeklyTrend >= 0 ? '+' : ''}${metrics.weeklyTrend}%` : 'N/A'}
           </div>
           <div className={styles.metricDescription}>
-            {metrics.weeklyTrend > 0 ? 'Improving this week' :
-             metrics.weeklyTrend < 0 ? 'Declining this week' : 'Stable this week'}
+            {metrics.weeklyTrend !== null ? (
+              metrics.weeklyTrend > 0 ? 'Improving this week' :
+              metrics.weeklyTrend < 0 ? 'Declining this week' : 'Stable this week'
+            ) : 'No data available'}
           </div>
         </div>
 
@@ -207,12 +297,14 @@ const LearningSummaryCard: React.FC = () => {
             <Heart className={styles.metricIcon} />
             <span className={styles.metricLabel}>Mood Improvement</span>
           </div>
-          <div className={styles.metricValue} style={{ color: getTrendColor(metrics.moodImprovement) }}>
-            {metrics.moodImprovement >= 0 ? '+' : ''}{metrics.moodImprovement}%
+          <div className={styles.metricValue} style={{ color: getTrendColor(metrics.moodImprovement || 0) }}>
+            {metrics.moodImprovement !== null ? `${metrics.moodImprovement >= 0 ? '+' : ''}${metrics.moodImprovement}%` : 'N/A'}
           </div>
           <div className={styles.metricDescription}>
-            {metrics.moodImprovement > 0 ? 'Better than last month' :
-             metrics.moodImprovement < 0 ? 'Lower than last month' : 'Similar to last month'}
+            {metrics.moodImprovement !== null ? (
+              metrics.moodImprovement > 0 ? 'Better than last month' :
+              metrics.moodImprovement < 0 ? 'Lower than last month' : 'Similar to last month'
+            ) : 'No data available'}
           </div>
         </div>
 
@@ -222,13 +314,15 @@ const LearningSummaryCard: React.FC = () => {
             <Activity className={styles.metricIcon} />
             <span className={styles.metricLabel}>Consistency</span>
           </div>
-          <div className={styles.metricValue} style={{ color: getScoreColor(metrics.consistency) }}>
-            {metrics.consistency}%
+          <div className={styles.metricValue} style={{ color: getScoreColor(metrics.consistency || 0) }}>
+            {metrics.consistency !== null ? `${metrics.consistency}%` : 'N/A'}
           </div>
           <div className={styles.metricDescription}>
-            {metrics.consistency >= 80 ? 'Excellent adherence' :
-             metrics.consistency >= 60 ? 'Good adherence' :
-             metrics.consistency >= 40 ? 'Moderate adherence' : 'Needs improvement'}
+            {metrics.consistency !== null ? (
+              metrics.consistency >= 80 ? 'Excellent adherence' :
+              metrics.consistency >= 60 ? 'Good adherence' :
+              metrics.consistency >= 40 ? 'Moderate adherence' : 'Needs improvement'
+            ) : 'No data available'}
           </div>
         </div>
       </div>

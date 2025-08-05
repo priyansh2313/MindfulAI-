@@ -9,6 +9,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const CaseHistory = require('./models/CaseHistory');
 const Journal = require('./models/Journal');
+const Test = require('./models/Test');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const careConnectRoutes = require('./routes/careConnect');
@@ -380,9 +381,78 @@ app.get('/journals', async (req, res) => {
   }
 });
 
+// POST endpoint to save test results
+app.post('/test', async (req, res) => {
+  try {
+    console.log('Saving test results:', req.body);
+    const { score, anxiety, depression, insomnia, stress, selfEsteem } = req.body;
+    
+    // Extract user ID from JWT token
+    const auth = req.headers.authorization;
+    if (!auth) {
+      return res.status(401).json({ error: 'No authentication token provided' });
+    }
+    
+    const token = auth.split(' ')[1];
+    let userId;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      userId = decoded.id;
+    } catch (err) {
+      return res.status(401).json({ error: 'Invalid authentication token' });
+    }
+    
+    const testData = {
+      user: userId,
+      score,
+      categories: {
+        anxiety: anxiety || 0,
+        depression: depression || 0,
+        insomnia: insomnia || 0,
+        stress: stress || 0,
+        selfEsteem: selfEsteem || 0
+      }
+    };
+    
+    const test = await Test.create(testData);
+    
+    console.log('Test saved successfully for user:', userId, test._id);
+    res.json({ message: 'Test results saved!', test });
+  } catch (err) {
+    console.error('Test save error:', err);
+    res.status(500).json({ error: 'Failed to save test results.' });
+  }
+});
 
-
-
+// GET endpoint to fetch test results
+app.get('/test', async (req, res) => {
+  try {
+    console.log('Fetching test results...');
+    
+    // Extract user ID from JWT token
+    const auth = req.headers.authorization;
+    if (!auth) {
+      return res.status(401).json({ error: 'No authentication token provided' });
+    }
+    
+    const token = auth.split(' ')[1];
+    let userId;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      userId = decoded.id;
+    } catch (err) {
+      return res.status(401).json({ error: 'Invalid authentication token' });
+    }
+    
+    // Only fetch test results for the authenticated user
+    const testResults = await Test.find({ user: userId }).sort({ timestamp: -1 });
+    console.log('Found test results for user:', userId, testResults.length);
+    res.json({ testResults });
+  } catch (err) {
+    console.error('Test fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch test results.' });
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

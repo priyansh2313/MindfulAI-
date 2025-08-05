@@ -10,7 +10,15 @@ export async function getSleepDataFromOraTech() {
     const localTime = now.getHours().toString().padStart(2, '0') + ":"
       + now.getMinutes().toString().padStart(2, '0');
   
-    // Randomized realistic data
+    // Check if user has any sleep data (this would be replaced with actual user data check)
+    const hasSleepData = false; // This should be replaced with actual user data check
+    
+    if (!hasSleepData) {
+      // Return null for new users with no sleep data
+      return null;
+    }
+  
+    // Randomized realistic data (only for users with actual sleep tracking)
     const sleepScore = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
     const disturbances = Math.floor(Math.random() * 5);
     const totalMinutes = 450;
@@ -32,7 +40,7 @@ export async function getSleepDataFromOraTech() {
       disturbances,
       insights: [
         sleepScore >= 85
-          ? "Excellent sleep! You’re well-rested."
+          ? "Excellent sleep! You're well-rested."
           : sleepScore >= 70
           ? "Good sleep, but you can improve."
           : "Poor sleep quality detected. Let's work on it.",

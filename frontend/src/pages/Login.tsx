@@ -48,9 +48,10 @@ const Login = () => {
     setLoading(true);
 		axios
 			.post<{ data: any }>("/users/login", { email, password }, {withCredentials: true})
-			.then(({ data }) => {
+			.then(({ data }: any) => {
 				console.log(data.data);
 				localStorage.setItem("user", JSON.stringify(data.data));
+				localStorage.setItem("token", data.token); // Store the JWT token
 				dispatch(setUser(data.data));
 				toast.success("Login successful!");
 				navigate("/dashboard");

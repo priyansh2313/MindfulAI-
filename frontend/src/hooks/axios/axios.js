@@ -7,6 +7,20 @@ const instance = axios.create({
   withCredentials: true, // ✅ Needed for cookies to work!
 });
 
+// Add request interceptor to include JWT token
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // Add response interceptor to handle HTML responses
 instance.interceptors.response.use(
   (response) => {

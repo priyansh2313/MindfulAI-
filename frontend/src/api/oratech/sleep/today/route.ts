@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  // For new users, return null instead of random fake data
+  // This should be replaced with actual user authentication and data retrieval
+  const hasUserData = false; // This should be replaced with actual user data check
+  
+  if (!hasUserData) {
+    return NextResponse.json(null);
+  }
+
   // For now: MOCK Sleep Data (until real OraTech API is ready)
   const mockSleepData = {
     date: new Date().toISOString().split("T")[0],

@@ -2,11 +2,11 @@ import { Activity, BookOpen, Brain, Heart, Music, Quote } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Widgets/WellnessActivitiesSummary.module.css';
 import {
-  Action,
-  getActionEffectiveness,
-  getPersonalizedInsights,
-  getUserContext,
-  Mood
+    Action,
+    getActionEffectiveness,
+    getPersonalizedInsights,
+    getUserContext,
+    Mood
 } from '../../utils/reinforcement';
 
 interface ActivityData {
@@ -116,7 +116,7 @@ const WellnessActivitiesSummary: React.FC = () => {
             successRate: avgSuccessRate,
             timeEffectiveness
           };
-        }).filter(activity => activity.usage > 0 || activity.effectiveness > 30); // Only show activities with some usage or decent effectiveness
+        }).filter(activity => activity.usage > 0); // Only show activities that have been used
 
         // Sort by effectiveness and usage
         realActivities.sort((a, b) => {
@@ -345,8 +345,12 @@ const WellnessActivitiesSummary: React.FC = () => {
       ) : (
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>🌟</div>
-          <h4>No Activity Data Yet</h4>
-          <p>Start using wellness activities to see your personalized insights here!</p>
+          <h4>Welcome to Your Wellness Journey!</h4>
+          <p>Complete your first evaluation and try some wellness activities to see your personalized insights here.</p>
+          <div className={styles.emptyStateActions}>
+            <button className={styles.primaryAction}>Take Evaluation</button>
+            <button className={styles.secondaryAction}>Explore Activities</button>
+          </div>
         </div>
       )}
 
