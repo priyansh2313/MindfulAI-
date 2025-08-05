@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Association Game</title>
+    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>Word Association</h1>
+            <p>Which word is most related?</p>
+        </header>
+
+        <div class="score-container">
+            <div id="streak-display" class="status-bar">Streak: 0</div>
+            <div id="high-score-display" class="status-bar">Best: 0</div>
+        </div>
+
+        <div id="word-display" class="word-display"></div>
+        
+        <div id="choices-container" class="choices-container"></div>
+    </div>
+
+    <div id="assistant-message" class="assistant-box">
+        <p id="assistant-text"></p>
+    </div>
+
+    <script src="script.js?v=1.1" defer></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+/* File: frontend/src/styles/gamesMenu.module.css (Calm Forest Theme) */
+
+/* We add a new font for a more elegant feel */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto:wght@400&display=swap');
+
+.pageContainer {
+  padding: 50px 40px;
+  background: linear-gradient(to bottom, #eef2f3, #dce9e2); /* A soft gradient background */
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.title {
+  font-family: 'Lora', serif; /* Using the new elegant font */
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2c5234; /* Deeper, calmer green */
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #52796f; /* Muted sage green */
+  max-width: 600px;
+  margin: 10px auto 0 auto;
+}
+
+.gamesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.gameCard {
+  background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent card */
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 30px 24px;
+  text-align: center;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #333;
+}
+
+.gameCard:hover {
+  transform: scale(1.05); /* Card grows slightly */
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.iconContainer {
+  margin: 0 auto 20px auto;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  box-shadow: 5px 5px 10px #d4d4d4, -5px -5px 10px #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.gameCard:hover .iconContainer {
+  background: linear-gradient(145deg, #a7d7c5, #8bc3a3); /* Icon background changes on hover */
+}
+
+.gameIcon {
+  width: 36px;
+  height: 36px;
+  color: #52796f; /* Muted sage green */
+  transition: all 0.3s ease;
+}
+
+.gameCard:hover .gameIcon {
+  color: white; /* Icon color changes on hover */
+  transform: rotate(10deg);
+}
+
+.gameTitle {
+  font-family: 'Lora', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #2c5234;
+}
+
+.gameDesc {
+  font-size: 1rem;
+  color: #555;
+}

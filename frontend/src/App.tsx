@@ -31,6 +31,11 @@ import Questionnaire from './pages/Questionnaire';
 import Signup from './pages/Signup';
 import './styles/style.css';
 
+// Your page imports are correct
+import ElderGamesPage from './pages/games.tsx';
+import ElderStorytellingPage from './pages/storytelling.tsx';
+import GameViewer from './pages/GameViewer.tsx';
+import StoryViewer from './pages/StoryViewer.tsx';
 
 function App() {
   const user = useSelector((state: any) => state.user); 
@@ -38,10 +43,10 @@ function App() {
     <MusicProvider>
       <Router>
         <Toaster />
-        {/* This makes it global */}
         <Routes>
-          <Route path="/" element={user ? <Introduction /> : <Navigate to="/login" />} /> {/* Landing page */}
-          <Route path="/Questionnaire" element={<Questionnaire />} /> {/* Show 7 Questions first */}
+          {/* All your other routes are correct... */}
+          <Route path="/" element={user ? <Introduction /> : <Navigate to="/login" />} />
+          <Route path="/Questionnaire" element={<Questionnaire />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={user ? <><Dashboard /><DashboardFooter /></> : <Navigate to="/login" />} />
@@ -62,10 +67,17 @@ function App() {
           <Route path="/care-connect" element={user ? <CareConnect /> : <Navigate to="/login" />} />
           <Route path="/care-connect-test" element={<CareConnectTest />} />
           <Route path="/invitation/:invitationId" element={<InvitationAccept />} />
-        <Route path="/family-dashboard" element={
-          user && user.role === 'family' ? <FamilyDashboard /> : <Navigate to="/login" />
-        } />
-          {/* <Route path="/gratitudeJournal" element={<GratitudeJournal />} /> */}
+          <Route path="/family-dashboard" element={user && user.role === 'family' ? <FamilyDashboard /> : <Navigate to="/login" />} />
+          
+          {/* 👇 YOUR NEW GAME AND STORY ROUTES 👇 */}
+          <Route path="/games" element={user ? <ElderGamesPage /> : <Navigate to="/login" />} />
+          <Route path="/storytelling" element={user ? <ElderStorytellingPage /> : <Navigate to="/login" />} />
+          
+          {/* I HAVE UPDATED THIS LINE TO BE DYNAMIC FOR ALL GAMES */}
+          <Route path="/games/:gameId" element={user ? <GameViewer /> : <Navigate to="/login" />} />
+          
+          <Route path="/storytelling/story-corner-main" element={user ? <StoryViewer /> : <Navigate to="/login" />} />
+          
         </Routes>
         <FloatingMusicPlayer />
       </Router>

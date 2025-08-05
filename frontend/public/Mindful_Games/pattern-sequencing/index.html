@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern Sequencing Game</title>
+    <link rel="stylesheet" href="style.css?v=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>Pattern Sequence</h1>
+            <p>Watch the pattern, then repeat it.</p>
+        </header>
+
+        <div id="status-bar" class="status-bar">Level: 1</div>
+
+        <div class="game-board-container">
+            <div class="game-board">
+                <div class="pad green" data-pad="0"></div>
+                <div class="pad red" data-pad="1"></div>
+                <div class="pad yellow" data-pad="2"></div>
+                <div class="pad blue" data-pad="3"></div>
+            </div>
+        </div>
+        
+        <button id="start-btn" class="button">Start Game</button>
+    </div>
+
+    <div id="assistant-message" class="assistant-box">
+        <p id="assistant-text"></p>
+    </div>
+
+    <script src="script.js?v=1.0" defer></script>
+</body>
+</html>

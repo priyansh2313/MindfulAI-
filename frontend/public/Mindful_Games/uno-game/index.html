@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>UNO Card Game</title>
+    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <div id="ai-hand" class="hand-container ai"></div>
+
+        <div class="center-area">
+            <div id="game-status" class="game-status">Your Turn</div>
+            <div class="deck-pile-container">
+                <div id="deck-pile" class="card-pile deck">
+                    <div class="card-back"></div>
+                </div>
+                <div id="discard-pile" class="card-pile"></div>
+            </div>
+            <button id="uno-button" class="uno-button">UNO!</button>
+        </div>
+
+        <div id="player-hand" class="hand-container player"></div>
+    </div>
+
+    <div id="color-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>Choose a Color</h2>
+            <div class="color-picker">
+                <div class="color-option red" data-color="red"></div>
+                <div class="color-option green" data-color="green"></div>
+                <div class="color-option blue" data-color="blue"></div>
+                <div class="color-option yellow" data-color="yellow"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="game-over-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="win-message">You Won!</h2>
+            <button id="play-again-btn" class="button">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.2" defer></script>
+</body>
+</html>
