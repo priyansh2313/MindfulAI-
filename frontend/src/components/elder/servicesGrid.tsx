@@ -1,4 +1,4 @@
-import { Activity, Brain, ClipboardCheck, Heart, MessageSquareHeart, Music, Sparkles, Users } from 'lucide-react';
+import { Activity, Brain, ClipboardCheck, Gamepad2, Heart, MessageSquareHeart, Music, Sparkles, Users, BookOpenText } from 'lucide-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/ServicesGrid.module.css';
@@ -13,7 +13,20 @@ const wellnessServices = [
   { title: 'Peaceful Music', desc: 'Listen to calming sounds and meditation', icon: <Music className={styles.serviceIcon} />, path: '/music' },
   { title: 'Encyclopedia', desc: 'Learn about mental health and wellness', icon: <Brain className={styles.serviceIcon} />, path: '/encyclopedia' },
   { title: 'Daily Activities', desc: 'Mindfulness exercises and practices', icon: <Activity className={styles.serviceIcon} />, path: '/daily-activities' },
-  { title: 'Care Connect', desc: 'Share health wins, ask for help, and respond to family check-ins', icon: <Heart className={styles.serviceIcon} />, path: '/care-connect' }
+  { title: 'Care Connect', desc: 'Share health wins, ask for help, and respond to family check-ins', icon: <Heart className={styles.serviceIcon} />, path: '/care-connect' },
+  // --- I HAVE UPDATED THE PATHS HERE ---
+  { 
+    title: 'Mindful Games', 
+    desc: 'Engage in fun and stimulating mental exercises', 
+    icon: <Gamepad2 className={styles.serviceIcon} />, 
+    path: '/games' // <-- UPDATED PATH
+  },
+  { 
+    title: 'Calming Stories', 
+    desc: 'Listen to guided narratives and inspiring tales', 
+    icon: <BookOpenText className={styles.serviceIcon} />, 
+    path: '/storytelling/story-corner-main' // <-- UPDATED PATH
+  }
 ];
 
 export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover?: (title: string) => void, onCardLeave?: () => void }) {

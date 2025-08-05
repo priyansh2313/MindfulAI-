@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Indian Sweets Match</title>
+    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>Sweets Match</h1>
+        </header>
+
+        <div class="score-container">
+            <div class="status-bar">
+                <span class="status-label">Score</span>
+                <span id="score" class="status-value">0</span>
+            </div>
+            <div class="status-bar">
+                <span class="status-label">Moves</span>
+                <span id="moves" class="status-value">30</span>
+            </div>
+        </div>
+
+        <div class="game-board-container">
+            <canvas id="game-board"></canvas>
+        </div>
+    </div>
+
+    <div id="game-over-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">Game Over</h2>
+            <p id="modal-message">You've run out of moves!</p>
+            <p class="final-score">Final Score: <span id="final-score">0</span></p>
+            <button id="play-again-btn" class="button">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.2" defer></script>
+</body>
+</html>

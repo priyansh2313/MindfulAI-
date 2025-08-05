@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Story Corner - Interactive Library</title>
+    <link rel="stylesheet" href="style.css?v=1.5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>Story Corner</h1>
+            <div id="streak-display" class="streak-display">🔥 Streak: 0</div>
+        </header>
+
+        <div id="language-selector" class="language-selector">
+            <p>Please select your language</p>
+            <button class="lang-btn" data-lang="en-IN">English</button>
+            <button class="lang-btn" data-lang="hi-IN">हिन्दी (Hindi)</button>
+            <button class="lang-btn" data-lang="bn-IN">বাংলা (Bengali)</button>
+        </div>
+
+        <div id="story-library" class="hidden">
+            <div class="library-header">
+                <button id="back-to-lang-btn" class="back-btn"><i class="fas fa-arrow-left"></i></button>
+                <h2>Story Library</h2>
+            </div>
+            <div id="category-filters" class="category-filters"></div>
+            <div id="story-list" class="story-list"></div>
+        </div>
+
+        <div id="reader-container" class="hidden">
+            <div class="reader-header">
+                <button id="back-to-list-btn" class="back-btn"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="story-title-reader"></h2>
+            </div>
+            <div id="story-text" class="text-area"></div>
+            <div class="audio-controls">
+                <button id="play-pause-btn" class="control-btn play"><i class="fas fa-play"></i></button>
+                <button id="stop-btn" class="control-btn"><i class="fas fa-stop"></i></button>
+            </div>
+        </div>
+        
+        <div id="quiz-container" class="hidden">
+            <h2>Let's see what you remember!</h2>
+            <div id="quiz-question" class="quiz-question"></div>
+            <div id="quiz-options" class="quiz-options"></div>
+            <div id="quiz-feedback" class="quiz-feedback"></div>
+        </div>
+    </div>
+
+    <div id="assistant-message" class="assistant-box">
+        <p id="assistant-text"></p>
+    </div>
+
+    <script src="stories.js?v=1.5"></script>
+    <script src="script.js?v=1.5" defer></script>
+</body>
+</html>

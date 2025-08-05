@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Snake and Ladder - 2 Player</title>
+    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>Snake & Ladder</h1>
+        </header>
+
+        <div class="game-area">
+            <div class="game-board-container">
+                <canvas id="game-board"></canvas>
+            </div>
+            <div class="controls">
+                <div id="player-turn" class="status-bar">Your Turn</div>
+                <div class="dice-container">
+                    <div id="dice" class="dice">
+                        <div class="face front"></div>
+                        <div class="face back"></div>
+                        <div class="face top"></div>
+                        <div class="face bottom"></div>
+                        <div class="face right"></div>
+                        <div class="face left"></div>
+                    </div>
+                </div>
+                <button id="roll-btn" class="button">Roll Dice</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="assistant-message" class="assistant-box">
+        <p id="assistant-text"></p>
+    </div>
+
+    <div id="win-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="win-message">You Won!</h2>
+            <p>You've reached the final square first!</p>
+            <button id="play-again-btn" class="button">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.1" defer></script>
+</body>
+</html>

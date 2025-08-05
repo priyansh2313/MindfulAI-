@@ -1,0 +1,175 @@
+:root {
+    --card-width: 80px;
+    --card-height: 120px;
+    --red: #ff5555;
+    --green: #55aa55;
+    --blue: #5555ff;
+    --yellow: #ffaa00;
+    --black: #333;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #3a4e5f;
+    color: white;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.hand-container {
+    width: 100%;
+    min-height: calc(var(--card-height) + 20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.center-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.game-status {
+    font-size: 1.5rem;
+    font-weight: 900;
+    padding: 10px 20px;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    text-shadow: 2px 2px 2px #000;
+}
+
+.deck-pile-container {
+    display: flex;
+    gap: 20px;
+}
+
+.card-pile {
+    width: var(--card-width);
+    height: var(--card-height);
+    border-radius: 10px;
+    border: 3px solid rgba(255,255,255,0.5);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.deck {
+    cursor: pointer;
+}
+
+.card, .card-back {
+    width: var(--card-width);
+    height: var(--card-height);
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, margin 0.3s ease;
+}
+
+.card-back {
+    background-color: var(--black);
+    font-size: 2rem;
+    transform-style: preserve-3d;
+}
+.card-back::before {
+    content: 'UNO';
+    color: var(--red);
+    text-shadow: 2px 2px 0px white;
+    transform: rotateZ(-30deg) scale(1.1);
+}
+
+#player-hand .card {
+    cursor: pointer;
+}
+
+#player-hand .card:hover {
+    transform: translateY(-20px) scale(1.05);
+    z-index: 100;
+}
+
+#ai-hand .card {
+    margin: 0 -60px;
+}
+
+.card.red { background-color: var(--red); }
+.card.green { background-color: var(--green); }
+.card.blue { background-color: var(--blue); }
+.card.yellow { background-color: var(--yellow); }
+.card.black { background-color: var(--black); }
+
+.card-center-oval {
+    width: 80%;
+    height: 60%;
+    background-color: white;
+    border-radius: 50% / 50%;
+    transform: rotate(-45deg);
+    position: absolute;
+}
+.card-value {
+    font-size: 2.5rem;
+    position: relative;
+    z-index: 2;
+}
+.card-corner {
+    position: absolute;
+    font-size: 1rem;
+}
+.top-left { top: 5px; left: 10px; }
+.bottom-right { bottom: 5px; right: 10px; transform: rotate(180deg); }
+
+.card.playable {
+    border: 3px solid #fff;
+    box-shadow: 0 0 20px #fffc38;
+}
+
+.uno-button {
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+    background-color: var(--red);
+    border: 3px solid white;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease;
+}
+.uno-button:hover { transform: scale(1.1); }
+
+.modal-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { background-color: #4f6a81; padding: 30px; border-radius: 16px; text-align: center; border: 3px solid white; }
+.modal-content h2 { margin: 0 0 20px; font-size: 2rem; }
+.color-picker { display: flex; gap: 10px; }
+.color-option { width: 60px; height: 60px; border-radius: 50%; cursor: pointer; border: 3px solid white; transition: transform 0.2s ease; }
+.color-option:hover { transform: scale(1.1); }
+.button { padding: 10px 20px; font-size: 1.2rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; background-color: var(--green); color: white; }
+.hidden { display: none; }
+
+.color-option.red { background-color: var(--red); }
+.color-option.green { background-color: var(--green); }
+.color-option.blue { background-color: var(--blue); }
+.color-option.yellow { background-color: var(--yellow); }

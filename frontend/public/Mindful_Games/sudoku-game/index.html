@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Sudoku - Mindful Puzzle</title>
+    <link rel="stylesheet" href="style.css?v=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>Sudoku</h1>
+            <p>Fill the grid with logic and patience.</p>
+        </header>
+
+        <div class="game-info-bar">
+            <div id="difficulty-selector" class="difficulty-selector">
+                <button class="diff-btn active" data-difficulty="easy">Easy</button>
+                <button class="diff-btn" data-difficulty="medium">Medium</button>
+                <button class="diff-btn" data-difficulty="hard">Hard</button>
+            </div>
+            <div class="timers">
+                <div id="timer" class="status-bar">Time: 00:00</div>
+                <div id="best-time" class="status-bar">Best: --:--</div>
+            </div>
+        </div>
+
+        <div id="sudoku-board" class="sudoku-board"></div>
+
+        <div id="number-palette" class="number-palette"></div>
+    </div>
+
+    <div id="assistant-message" class="assistant-box">
+        <p id="assistant-text"></p>
+    </div>
+
+    <div id="win-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>Congratulations!</h2>
+            <p>You've solved the puzzle!</p>
+            <p class="final-score">Your time: <span id="final-time">00:00</span></p>
+            <button id="play-again-btn" class="button">Play New Game</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.0" defer></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Recall Game</title>
+    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="header">
+            <h1>Number Recall</h1>
+            <p>Let's dial a number from memory.</p>
+        </header>
+
+        <div class="score-container">
+            <div id="status-bar" class="status-bar">Level: 3</div>
+            <div id="high-score-display" class="status-bar">Best: 0</div>
+        </div>
+
+        <div id="sequence-display" class="sequence-display"></div>
+
+        <div id="input-area" class="input-area hidden">
+            <input type="number" id="user-input" placeholder="Enter the number">
+        </div>
+        
+        <button id="start-btn" class="button">Start Game</button>
+        <button id="check-btn" class="button hidden">Check Answer</button>
+    </div>
+
+    <div id="assistant-message" class="assistant-box">
+        <p id="assistant-text"></p>
+    </div>
+
+    <script src="script.js?v=1.1" defer></script>
+</body>
+</html>

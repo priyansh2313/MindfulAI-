@@ -1,0 +1,73 @@
+/* File: frontend/src/styles/gamesMenu.module.css */
+
+.pageContainer {
+  padding: 40px;
+  background-color: #f0fdf4; /* Light green background like your dashboard */
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #14532d; /* Dark green */
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #3f6212; /* Lighter green */
+}
+
+.gamesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.gameCard {
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  color: inherit;
+}
+
+.gameCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.iconContainer {
+  margin: 0 auto 16px auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #dcfce7; /* Very light green */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameIcon {
+  width: 32px;
+  height: 32px;
+  color: #22c55e; /* Bright green */
+}
+
+.gameTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.gameDesc {
+  font-size: 0.9rem;
+  color: #4b5563; /* Gray */
+}
