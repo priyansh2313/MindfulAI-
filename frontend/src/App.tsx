@@ -37,6 +37,9 @@ import ElderStorytellingPage from './pages/storytelling.tsx';
 import GameViewer from './pages/GameViewer.tsx';
 import StoryViewer from './pages/StoryViewer.tsx';
 
+// 👇 Import your new Sleep Insights Page 👇
+import SleepInsightsPage from './pages/SleepInsightsPage';
+
 function App() {
   const user = useSelector((state: any) => state.user); 
   return (
@@ -72,12 +75,11 @@ function App() {
           {/* 👇 YOUR NEW GAME AND STORY ROUTES 👇 */}
           <Route path="/games" element={user ? <ElderGamesPage /> : <Navigate to="/login" />} />
           <Route path="/storytelling" element={user ? <ElderStorytellingPage /> : <Navigate to="/login" />} />
-          
-          {/* I HAVE UPDATED THIS LINE TO BE DYNAMIC FOR ALL GAMES */}
           <Route path="/games/:gameId" element={user ? <GameViewer /> : <Navigate to="/login" />} />
-          
           <Route path="/storytelling/story-corner-main" element={user ? <StoryViewer /> : <Navigate to="/login" />} />
-          
+
+          {/* 👇 NEW SLEEP INSIGHTS PAGE ROUTE 👇 */}
+          <Route path="/sleep-insights" element={user ? <SleepInsightsPage /> : <Navigate to="/login" />} />
         </Routes>
         <FloatingMusicPlayer />
       </Router>

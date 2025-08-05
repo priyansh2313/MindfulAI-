@@ -53,7 +53,7 @@ const DashboardFooter = () => {
         <div className={styles.bottomSection}>
           <div className={styles.bottomContent}>
             <div className={styles.copyright}>
-              © 2024 Mindful. All rights reserved.
+              © 2025 Mindful. All rights reserved.
             </div>
             
             <div className={styles.developerInfo}>

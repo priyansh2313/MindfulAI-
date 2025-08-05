@@ -1,11 +1,24 @@
-import { Activity, Brain, ClipboardCheck, Gamepad2, Heart, MessageSquareHeart, Music, Sparkles, Users, BookOpenText } from 'lucide-react';
+import {
+  Activity, Brain, ClipboardCheck, Gamepad2, Heart,
+  MessageSquareHeart, Music, Sparkles, Users, BookOpenText, BedDouble
+} from 'lucide-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/ServicesGrid.module.css';
 
 const assessmentServices = [
-  { title: 'Evaluation Test', desc: 'Take a comprehensive mental wellness assessment', icon: <ClipboardCheck className={styles.serviceIcon} />, path: '/evaluation' },
-  { title: 'Mindful Assistant', desc: 'Get personalized AI support and guidance', icon: <MessageSquareHeart className={styles.serviceIcon} />, path: '/assistant' },
+  {
+    title: 'Evaluation Test',
+    desc: 'Take a comprehensive mental wellness assessment',
+    icon: <ClipboardCheck className={styles.serviceIcon} />,
+    path: '/evaluation'
+  },
+  {
+    title: 'Mindful Assistant',
+    desc: 'Get personalized AI support and guidance',
+    icon: <MessageSquareHeart className={styles.serviceIcon} />,
+    path: '/assistant'
+  }
 ];
 
 const wellnessServices = [
@@ -14,24 +27,25 @@ const wellnessServices = [
   { title: 'Encyclopedia', desc: 'Learn about mental health and wellness', icon: <Brain className={styles.serviceIcon} />, path: '/encyclopedia' },
   { title: 'Daily Activities', desc: 'Mindfulness exercises and practices', icon: <Activity className={styles.serviceIcon} />, path: '/daily-activities' },
   { title: 'Care Connect', desc: 'Share health wins, ask for help, and respond to family check-ins', icon: <Heart className={styles.serviceIcon} />, path: '/care-connect' },
-  // --- I HAVE UPDATED THE PATHS HERE ---
-  { 
-    title: 'Mindful Games', 
-    desc: 'Engage in fun and stimulating mental exercises', 
-    icon: <Gamepad2 className={styles.serviceIcon} />, 
-    path: '/games' // <-- UPDATED PATH
-  },
-  { 
-    title: 'Calming Stories', 
-    desc: 'Listen to guided narratives and inspiring tales', 
-    icon: <BookOpenText className={styles.serviceIcon} />, 
-    path: '/storytelling/story-corner-main' // <-- UPDATED PATH
+  { title: 'Mindful Games', desc: 'Engage in fun and stimulating mental exercises', icon: <Gamepad2 className={styles.serviceIcon} />, path: '/games' },
+  { title: 'Calming Stories', desc: 'Listen to guided narratives and inspiring tales', icon: <BookOpenText className={styles.serviceIcon} />, path: '/storytelling/story-corner-main' },
+  {
+    title: 'Sleep Cycle Tracker',
+    desc: 'Track and analyze your sleep for better wellness',
+    icon: <BedDouble className={styles.serviceIcon} />,
+    path: '/sleep-insights'
   }
 ];
 
-export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover?: (title: string) => void, onCardLeave?: () => void }) {
+export default function ServicesGrid({
+  onCardHover,
+  onCardLeave
+}: {
+  onCardHover?: (title: string) => void,
+  onCardLeave?: () => void
+}) {
   const navigate = useNavigate();
-  
+
   return (
     <div className={styles.servicesContainer}>
       {/* Assessment & Analysis Section */}
@@ -49,7 +63,6 @@ export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover
             Understand your mental wellness journey through comprehensive assessments and AI-powered insights
           </p>
         </div>
-        
         <div className={styles.assessmentGrid}>
           {assessmentServices.map(service => (
             <div
@@ -86,7 +99,6 @@ export default function ServicesGrid({ onCardHover, onCardLeave }: { onCardHover
             Nurture your mental health through guided practices, community support, and therapeutic activities
           </p>
         </div>
-        
         <div className={styles.wellnessGrid}>
           {wellnessServices.map(service => (
             <div
