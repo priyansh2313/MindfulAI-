@@ -1,14 +1,14 @@
-import { Brain, Flower2, Heart, Leaf, Sparkles, Sun, TreePine, AlertCircle } from 'lucide-react';
+import { AlertCircle, Brain, Flower2, Heart, Leaf, Sparkles, Sun, TreePine } from 'lucide-react';
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import Header from '../../components/elder/header';
 import Hero from '../../components/elder/hero';
-import ServicesGrid from '../../components/elder/ServicesGrid';
+import ServicesGrid from '../../components/elder/servicesGrid';
 import Recommendations from '../../components/Recommendations';
 import WellnessActivitiesSummary from '../../components/Widgets/WellnessActivitiesSummary';
 import styles from '../../styles/elder/dashboard.module.css';
 import FloatingChatbot from '../FloatingChatbot';
 import FloatingLeaves from '../FloatingLeaves';
-import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [chatbotOpen, setChatbotOpen] = useState(false);

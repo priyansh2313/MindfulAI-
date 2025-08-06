@@ -15,7 +15,7 @@ const crypto = require('crypto');
 const careConnectRoutes = require('./routes/careConnect');
 const familyInvitationRoutes = require('./routes/familyInvitations');
 const calendarRoutes = require('./routes/calendar');
-const twilioRoutes = require('./routes/twilio');
+const exotelRoutes = require('./routes/exotelRoutes');
 
 const app = express();
 const server = http.createServer(app);
@@ -209,7 +209,8 @@ app.use('/api/family', familyInvitationRoutes);
 
 // Use Calendar routes
 app.use('/api/calendar', calendarRoutes);
-app.use('/api/twilio', twilioRoutes);
+app.use('/api/exotel', exotelRoutes);
+
 
 // Simple test route in main server
 app.get('/api/test', (req, res) => {
