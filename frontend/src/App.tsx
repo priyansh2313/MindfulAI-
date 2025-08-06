@@ -8,7 +8,6 @@ import DashboardFooter from './components/DashboardFooter';
 import CareConnect from './components/elder/CareConnect/CareConnectDashboard';
 import FloatingMusicPlayer from './components/FloatingMusicPlayer';
 import { MusicProvider } from './components/MusicContext';
-import ProtectedRoute from './components/ProtectedRoute';
 import SleepCycleSection from './components/SleepCycleSection';
 import { AuthProvider } from './contexts/AuthContext';
 import CareConnectTest from './pages/CareConnectTest';
@@ -97,7 +96,6 @@ function App() {
           <Route path="/care-connect-test" element={<CareConnectTest />} />
 
           {/* Protected routes - require authentication */}
-          <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Introduction />} />
             <Route path="/dashboard" element={<><Dashboard /><DashboardFooter /></>} />
             <Route path="/evaluation" element={<Evaluation />} />
@@ -120,7 +118,6 @@ function App() {
             <Route path="/storytelling/story-corner-main" element={<StoryViewer />} />
             <Route path="/sleep-tracker" element={<SleepTrackerPage />} />
             <Route path="/sleep-insights" element={<SleepInsightsPage />} />
-          </Route>
 
           {/* Role-based protected routes */}
           <Route 

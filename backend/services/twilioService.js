@@ -10,6 +10,12 @@ const {
   BASE_URL                              // e.g. https://dc2bd3278ac1.ngrok-free.app
 } = process.env;
 
+// Validate Twilio credentials
+if (!TWILIO_ACCOUNT_SID?.startsWith('AC') || !TWILIO_AUTH_TOKEN) {
+  throw new Error(
+    'Invalid Twilio credentials: ensure TWILIO_ACCOUNT_SID (starts with AC) and TWILIO_AUTH_TOKEN are set.'
+  );
+}
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 const scheduledCalls = new Map();
 
