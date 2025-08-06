@@ -22,7 +22,7 @@ export interface EmailResponse {
 }
 
 class EmailService {
-  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
+  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
 
   // Send invitation email
   async sendInvitationEmail(invitation: EmailInvitation): Promise<EmailResponse> {

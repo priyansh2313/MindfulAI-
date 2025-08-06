@@ -1,7 +1,8 @@
-import { Heart, Leaf, Menu, Shield, X } from 'lucide-react';
+import { Heart, Leaf, LogOut, Menu, Shield, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Header.module.css';
+import { logout } from '../utils/auth';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -24,6 +25,11 @@ const Header = () => {
 
   const handleMyProfile = () => {
     navigate('/profile');
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout(navigate);
     setIsMobileMenuOpen(false);
   };
 
@@ -68,6 +74,13 @@ const Header = () => {
               <Heart size={16} />
               <span>My Profile</span>
             </button>
+            <button 
+              onClick={handleLogout}
+              className={styles.actionButton}
+            >
+              <LogOut size={16} />
+              <span>Sign Out</span>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -108,8 +121,12 @@ const Header = () => {
                 <Heart size={20} />
                 <span>My Profile</span>
               </button>
-              <button className={styles.mobileActionButton}>
-                Sign In
+              <button 
+                onClick={handleLogout}
+                className={styles.mobileActionButton}
+              >
+                <LogOut size={20} />
+                <span>Sign Out</span>
               </button>
             </div>
           </div>

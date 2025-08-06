@@ -28,7 +28,7 @@ export interface InvitationTemplate {
 }
 
 class FamilyInvitationService {
-  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
+  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
   private userId = localStorage.getItem('userId') || 'elder-user';
 
   // Send invitation to family member

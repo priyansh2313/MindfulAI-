@@ -43,7 +43,7 @@ export default function InvitationAccept() {
 
   const loadInvitation = async () => {
     try {
-      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
+      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
       const response = await fetch(`${baseUrl}/api/family/invitations/${invitationId}`);
       if (!response.ok) {
         throw new Error('Invitation not found or expired');
@@ -80,7 +80,7 @@ export default function InvitationAccept() {
     setError(null);
     
     try {
-      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
+      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
       const response = await fetch(`${baseUrl}/api/family/invitations/${invitationId}/accept`, {
         method: 'POST',
         headers: {
