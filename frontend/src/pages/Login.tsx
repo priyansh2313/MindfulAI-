@@ -86,17 +86,18 @@ const Login = () => {
 	const responseGoogle = async (authResult) => {
 		try {
 			if (authResult["code"]) {
-				const data = await axios.get(`auth/google/login?code=${authResult["code"]}`);
+				const data = await axios.get(`/auth/google/login?code=${authResult["code"]}`);
 				console.log(data.data);
 				localStorage.setItem("user", JSON.stringify(data.data));
 				dispatch(setUser(data.data));
 				toast.success("Login successful!");
 				navigate("/dashboard");
 			}
-		} catch (err) {
-			setError(err.response.data.error);
-			toast.error(err.response.data.error);
-			console.error(err.response.data.error);
+		} catch (err: any) {
+			const message = err.response?.data?.error || err.message || 'Google login failed';
+			setError(message);
+			toast.error(message);
+			console.error(message);
 		}
 	};
 
