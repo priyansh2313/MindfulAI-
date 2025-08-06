@@ -61,3 +61,5 @@ instance.interceptors.response.use(
 );
 
 export default instance;
+
+// export const googleAuth = (code) => instance.get(`auth/google?code=${code}`);

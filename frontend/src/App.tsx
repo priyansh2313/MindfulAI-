@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
@@ -35,6 +36,7 @@ import { setUser } from './redux/slices/userSlice';
 import './styles/style.css';
 import { getCurrentUser, isAuthenticated } from './utils/auth';
 
+
 import ElderGamesPage from './pages/games.tsx';
 import GameViewer from './pages/GameViewer.tsx';
 import ElderStorytellingPage from './pages/storytelling.tsx';
@@ -62,6 +64,24 @@ function App() {
     initializeAuth();
   }, [dispatch]);
 
+  const GoogleSignupWrapper = () => {
+		return (
+			<GoogleOAuthProvider clientId="747510449420-40qrn383fub6d1677a31hf5rv8vd0bro.apps.googleusercontent.com">
+				<Signup />
+			</GoogleOAuthProvider>
+		);
+	};
+
+	const GoogleLoginWrapper = () => {
+		return (
+			<GoogleOAuthProvider clientId="747510449420-40qrn383fub6d1677a31hf5rv8vd0bro.apps.googleusercontent.com">
+				<Login />
+			</GoogleOAuthProvider>
+		);
+	};
+
+  
+
   return (
     <AuthProvider>
       <MusicProvider>
@@ -69,8 +89,8 @@ function App() {
           <Toaster />
           <Routes>
           {/* Public routes - accessible without authentication */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+         <Route path="/signup" element={<GoogleSignupWrapper />} />
+					<Route path="/login" element={<GoogleLoginWrapper />} />
           <Route path="/Questionnaire" element={<Questionnaire />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/invitation/:invitationId" element={<InvitationAccept />} />
@@ -121,5 +141,12 @@ function App() {
       </AuthProvider>
   );
 }
+
+
+
+
+
+
+
 
 export default App;
