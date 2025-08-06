@@ -1,55 +1,67 @@
-import { AlertCircle, Briefcase, Calendar, CheckCircle, FileText, Loader, Mail, Phone, Save, User } from "lucide-react";
+import {
+  AlertCircle, Briefcase, Calendar, CheckCircle, FileText, Loader, Mail, Phone, Save, User
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "../hooks/axios/axios";
 import styles from "../styles/Profile.module.css";
 
+// ------ DOCTOR/CASE HISTORY QNS (NO DUPLICATES) ------
 const caseHistoryQuestions = [
-  "Do you have any past medical conditions?",
-  "Have you undergone any surgeries or hospitalizations?",
-  "Have you been diagnosed with any chronic illnesses?",
-  "Are you currently taking any medications? If yes, please specify.",
-  "Do you have any known allergies? If yes, please specify.",
-  "Have you ever experienced any significant head injuries?",
-  "Do you have a family history of mental health issues?",
-  "Have you ever been diagnosed with a mental health condition?",
-  "Have you ever received therapy or counseling? If yes, was it helpful?",
-  "How would you describe your sleep patterns (insomnia, oversleeping, normal)?",
-  "Do you consume alcohol, tobacco, or any other substances? If yes, how often?",
-  "Have you experienced any major life stressors recently (loss, trauma, etc.)?",
-  "Do you have a strong support system (friends, family, therapist)?",
+  "Legal guardian's full name",
+  "Legal guardian's phone number",
+  "Legal guardian's email address",
+  "Known chronic (long-term) medical conditions",
+  "Current medications (name and dose, if any)",
+  "Known allergies (medicine, food, other)",
+  "Any previous surgeries or hospitalizations (year/type)",
+  "Any recent hospital admission or ER visit in last 1 year?",
+  "Family history of chronic disease or mental health issues",
+  "History of falls, fractures, or mobility issues",
+  "Diagnosed mental health condition (depression, anxiety, dementia, etc.)",
+  "Has the patient ever received therapy/counseling for mental health?",
+  "Current pain or discomfort (location, severity, duration)",
+  "Describe sleep quality (good, poor, waking up, insomnia, excessive sleepiness)",
+  "Dietary restrictions or special feeding needs"
 ];
 
 export default function Profile() {
-  const [profile, setProfile] = useState({});
-  const [caseHistory, setCaseHistory] = useState({});
+  const [profile, setProfile] = useState<any>({});
+  const [caseHistory, setCaseHistory] = useState<any>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "caseHistory">("profile");
   const user = useSelector((state: any) => state.user.user);
 
   useEffect(() => {
-    axios
-      .get(`/users/profile/${user._id}`)
-      .then(({ data }) => setProfile(data.data))
-      .catch((err) => {
-        console.error(err);
-        setError("Failed to load profile data");
-      })
-      .finally(() => setLoading(false));
-    
-    axios.get('caseHistory', { withCredentials: true })
-      .then(({ data }) => setCaseHistory(data))
-      .catch((err) => console.error(err));
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const [{ data: profileRes }, { data: caseHistoryRes }] = await Promise.all([
+          axios.get(`/users/profile/${user._id}`),
+          axios.get(`/users/caseHistory/${user._id}`),
+        ]);
+        setProfile(profileRes.data);
+        setCaseHistory(caseHistoryRes.data || {});
+      } catch (err) {
+        setError("Failed to load profile or case history data");
+      }
+      setLoading(false);
+    }
+    fetchData();
+    // eslint-disable-next-line
   }, [user]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setProfile((prev) => ({
+    setProfile((prev: any) => ({ ...prev, [name]: value }));
+  };
+  const handleCaseHistoryChange = (index: number, value: string) => {
+    setCaseHistory((prev: any) => ({
       ...prev,
-      [name]: value,
+      [`q${index + 1}`]: value,
     }));
   };
 
@@ -57,12 +69,14 @@ export default function Profile() {
     try {
       setSaving(true);
       setError("");
-      await axios.put(`/users/update/${user._id}`, { ...profile });
+      await Promise.all([
+        axios.put(`/users/update/${user._id}`, profile),
+        axios.put(`/users/updateCaseHistory/${user._id}`, caseHistory),
+      ]);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (error) {
-      console.error(error);
-      setError("Failed to save profile changes");
+      setError("Failed to save changes");
     } finally {
       setSaving(false);
     }
@@ -82,15 +96,14 @@ export default function Profile() {
   return (
     <div className={styles.profilePage}>
       <div className={styles.container}>
-        {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerContent}>
             <h1 className={styles.title}>My Profile</h1>
             <p className={styles.subtitle}>Manage your personal information and case history</p>
           </div>
           <div className={styles.headerActions}>
-            <button 
-              onClick={handleSubmit} 
+            <button
+              onClick={handleSubmit}
               disabled={saving}
               className={styles.saveButton}
             >
@@ -108,8 +121,6 @@ export default function Profile() {
             </button>
           </div>
         </div>
-
-        {/* Success/Error Messages */}
         {saved && (
           <div className={styles.successMessage}>
             <CheckCircle className={styles.messageIcon} />
@@ -122,8 +133,6 @@ export default function Profile() {
             {error}
           </div>
         )}
-
-        {/* Tab Navigation */}
         <div className={styles.tabNavigation}>
           <button
             className={`${styles.tabButton} ${activeTab === "profile" ? styles.active : ""}`}
@@ -140,8 +149,6 @@ export default function Profile() {
             Case History
           </button>
         </div>
-
-        {/* Profile Tab */}
         {activeTab === "profile" && (
           <div className={styles.tabContent}>
             <div className={styles.profileGrid}>
@@ -154,12 +161,11 @@ export default function Profile() {
                   type="text"
                   name="name"
                   value={profile.name || ""}
-                  onChange={handleChange}
+                  onChange={handleProfileChange}
                   placeholder="Enter your full name"
                   className={styles.input}
                 />
               </div>
-
               <div className={styles.inputGroup}>
                 <label className={styles.label}>
                   <Mail className={styles.labelIcon} />
@@ -169,12 +175,11 @@ export default function Profile() {
                   type="email"
                   name="email"
                   value={profile.email || ""}
-                  onChange={handleChange}
+                  onChange={handleProfileChange}
                   placeholder="Enter your email"
                   className={styles.input}
                 />
               </div>
-
               <div className={styles.inputGroup}>
                 <label className={styles.label}>
                   <Phone className={styles.labelIcon} />
@@ -184,12 +189,11 @@ export default function Profile() {
                   type="tel"
                   name="phone"
                   value={profile.phone || ""}
-                  onChange={handleChange}
+                  onChange={handleProfileChange}
                   placeholder="Enter your phone number"
                   className={styles.input}
                 />
               </div>
-
               <div className={styles.inputGroup}>
                 <label className={styles.label}>
                   <Calendar className={styles.labelIcon} />
@@ -199,11 +203,10 @@ export default function Profile() {
                   type="date"
                   name="dob"
                   value={profile.dob ? profile.dob.split("T")[0] : ""}
-                  onChange={handleChange}
+                  onChange={handleProfileChange}
                   className={styles.input}
                 />
               </div>
-
               <div className={styles.inputGroup}>
                 <label className={styles.label}>
                   <Briefcase className={styles.labelIcon} />
@@ -213,12 +216,11 @@ export default function Profile() {
                   type="text"
                   name="profession"
                   value={profile.profession || ""}
-                  onChange={handleChange}
+                  onChange={handleProfileChange}
                   placeholder="Enter your profession"
                   className={styles.input}
                 />
               </div>
-
               <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
                 <label className={styles.label}>
                   <FileText className={styles.labelIcon} />
@@ -227,7 +229,7 @@ export default function Profile() {
                 <textarea
                   name="bio"
                   value={profile.bio || ""}
-                  onChange={handleChange}
+                  onChange={handleProfileChange}
                   placeholder="Tell us about yourself..."
                   className={`${styles.input} ${styles.textarea}`}
                   rows={4}
@@ -236,8 +238,6 @@ export default function Profile() {
             </div>
           </div>
         )}
-
-        {/* Case History Tab */}
         {activeTab === "caseHistory" && (
           <div className={styles.tabContent}>
             <div className={styles.caseHistoryHeader}>
@@ -246,7 +246,6 @@ export default function Profile() {
                 This information helps us provide better personalized care and recommendations.
               </p>
             </div>
-            
             <div className={styles.caseHistoryGrid}>
               {caseHistoryQuestions.map((question, index) => (
                 <div key={index} className={styles.questionGroup}>
@@ -258,6 +257,7 @@ export default function Profile() {
                     placeholder="Your answer here..."
                     className={`${styles.input} ${styles.textarea}`}
                     rows={3}
+                    onChange={(e) => handleCaseHistoryChange(index, e.target.value)}
                   />
                 </div>
               ))}
