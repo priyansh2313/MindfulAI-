@@ -45,21 +45,21 @@ const Signup = () => {
 		const dataToSend = { ...formData, age: Number(formData.age) };
 
     try {
-      const response = await axios.post("/users/register", dataToSend, { withCredentials: true });
-      const user = response.data.data;
-      localStorage.setItem("user", JSON.stringify(user));
-      
-      // Role-based navigation logic
-      if (user.role === 'family') {
-        // Navigate to family dashboard for family users
-        navigate("/family-dashboard");
-      } else if (user.age >= 55) {
-        // Navigate to elder dashboard for users 55 and older
-        navigate("/elder-dashboard");
-      } else {
-        // Navigate to normal dashboard for users under 55
-        navigate("/dashboard");
-      }
+	  const response = await axios.post("/users/register", dataToSend, { withCredentials: true });
+	  const user = (response.data as { data: any }).data;
+	  localStorage.setItem("user", JSON.stringify(user));
+	  
+	  // Role-based navigation logic
+	  if (user.role === 'family') {
+		// Navigate to family dashboard for family users
+		navigate("/family-dashboard");
+	  } else if (user.age >= 55) {
+		// Navigate to elder dashboard for users 55 and older
+		navigate("/elder-dashboard");
+	  } else {
+		// Navigate to normal dashboard for users under 55
+		navigate("/dashboard");
+	  }
     } catch (err) {
       setError("Signup failed! " + (err.response?.data?.error || ""));
     } finally {
@@ -71,7 +71,7 @@ const Signup = () => {
 		try {
 			if (authResult["code"]) {
 				const response = await axios.get(`auth/google/signup?code=${authResult["code"]}`);
-				const { user } = response.data;
+				const { user } = response.data as { user: { name: string; email: string } };
 
 				// If backend returns user data (name and email), populate the form
 				if (user && user.name && user.email) {
