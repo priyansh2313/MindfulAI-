@@ -6,20 +6,23 @@ import { useSelector } from "react-redux";
 import axios from "../hooks/axios/axios";
 import styles from "../styles/Profile.module.css";
 
+// ------ DOCTOR/CASE HISTORY QNS (NO DUPLICATES) ------
 const caseHistoryQuestions = [
-  "Do you have any past medical conditions?",
-  "Have you undergone any surgeries or hospitalizations?",
-  "Have you been diagnosed with any chronic illnesses?",
-  "Are you currently taking any medications? If yes, please specify.",
-  "Do you have any known allergies? If yes, please specify.",
-  "Have you ever experienced any significant head injuries?",
-  "Do you have a family history of mental health issues?",
-  "Have you ever been diagnosed with a mental health condition?",
-  "Have you ever received therapy or counseling? If yes, was it helpful?",
-  "How would you describe your sleep patterns (insomnia, oversleeping, normal)?",
-  "Do you consume alcohol, tobacco, or any other substances? If yes, how often?",
-  "Have you experienced any major life stressors recently (loss, trauma, etc.)?",
-  "Do you have a strong support system (friends, family, therapist)?",
+  "Legal guardian's full name",
+  "Legal guardian's phone number",
+  "Legal guardian's email address",
+  "Known chronic (long-term) medical conditions",
+  "Current medications (name and dose, if any)",
+  "Known allergies (medicine, food, other)",
+  "Any previous surgeries or hospitalizations (year/type)",
+  "Any recent hospital admission or ER visit in last 1 year?",
+  "Family history of chronic disease or mental health issues",
+  "History of falls, fractures, or mobility issues",
+  "Diagnosed mental health condition (depression, anxiety, dementia, etc.)",
+  "Has the patient ever received therapy/counseling for mental health?",
+  "Current pain or discomfort (location, severity, duration)",
+  "Describe sleep quality (good, poor, waking up, insomnia, excessive sleepiness)",
+  "Dietary restrictions or special feeding needs"
 ];
 
 export default function Profile() {
@@ -32,14 +35,13 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState<"profile" | "caseHistory">("profile");
   const user = useSelector((state: any) => state.user.user);
 
-  // --------- LOAD DATA ---------
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
         const [{ data: profileRes }, { data: caseHistoryRes }] = await Promise.all([
           axios.get(`/users/profile/${user._id}`),
-          axios.get(`/users/caseHistory/${user._id}`), // <-- Use unique endpoint per user if possible
+          axios.get(`/users/caseHistory/${user._id}`),
         ]);
         setProfile(profileRes.data);
         setCaseHistory(caseHistoryRes.data || {});
@@ -52,7 +54,6 @@ export default function Profile() {
     // eslint-disable-next-line
   }, [user]);
 
-  // --------- HANDLE CHANGES ---------
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProfile((prev: any) => ({ ...prev, [name]: value }));
@@ -64,12 +65,10 @@ export default function Profile() {
     }));
   };
 
-  // --------- SUBMIT HANDLER ---------
   const handleSubmit = async () => {
     try {
       setSaving(true);
       setError("");
-      // Save both profile and case history
       await Promise.all([
         axios.put(`/users/update/${user._id}`, profile),
         axios.put(`/users/updateCaseHistory/${user._id}`, caseHistory),
@@ -97,7 +96,6 @@ export default function Profile() {
   return (
     <div className={styles.profilePage}>
       <div className={styles.container}>
-        {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerContent}>
             <h1 className={styles.title}>My Profile</h1>
@@ -123,8 +121,6 @@ export default function Profile() {
             </button>
           </div>
         </div>
-
-        {/* Success/Error Messages */}
         {saved && (
           <div className={styles.successMessage}>
             <CheckCircle className={styles.messageIcon} />
@@ -137,8 +133,6 @@ export default function Profile() {
             {error}
           </div>
         )}
-
-        {/* Tab Navigation */}
         <div className={styles.tabNavigation}>
           <button
             className={`${styles.tabButton} ${activeTab === "profile" ? styles.active : ""}`}
@@ -155,8 +149,6 @@ export default function Profile() {
             Case History
           </button>
         </div>
-
-        {/* Profile Tab */}
         {activeTab === "profile" && (
           <div className={styles.tabContent}>
             <div className={styles.profileGrid}>
@@ -246,8 +238,6 @@ export default function Profile() {
             </div>
           </div>
         )}
-
-        {/* Case History Tab */}
         {activeTab === "caseHistory" && (
           <div className={styles.tabContent}>
             <div className={styles.caseHistoryHeader}>
@@ -256,7 +246,6 @@ export default function Profile() {
                 This information helps us provide better personalized care and recommendations.
               </p>
             </div>
-
             <div className={styles.caseHistoryGrid}>
               {caseHistoryQuestions.map((question, index) => (
                 <div key={index} className={styles.questionGroup}>

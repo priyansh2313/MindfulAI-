@@ -1,136 +1,110 @@
 import React from "react";
-import { BedDouble } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { BedDouble, PieChart, Sparkles } from "lucide-react";
 
-// Sample props — pass these from your form/page navigation
-const lastNightSleep = {
-  deep: 20,
-  rem: 15,
-  light: 65,
-  total: 4, // hours
-};
-const weekSleep = [7, 8, 6, 8.5, 5.5, 7, 9]; // Example data
 
-// --- Dynamic tips based on total hours slept last night
-function getSleepTips(totalHours: number) {
-  if (totalHours < 5)
-    return [
-      "You're getting much less sleep than recommended. Aim for at least 7 hours for better energy and mood.",
-      "Try to keep a consistent sleep and wake schedule, even on weekends.",
-      "Avoid caffeine and screens before bedtime.",
-      "Create a bedtime routine: reading, light music, or meditation can help.",
-      "If worries keep you awake, jot down thoughts and to-dos before bed.",
-    ];
-  if (totalHours < 7)
-    return [
-      "You're close, but still under the recommended 7–9 hours. Try heading to bed a bit earlier.",
-      "Limit blue light exposure before bed—avoid screens 30 minutes prior.",
-      "Keep your sleep environment cool, dark, and quiet.",
-      "Regular exercise can improve sleep quality, but avoid intense activity late at night.",
-    ];
-  if (totalHours <= 9)
-    return [
-      "Great! You're within the healthy sleep range (7–9 hours). Keep it up!",
-      "Stick to your routine, even on weekends, to maintain sleep quality.",
-      "Consider winding down with gentle stretches or meditation.",
-      "Stay hydrated, but limit large drinks right before bed.",
-    ];
-  // More than 9 hours
+const encouragements = [
+  "Great job tracking your sleep! Keep it up!",
+  "Every small step counts for your wellness.",
+  "Consistency is key. Proud of you!",
+  "Better sleep, better days—you're on your way!"
+];
+
+function minutesToHM(mins: number) {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return `${h} hour${h === 1 ? "" : "s"}${m ? ` ${m} min` : ""}`;
+}
+
+function getSleepTips(hours: number) {
+  if (hours < 5) return [
+    "You're getting much less sleep than recommended. Aim for at least 7 hours.",
+    "Try to keep a consistent schedule—even weekends.",
+    "Relax before bed: no screens, maybe music or meditation.",
+    "If stress keeps you up, jot down worries before bed.",
+  ];
+  if (hours < 7) return [
+    "You're close, but still under the recommended 7–9 hours. Try to go to bed a bit earlier.",
+    "Avoid caffeine and blue light at night.",
+    "Keep your bedroom cool and dark.",
+    "Gentle stretches before bed can help.",
+  ];
+  if (hours <= 9) return [
+    "Great! You're within the healthy sleep range (7–9 hours).",
+    "Stick to your routine for continued sleep quality.",
+    "Try to wind down with light reading or meditation.",
+  ];
   return [
-    "You slept longer than recommended. Too much sleep can cause grogginess.",
-    "Try to wake up at the same time daily, even if you feel like sleeping in.",
-    "Get morning sunlight to help reset your sleep cycle.",
-    "Plan light morning activity—a short walk or stretches after waking.",
+    "Too much sleep can make you groggy. Aim for 7–9 hours if possible.",
+    "Get some morning sunlight and a walk after waking up.",
   ];
 }
 
-// --- Pie and line chart using recharts (very easy to add!)
-// If you want chart code, let me know and I'll provide it.
+export default function SleepInsightsPage() {
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
-export default function SleepInsightsPage(props: {
-  totalSleep?: number;
-  lastNightSleep?: { deep: number; rem: number; light: number; total: number };
-  weekSleep?: number[];
-}) {
-  // For demo, fallback to above data if none provided
-  const totalSleep = props.totalSleep ?? lastNightSleep.total;
-  const last = props.lastNightSleep ?? lastNightSleep;
-  const week = props.weekSleep ?? weekSleep;
+  // Use passed state or fallback to defaults for demo
+  const totalMinutes = state?.totalMinutes ?? 420; // 7h default
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  const week = [7, 6.5, 7.5, 8, 6, 7.8, 7.2]; // Example
+  const weekAvg = (week.reduce((a, b) => a + b) / week.length).toFixed(1);
+  const month = Array.from({ length: 30 }, () => 6.5 + Math.random() * 2);
+  const monthAvg = (month.reduce((a, b) => a + b) / month.length).toFixed(1);
 
-  const tips = getSleepTips(totalSleep);
+  // Fake sleep stages for Pie
+  const deep = 20, rem = 18, light = 62; // Percentages
+
+  // Summary paragraph
+  let summary = "";
+  if (hours < 5) summary = "You slept far less than the healthy range last night. Try to prioritize more rest!";
+  else if (hours < 7) summary = "You got some rest, but a little less than the recommended 7–9 hours. Try adjusting your routine for better recovery.";
+  else if (hours <= 9) summary = "Great! Your sleep duration falls in the recommended range for good health.";
+  else summary = "You slept longer than recommended. Oversleeping can affect mood and energy. Try to wake at the same time every day.";
+
+  const tips = getSleepTips(hours);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-green-50 to-green-100 p-0 m-0">
       <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl px-8 py-10 mt-8">
-        {/* Title */}
         <div className="flex items-center mb-8">
           <span className="bg-green-100 rounded-full p-4 mr-4">
             <BedDouble className="w-10 h-10 text-green-500" />
           </span>
-          <h1 className="text-4xl font-bold text-green-700">
-            Sleep Cycle Tracker
-          </h1>
+          <h1 className="text-4xl font-bold text-green-700">Your Sleep Insights</h1>
         </div>
 
-        {/* Insights */}
-        <h2 className="text-2xl font-semibold text-green-700 mb-6 text-center">
-          Your Sleep Insights
-        </h2>
+        {/* Sleep summary */}
+        <div className="mb-4 text-xl text-gray-700 text-center">
+          <b>Last night you slept {hours} hour{hours === 1 ? "" : "s"}{minutes ? ` ${minutes} min` : ""}.</b>
+          <p className="mt-2">{summary}</p>
+        </div>
 
-        {/* Grid for charts & stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-          {/* Pie chart: Sleep Stages */}
-          <div className="flex flex-col items-center bg-green-50 rounded-2xl py-6 px-4">
-            <h3 className="text-lg font-semibold mb-2 text-gray-700">
-              Last Night's Sleep Stages
-            </h3>
-            {/* Replace this with a proper PieChart for prod */}
-            <div className="flex flex-col items-center my-2">
-              <span className="text-green-700 font-bold text-xl mb-1">
-                {last.total}h Total Sleep
-              </span>
-              <div className="flex gap-3 mb-2">
-                <span className="flex items-center">
-                  <span className="block w-4 h-4 bg-blue-400 rounded-full mr-1"></span>
-                  <span className="text-blue-700 text-sm">Deep {last.deep}%</span>
-                </span>
-                <span className="flex items-center">
-                  <span className="block w-4 h-4 bg-yellow-300 rounded-full mr-1"></span>
-                  <span className="text-yellow-700 text-sm">REM {last.rem}%</span>
-                </span>
-                <span className="flex items-center">
-                  <span className="block w-4 h-4 bg-green-300 rounded-full mr-1"></span>
-                  <span className="text-green-700 text-sm">Light {last.light}%</span>
-                </span>
-              </div>
-              <div className="w-32 h-32 rounded-full border-4 border-green-200 bg-white flex flex-col items-center justify-center text-lg text-gray-500">
-                {/* Pie chart placeholder */}
-                <span>Pie</span>
-              </div>
+        {/* Charts */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="bg-green-50 rounded-2xl p-5 flex flex-col items-center justify-center">
+            <h3 className="font-semibold mb-2">Sleep Stages</h3>
+            {/* Replace with a PieChart for prod */}
+            <PieChart className="w-12 h-12 text-green-500 mb-2" />
+            <div className="flex gap-2 text-sm">
+              <span className="text-blue-700">Deep {deep}%</span>
+              <span className="text-yellow-700">REM {rem}%</span>
+              <span className="text-green-700">Light {light}%</span>
             </div>
           </div>
-          {/* Week Chart */}
-          <div className="flex flex-col items-center bg-blue-50 rounded-2xl py-6 px-4">
-            <h3 className="text-lg font-semibold mb-2 text-gray-700">
-              Past 7 Days
-            </h3>
-            {/* Simple line "chart" (replace with recharts/ChartJS) */}
-            <div className="w-full flex flex-col items-center">
-              <span className="text-blue-600 text-md mb-1">
-                {week.map((h, i) => (
-                  <span key={i} className="inline-block mx-1">
-                    {h}
-                    <span className="text-xs text-gray-400">h</span>
-                  </span>
-                ))}
-              </span>
-              <span className="text-gray-500 text-xs mt-2">
-                Aim for 7–9 hours per night
-              </span>
-            </div>
+          <div className="bg-blue-50 rounded-2xl p-5 flex flex-col items-center justify-center">
+            <h3 className="font-semibold mb-2">This Week</h3>
+            <span className="text-lg text-blue-700">{weekAvg} hours avg</span>
+            <div className="text-xs text-gray-400">Past 7 days: {week.map(h => h.toFixed(1)).join(", ")} h</div>
+          </div>
+          <div className="bg-blue-50 rounded-2xl p-5 flex flex-col items-center justify-center">
+            <h3 className="font-semibold mb-2">This Month</h3>
+            <span className="text-lg text-blue-700">{monthAvg} hours avg</span>
           </div>
         </div>
 
-        {/* --- Tips Section --- */}
+        {/* Tips section */}
         <div className="bg-white py-8 rounded-2xl shadow-md mt-4 mb-2 px-6">
           <h3 className="text-xl font-semibold text-green-700 mb-4">
             Tips for Better Sleep
@@ -141,17 +115,24 @@ export default function SleepInsightsPage(props: {
             ))}
           </ul>
         </div>
-        {/* Action buttons */}
-        <div className="flex flex-col md:flex-row gap-4 mt-8 justify-between items-center">
+
+        {/* Encouragement */}
+        <div className="mt-6 text-center text-green-600 font-semibold text-lg">
+          <Sparkles className="inline mr-2 text-green-400" />
+          {encouragements[Math.floor(Math.random() * encouragements.length)]}
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col md:flex-row gap-4 mt-10 justify-between items-center">
           <button
             className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-xl text-lg font-medium"
-            onClick={() => window.location.reload()}
+            onClick={() => navigate("/sleep-tracker")}
           >
             Track Another Night
           </button>
           <button
             className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl text-lg font-semibold"
-            onClick={() => window.location.href = "/elder-dashboard"}
+            onClick={() => navigate("/elder-dashboard")}
           >
             Back to Dashboard
           </button>

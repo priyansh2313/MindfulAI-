@@ -31,13 +31,13 @@ import Questionnaire from './pages/Questionnaire';
 import Signup from './pages/Signup';
 import './styles/style.css';
 
-// Your page imports are correct
 import ElderGamesPage from './pages/games.tsx';
 import ElderStorytellingPage from './pages/storytelling.tsx';
 import GameViewer from './pages/GameViewer.tsx';
 import StoryViewer from './pages/StoryViewer.tsx';
 
-// 👇 Import your new Sleep Insights Page 👇
+// 👇 Import your new Sleep Tracker & Insights Page 👇
+import SleepTrackerPage from './pages/SleepTrackerPage';
 import SleepInsightsPage from './pages/SleepInsightsPage';
 
 function App() {
@@ -47,7 +47,6 @@ function App() {
       <Router>
         <Toaster />
         <Routes>
-          {/* All your other routes are correct... */}
           <Route path="/" element={user ? <Introduction /> : <Navigate to="/login" />} />
           <Route path="/Questionnaire" element={<Questionnaire />} />
           <Route path="/signup" element={<Signup />} />
@@ -71,15 +70,14 @@ function App() {
           <Route path="/care-connect-test" element={<CareConnectTest />} />
           <Route path="/invitation/:invitationId" element={<InvitationAccept />} />
           <Route path="/family-dashboard" element={user && user.role === 'family' ? <FamilyDashboard /> : <Navigate to="/login" />} />
-          
-          {/* 👇 YOUR NEW GAME AND STORY ROUTES 👇 */}
           <Route path="/games" element={user ? <ElderGamesPage /> : <Navigate to="/login" />} />
           <Route path="/storytelling" element={user ? <ElderStorytellingPage /> : <Navigate to="/login" />} />
           <Route path="/games/:gameId" element={user ? <GameViewer /> : <Navigate to="/login" />} />
           <Route path="/storytelling/story-corner-main" element={user ? <StoryViewer /> : <Navigate to="/login" />} />
+          {/* 👇 Add both tracker and insights routes 👇 */}
+          <Route path="/sleep-tracker" element={<SleepTrackerPage />} />
+          <Route path="/sleep-insights" element={<SleepInsightsPage />} />
 
-          {/* 👇 NEW SLEEP INSIGHTS PAGE ROUTE 👇 */}
-          <Route path="/sleep-insights" element={user ? <SleepInsightsPage /> : <Navigate to="/login" />} />
         </Routes>
         <FloatingMusicPlayer />
       </Router>
