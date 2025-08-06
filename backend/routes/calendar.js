@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Event = require('../models/Event');
-const { scheduleCallForEvent, cancelScheduledCall } = require('../services/twilioService');
+const { scheduleCallForEvent, cancelScheduledCall } = require('../services/exotelServices');
 const User = require('../models/User');
 
 // Get all events for a family circle
