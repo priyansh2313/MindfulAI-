@@ -91,7 +91,15 @@ const Login = () => {
 				localStorage.setItem("user", JSON.stringify(data.data));
 				dispatch(setUser(data.data));
 				toast.success("Login successful!");
-				navigate("/dashboard");
+				
+				// Redirect based on user role first, then age
+				if (data.data.role === "family") {
+					navigate("/family-dashboard");
+				} else if (data.data.age >= 55) {
+					navigate("/elder-dashboard");
+				} else {
+					navigate("/dashboard");
+				}
 			}
 		} catch (err: any) {
 			const message = err.response?.data?.error || err.message || 'Google login failed';
