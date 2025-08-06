@@ -27,19 +27,29 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-	axios
-	  .get<CheckAuthResponse>("/users/check")
-	  .then((res) => {
-		const user = res.data.user;
-		console.log("✅ Already logged in:", user);
-		localStorage.setItem("user", JSON.stringify(user));
-		dispatch(setUser(user));
-		navigate("/case-history");
-	  })
-	  .catch(() => {
-		console.log("🔒 Not logged in");
-	  });
-  }, []);
+    // Check if user is already authenticated
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    if (token && user) {
+      try {
+        const userData = JSON.parse(user);
+        dispatch(setUser(userData));
+        // Redirect based on user role first, then age
+        if (userData.role === 'family') {
+          navigate("/family-dashboard");
+        } else if (userData.age >= 55) {
+          navigate("/elder-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      }
+    }
+  }, [dispatch, navigate]);
   
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -54,7 +64,15 @@ const Login = () => {
 				localStorage.setItem("token", data.token); // Store the JWT token
 				dispatch(setUser(data.data));
 				toast.success("Login successful!");
-				navigate("/dashboard");
+				
+				// Redirect based on user role first, then age
+				if (data.data.role === 'family') {
+					navigate("/family-dashboard");
+				} else if (data.data.age >= 55) {
+					navigate("/elder-dashboard");
+				} else {
+					navigate("/dashboard");
+				}
 			})
 			.catch((error: any) => {
         setError("Login failed!");

@@ -48,9 +48,11 @@ const Signup = () => {
       const user = response.data.data;
       localStorage.setItem("user", JSON.stringify(user));
       
-      // Age-based navigation logic
-      const userAge = Number(formData.age);
-      if (userAge >= 55) {
+      // Role-based navigation logic
+      if (user.role === 'family') {
+        // Navigate to family dashboard for family users
+        navigate("/family-dashboard");
+      } else if (user.age >= 55) {
         // Navigate to elder dashboard for users 55 and older
         navigate("/elder-dashboard");
       } else {

@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Recommendations.module.css';
 import {
-  Action,
-  getActionEffectiveness,
-  getPersonalizedInsights,
-  getRecommendedActionForMood,
-  getUserContext,
-  Mood
+    Action,
+    getActionEffectiveness,
+    getPersonalizedInsights,
+    getRecommendedActionForMood,
+    getUserContext,
+    Mood
 } from '../utils/reinforcement';
 
 const actionsMap: Record<string, { 
@@ -204,6 +204,13 @@ export default function Recommendations() {
       <div className={styles.recommendationsGrid}>
         {recommendations.map((rec, index) => {
           const actionData = actionsMap[rec.action];
+          
+          // Skip rendering if actionData is not found
+          if (!actionData) {
+            console.warn(`Action data not found for: ${rec.action}`);
+            return null;
+          }
+          
           const confidenceColor = getConfidenceColor(rec.confidence);
           const confidenceText = getConfidenceText(rec.confidence);
           

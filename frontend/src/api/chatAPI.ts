@@ -1,6 +1,6 @@
 export const fetchChatResponse = async (userMessage: string): Promise<string> => {
 	try {
-		const res = await fetch("https://mindfulai-wv9z.onrender.com/chat", {
+		const res = await fetch("http://localhost:5000/chat", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

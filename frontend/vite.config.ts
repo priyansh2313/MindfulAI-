@@ -4,6 +4,15 @@ import { defineConfig } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   optimizeDeps: {
     include: [
       '@tensorflow/tfjs-core',
@@ -34,6 +43,7 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
+    __DEFINES__: '{}',
   },
   resolve: {
     alias: {

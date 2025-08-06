@@ -1,5 +1,6 @@
 import { ArrowLeft, CheckCircle, HelpCircle } from 'lucide-react';
 import React, { useState } from 'react';
+import { FamilyMember } from '../../../../services/careConnectService';
 import styles from '../../../../styles/elder/CareConnect.module.css';
 import HelpCategorySelector from '../AskForHelp/HelpCategorySelector';
 import MessageComposer from '../AskForHelp/MessageComposer';
@@ -21,22 +22,16 @@ interface HelpRequest {
 
 interface AskForHelpMainProps {
   onComplete?: () => void;
+  familyMembers?: FamilyMember[];
 }
 
-export default function AskForHelpMain({ onComplete }: AskForHelpMainProps) {
+export default function AskForHelpMain({ onComplete, familyMembers = [] }: AskForHelpMainProps) {
   const [step, setStep] = useState<'category' | 'urgency' | 'message' | 'family' | 'success'>('category');
   const [category, setCategory] = useState<HelpRequest['category'] | ''>('');
   const [urgency, setUrgency] = useState<HelpRequest['urgency'] | ''>('');
   const [message, setMessage] = useState('');
   const [selectedFamily, setSelectedFamily] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
-
-  // Mock family members
-  const familyMembers = [
-    { id: '1', name: 'Sarah Johnson', relationship: 'Daughter', isOnline: true },
-    { id: '2', name: 'Michael Johnson', relationship: 'Son', isOnline: false },
-    { id: '3', name: 'Emma Johnson', relationship: 'Granddaughter', isOnline: true },
-  ];
 
   const handleVoiceInput = () => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -74,9 +69,14 @@ export default function AskForHelpMain({ onComplete }: AskForHelpMainProps) {
 
   const handleSubmit = () => {
     // Mock API call to save help request
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user._id) {
+      alert('No valid user ID found. Please log in again.');
+      return;
+    }
     const helpRequest: HelpRequest = {
       id: Date.now().toString(),
-      userId: 'elder-user',
+      userId: user._id,
       category: category as HelpRequest['category'],
       urgency: urgency as HelpRequest['urgency'],
       message,

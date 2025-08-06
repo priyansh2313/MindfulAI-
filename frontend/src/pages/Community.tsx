@@ -56,7 +56,7 @@ export default function CommunityChat() {
 		const initializeSocket = async () => {
 			try {
 				const { io } = await import('socket.io-client');
-				socket = io("https://mindfulai-wv9z.onrender.com", { withCredentials: true });
+				socket = io("http://localhost:5000", { withCredentials: true });
 				
 				// Connection status handlers
 				socket.on('connect', () => {

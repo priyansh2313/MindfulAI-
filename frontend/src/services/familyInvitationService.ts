@@ -28,8 +28,15 @@ export interface InvitationTemplate {
 }
 
 class FamilyInvitationService {
-  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
-  private userId = localStorage.getItem('userId') || 'elder-user';
+  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
+  
+  private getUserId(): string {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user._id) {
+      throw new Error('No valid user ID found. Please log in again.');
+    }
+    return user._id;
+  }
 
   // Send invitation to family member
   async sendInvitation(invite: FamilyMemberInvite): Promise<FamilyInvitation> {
@@ -52,7 +59,7 @@ class FamilyInvitationService {
         },
         body: JSON.stringify({
           ...invite,
-          fromUserId: this.userId,
+          fromUserId: this.getUserId(),
           invitationId,
           invitationLink,
           fromName,
@@ -82,7 +89,7 @@ class FamilyInvitationService {
       // Mock success response for demo
       return {
         id: Date.now().toString(),
-        fromUserId: this.userId,
+        fromUserId: this.getUserId(),
         toEmail: invite.email,
         toName: invite.name,
         relationship: invite.relationship,
@@ -128,7 +135,7 @@ class FamilyInvitationService {
   // Get pending invitations
   async getPendingInvitations(): Promise<FamilyInvitation[]> {
     try {
-      const response = await fetch(`${this.baseUrl}/api/family/invitations?fromUserId=${this.userId}`, {
+      const response = await fetch(`${this.baseUrl}/api/family/invitations?fromUserId=${this.getUserId()}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -228,7 +235,7 @@ class FamilyInvitationService {
         body: JSON.stringify({
           invites: invites.map(invite => ({
             ...invite,
-            fromUserId: this.userId,
+            fromUserId: this.getUserId(),
             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           })),
         }),
@@ -244,7 +251,7 @@ class FamilyInvitationService {
       // Mock success responses
       return invites.map((invite, index) => ({
         id: (Date.now() + index).toString(),
-        fromUserId: this.userId,
+        fromUserId: this.getUserId(),
         toEmail: invite.email,
         toName: invite.name,
         relationship: invite.relationship,

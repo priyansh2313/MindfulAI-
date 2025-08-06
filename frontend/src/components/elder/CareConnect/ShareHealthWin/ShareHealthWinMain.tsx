@@ -1,10 +1,11 @@
+import { ArrowLeft, Camera, Mic, MicOff, Share2 } from 'lucide-react';
 import React, { useState } from 'react';
-import { ArrowLeft, Share2, Mic, MicOff, Camera, Check, Heart, ThumbsUp, Clap } from 'lucide-react';
-import CategorySelector from './CategorySelector';
-import QuickSelectButtons from './QuickSelectButtons';
-import FamilyMemberSelector from './FamilyMemberSelector';
-import SuccessConfirmation from './SuccessConfirmation';
+import { FamilyMember } from '../../../../services/careConnectService';
 import styles from '../../../../styles/elder/CareConnect.module.css';
+import CategorySelector from './CategorySelector';
+import FamilyMemberSelector from './FamilyMemberSelector';
+import QuickSelectButtons from './QuickSelectButtons';
+import SuccessConfirmation from './SuccessConfirmation';
 
 interface HealthWin {
   id: string;
@@ -19,22 +20,16 @@ interface HealthWin {
 
 interface ShareHealthWinMainProps {
   onComplete?: () => void;
+  familyMembers?: FamilyMember[];
 }
 
-export default function ShareHealthWinMain({ onComplete }: ShareHealthWinMainProps) {
+export default function ShareHealthWinMain({ onComplete, familyMembers = [] }: ShareHealthWinMainProps) {
   const [step, setStep] = useState<'category' | 'message' | 'family' | 'success'>('category');
   const [category, setCategory] = useState('');
   const [message, setMessage] = useState('');
   const [selectedFamily, setSelectedFamily] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [photo, setPhoto] = useState<string | null>(null);
-
-  // Mock family members
-  const familyMembers = [
-    { id: '1', name: 'Sarah Johnson', relationship: 'Daughter' },
-    { id: '2', name: 'Michael Johnson', relationship: 'Son' },
-    { id: '3', name: 'Emma Johnson', relationship: 'Granddaughter' },
-  ];
 
   const quickSelectOptions = [
     'Went for a walk today',
@@ -99,9 +94,14 @@ export default function ShareHealthWinMain({ onComplete }: ShareHealthWinMainPro
 
   const handleSubmit = () => {
     // Mock API call to save health win
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user._id) {
+      alert('No valid user ID found. Please log in again.');
+      return;
+    }
     const healthWin: HealthWin = {
       id: Date.now().toString(),
-      userId: 'elder-user',
+      userId: user._id,
       category,
       message,
       photo: photo || undefined,

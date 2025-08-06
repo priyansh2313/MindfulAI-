@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import 'regenerator-runtime/runtime';
 import DashboardFooter from './components/DashboardFooter';
 import CareConnect from './components/elder/CareConnect/CareConnectDashboard';
 import FloatingMusicPlayer from './components/FloatingMusicPlayer';
 import { MusicProvider } from './components/MusicContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import SleepCycleSection from './components/SleepCycleSection';
+import { AuthProvider } from './contexts/AuthContext';
 import CareConnectTest from './pages/CareConnectTest';
 import CaseHistory from './pages/CaseHistory';
 import Community from './pages/Community';
@@ -29,60 +31,95 @@ import Music from './pages/Music';
 import Profile from './pages/Profile';
 import Questionnaire from './pages/Questionnaire';
 import Signup from './pages/Signup';
+import { setUser } from './redux/slices/userSlice';
 import './styles/style.css';
+import { getCurrentUser, isAuthenticated } from './utils/auth';
 
 import ElderGamesPage from './pages/games.tsx';
-import ElderStorytellingPage from './pages/storytelling.tsx';
 import GameViewer from './pages/GameViewer.tsx';
+import ElderStorytellingPage from './pages/storytelling.tsx';
 import StoryViewer from './pages/StoryViewer.tsx';
 
 // 👇 Import your new Sleep Tracker & Insights Page 👇
-import SleepTrackerPage from './pages/SleepTrackerPage';
 import SleepInsightsPage from './pages/SleepInsightsPage';
+import SleepTrackerPage from './pages/SleepTrackerPage';
 
 function App() {
-  const user = useSelector((state: any) => state.user); 
-  return (
-    <MusicProvider>
-      <Router>
-        <Toaster />
-        <Routes>
-          <Route path="/" element={user ? <Introduction /> : <Navigate to="/login" />} />
-          <Route path="/Questionnaire" element={<Questionnaire />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={user ? <><Dashboard /><DashboardFooter /></> : <Navigate to="/login" />} />
-          <Route path="/evaluation" element={user ? <Evaluation /> : <Navigate to="/login" />} />
-          <Route path="/journal" element={user ? <Journal /> : <Navigate to="/login" />} />
-          <Route path="/journal/view/:entryId" element={user ? <JournalView /> : <Navigate to="/login" />} />
-          <Route path="/community" element={user ? <Community /> : <Navigate to="/login" />} />
-          <Route path="/music" element={user ? <Music /> : <Navigate to="/login" />} />
-          <Route path="/image-analyzer" element={user ? <ImageAnalyzer /> : <Navigate to="/login" />} />
-          <Route path="/assistant" element={user ? <MindfulAssistant /> : <Navigate to="/login" />} />
-          <Route path="/encyclopedia" element={user ? <Encyclopedia /> : <Navigate to="/login" />} />
-          <Route path="/daily-activities" element={user ? <DailyActivities /> : <Navigate to="/login" />} />
-          <Route path="/case-history" element={<CaseHistory />} />
-          <Route path="/SleepCycleSection" element={<SleepCycleSection />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/elder-dashboard" element={user ? <><ElderDashboard /><DashboardFooter/></> : <Navigate to="/login" />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/care-connect" element={user ? <CareConnect /> : <Navigate to="/login" />} />
-          <Route path="/care-connect-test" element={<CareConnectTest />} />
-          <Route path="/invitation/:invitationId" element={<InvitationAccept />} />
-          <Route path="/family-dashboard" element={user && user.role === 'family' ? <FamilyDashboard /> : <Navigate to="/login" />} />
-          <Route path="/games" element={user ? <ElderGamesPage /> : <Navigate to="/login" />} />
-          <Route path="/storytelling" element={user ? <ElderStorytellingPage /> : <Navigate to="/login" />} />
-          <Route path="/games/:gameId" element={user ? <GameViewer /> : <Navigate to="/login" />} />
-          <Route path="/storytelling/story-corner-main" element={user ? <StoryViewer /> : <Navigate to="/login" />} />
-          {/* 👇 Add both tracker and insights routes 👇 */}
-          <Route path="/sleep-tracker" element={<SleepTrackerPage />} />
-          <Route path="/sleep-insights" element={<SleepInsightsPage />} />
+  const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.user?.user);
 
+  // Initialize authentication state on app load
+  useEffect(() => {
+    const initializeAuth = () => {
+      const hasLocalAuth = isAuthenticated();
+      const localUser = getCurrentUser();
+
+      if (hasLocalAuth && localUser) {
+        dispatch(setUser(localUser));
+      }
+    };
+
+    initializeAuth();
+  }, [dispatch]);
+
+  return (
+    <AuthProvider>
+      <MusicProvider>
+        <Router>
+          <Toaster />
+          <Routes>
+          {/* Public routes - accessible without authentication */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/Questionnaire" element={<Questionnaire />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/invitation/:invitationId" element={<InvitationAccept />} />
+          <Route path="/care-connect-test" element={<CareConnectTest />} />
+
+          {/* Protected routes - require authentication */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Introduction />} />
+            <Route path="/dashboard" element={<><Dashboard /><DashboardFooter /></>} />
+            <Route path="/evaluation" element={<Evaluation />} />
+            <Route path="/journal" element={<Journal />} />
+            <Route path="/journal/view/:entryId" element={<JournalView />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/music" element={<Music />} />
+            <Route path="/image-analyzer" element={<ImageAnalyzer />} />
+            <Route path="/assistant" element={<MindfulAssistant />} />
+            <Route path="/encyclopedia" element={<Encyclopedia />} />
+            <Route path="/daily-activities" element={<DailyActivities />} />
+            <Route path="/case-history" element={<CaseHistory />} />
+            <Route path="/SleepCycleSection" element={<SleepCycleSection />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/elder-dashboard" element={<><ElderDashboard /><DashboardFooter/></>} />
+            <Route path="/care-connect" element={<CareConnect />} />
+            <Route path="/games" element={<ElderGamesPage />} />
+            <Route path="/storytelling" element={<ElderStorytellingPage />} />
+            <Route path="/games/:gameId" element={<GameViewer />} />
+            <Route path="/storytelling/story-corner-main" element={<StoryViewer />} />
+            <Route path="/sleep-tracker" element={<SleepTrackerPage />} />
+            <Route path="/sleep-insights" element={<SleepInsightsPage />} />
+          </Route>
+
+          {/* Role-based protected routes */}
+          <Route 
+            path="/family-dashboard" 
+            element={
+              user && user.role === 'family' ? 
+              <FamilyDashboard /> : 
+              <Navigate to="/login" replace />
+            } 
+          />
+
+          {/* Catch all route - redirect to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
         <FloatingMusicPlayer />
       </Router>
-    </MusicProvider>
+        </MusicProvider>
+      </AuthProvider>
   );
-};
+}
 
 export default App;

@@ -55,13 +55,20 @@ export interface FamilyMember {
   }
   
   class CareConnectService {
-  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
-  private userId = localStorage.getItem('userId') || 'elder-user';
+  private baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
+  
+  private getUserId(): string {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user._id) {
+      throw new Error('No valid user ID found. Please log in again.');
+    }
+    return user._id;
+  }
   
     // Family Members
     async getFamilyMembers(): Promise<FamilyMember[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/api/care-connect/family-members?userId=${this.userId}`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/family-members?userId=${this.getUserId()}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'application/json',
@@ -95,7 +102,7 @@ export interface FamilyMember {
           },
           body: JSON.stringify({
             ...healthWin,
-            userId: this.userId,
+            userId: this.getUserId(),
             timestamp: new Date(),
           }),
         });
@@ -110,7 +117,7 @@ export interface FamilyMember {
         // Mock success response
         return {
           id: Date.now().toString(),
-          userId: this.userId,
+          userId: this.getUserId(),
           category: healthWin.category,
           message: healthWin.message,
           photo: healthWin.photo,
@@ -123,7 +130,7 @@ export interface FamilyMember {
   
     async getHealthWins(): Promise<HealthWin[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/api/care-connect/health-wins?userId=${this.userId}`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/health-wins?userId=${this.getUserId()}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -151,7 +158,7 @@ export interface FamilyMember {
           },
           body: JSON.stringify({
             ...helpRequest,
-            userId: this.userId,
+            userId: this.getUserId(),
             timestamp: new Date(),
             responses: [],
             status: 'pending',
@@ -168,7 +175,7 @@ export interface FamilyMember {
         // Mock success response
         return {
           id: Date.now().toString(),
-          userId: this.userId,
+          userId: this.getUserId(),
           category: helpRequest.category,
           urgency: helpRequest.urgency,
           message: helpRequest.message,
@@ -183,7 +190,7 @@ export interface FamilyMember {
   
     async getHelpRequests(): Promise<HelpRequest[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/api/care-connect/help-requests?userId=${this.userId}`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/help-requests?userId=${this.getUserId()}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -203,7 +210,7 @@ export interface FamilyMember {
     // Health Check-ins
     async getHealthCheckins(): Promise<HealthCheckin[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/api/care-connect/health-checkins?userId=${this.userId}`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/health-checkins?userId=${this.getUserId()}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -216,33 +223,8 @@ export interface FamilyMember {
         return await response.json();
       } catch (error) {
         console.error('Error fetching health check-ins:', error);
-        // Mock data
-        return [
-          {
-            id: '1',
-            fromUserId: '1',
-            fromUserName: 'Sarah Johnson',
-            question: 'How are you feeling this week?',
-            responseType: 'text' as const,
-            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-          },
-          {
-            id: '2',
-            fromUserId: '2',
-            fromUserName: 'Michael Johnson',
-            question: 'Any health concerns lately?',
-            responseType: 'text' as const,
-            timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
-          },
-          {
-            id: '3',
-            fromUserId: '3',
-            fromUserName: 'Emma Johnson',
-            question: 'How\'s your energy level?',
-            responseType: 'text' as const,
-            timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-          },
-        ];
+        // Only return an empty array on error, no mock data
+        return [];
       }
     }
   
@@ -289,7 +271,7 @@ export interface FamilyMember {
     // Recent Activity
     async getRecentActivity(): Promise<RecentActivity[]> {
       try {
-        const response = await fetch(`${this.baseUrl}/api/care-connect/data?userId=${this.userId}`, {
+        const response = await fetch(`${this.baseUrl}/api/care-connect/data?userId=${this.getUserId()}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -330,7 +312,7 @@ export interface FamilyMember {
             },
             body: JSON.stringify({
               subscription,
-              userId: this.userId,
+              userId: this.getUserId(),
             }),
           });
         }
@@ -351,7 +333,7 @@ export interface FamilyMember {
           body: JSON.stringify({
             event,
             data,
-            userId: this.userId,
+            userId: this.getUserId(),
             timestamp: new Date(),
           }),
         });

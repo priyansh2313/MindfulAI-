@@ -2,6 +2,7 @@ import { AlertCircle, ArrowRight, CheckCircle, Heart, Mail, Users } from 'lucide
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { setUser } from '../redux/slices/userSlice';
 import styles from '../styles/elder/CareConnect.module.css';
 
 interface InvitationData {
@@ -43,7 +44,7 @@ export default function InvitationAccept() {
 
   const loadInvitation = async () => {
     try {
-      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
+      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
       const response = await fetch(`${baseUrl}/api/family/invitations/${invitationId}`);
       if (!response.ok) {
         throw new Error('Invitation not found or expired');
@@ -80,7 +81,7 @@ export default function InvitationAccept() {
     setError(null);
     
     try {
-      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'https://mindfulai-wv9z.onrender.com';
+      const baseUrl = (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) || 'http://localhost:5000';
       const response = await fetch(`${baseUrl}/api/family/invitations/${invitationId}/accept`, {
         method: 'POST',
         headers: {
@@ -98,16 +99,26 @@ export default function InvitationAccept() {
       }
       
       const result = await response.json();
+      console.log('Invitation acceptance result:', result);
       setAccepted(true);
       
       // Auto-login the user
       localStorage.setItem('token', result.token);
       localStorage.setItem('userId', result.userId);
       
-      // Store user data in Redux state
+      // Store user data in localStorage and Redux state
       if (result.user) {
-        dispatch({ type: 'SET_USER', payload: result.user });
+        console.log('Setting user data:', result.user);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        dispatch(setUser(result.user));
       }
+      
+      // Redirect to family dashboard after successful acceptance
+      // Small delay to ensure Redux state is updated
+      setTimeout(() => {
+        console.log('Redirecting to family dashboard...');
+        navigate('/family-dashboard');
+      }, 100);
       
     } catch (error) {
       setError('Failed to accept invitation. Please try again.');
@@ -160,8 +171,8 @@ export default function InvitationAccept() {
             
             <h2 className={styles.successTitle}>Welcome to Care Connect!</h2>
             <p className={styles.successMessage}>
-              You've successfully joined {invitation?.fromName}'s family circle. 
-              You can now access the Family Dashboard and stay connected with your loved ones.
+              You've successfully joined {invitation?.fromName}'s family circle and created your account. 
+              You're being redirected to the Family Dashboard where you can complete your profile setup.
             </p>
 
             <div className={styles.celebrationIcons}>

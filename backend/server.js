@@ -14,6 +14,8 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const careConnectRoutes = require('./routes/careConnect');
 const familyInvitationRoutes = require('./routes/familyInvitations');
+const calendarRoutes = require('./routes/calendar');
+const twilioRoutes = require('./routes/twilio');
 
 const app = express();
 const server = http.createServer(app);
@@ -27,7 +29,7 @@ const io = new Server(server, {
       'http://localhost:3000',
       'https://localhost:5000',
       'https://mindfulv4.vercel.app',
-      'https://mindfulai-wv9z.onrender.com',
+      'http://localhost:5000',
       'https://mindfulai-pi.vercel.app',
       'https://mindfulai-pi.vercel.app/',
       'http://localhost:5174',
@@ -158,7 +160,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'https://localhost:5000',
   'https://mindfulv4.vercel.app',
-  'https://mindfulai-wv9z.onrender.com',
+  'http://localhost:5000',
   // Your actual frontend URL
   'https://mindfulai-pi.vercel.app',
   'https://mindfulai-pi.vercel.app/',
@@ -205,6 +207,35 @@ app.use('/api/care-connect', careConnectRoutes);
 // Use Family Invitation routes
 app.use('/api/family', familyInvitationRoutes);
 
+// Use Calendar routes
+app.use('/api/calendar', calendarRoutes);
+app.use('/api/twilio', twilioRoutes);
+
+// Simple test route in main server
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Main server routes are working!', timestamp: new Date() });
+});
+
+// Root test route
+app.get('/', (req, res) => {
+  res.json({ message: 'Server is running!', timestamp: new Date() });
+});
+
+// Health check route
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date() });
+});
+
+// Debug: Log all registered routes
+console.log('Registered routes:');
+app._router.stack.forEach((middleware) => {
+  if (middleware.route) {
+    console.log(`${Object.keys(middleware.route.methods)} ${middleware.route.path}`);
+  } else if (middleware.name === 'router') {
+    console.log(`Router: ${middleware.regexp}`);
+  }
+});
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected successfully');
@@ -226,7 +257,7 @@ app.post('/users/register', async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({ name, phone, email, password: hashed, dob, age });
 
-    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.json({ data: { ...user.toObject(), password: undefined }, token });
   } catch (err) {
     console.error("Registration error:", err);
@@ -244,7 +275,7 @@ app.post('/users/login', async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(400).json({ error: 'Invalid credentials' });
 
-    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.json({ data: { ...user.toObject(), password: undefined }, token });
   } catch (err) {
     res.status(500).json({ error: 'Login failed' });
@@ -313,9 +344,22 @@ app.post('/caseHistory', async (req, res) => {
     // Convert to array if needed:
     const responses = Array.isArray(data) ? data : Object.values(data);
 
+    // Extract user ID from JWT token if available
+    let userId = null;
+    const auth = req.headers.authorization;
+    if (auth) {
+      try {
+        const token = auth.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        userId = decoded.id;
+      } catch (err) {
+        console.log('No valid token, creating anonymous case history');
+      }
+    }
+
     const caseHistory = await CaseHistory.create({
       responses,
-      // user: userId, // If you want to associate with a user, add user extraction from JWT
+      user: userId
     });
 
     res.json({ message: 'Case history saved!', caseHistory });
@@ -327,11 +371,72 @@ app.post('/caseHistory', async (req, res) => {
 // Get case history
 app.get('/caseHistory', async (req, res) => {
   try {
-    const caseHistory = await CaseHistory.findOne().sort({ createdAt: -1 });
+    // Extract user ID from JWT token if available
+    let userId = null;
+    const auth = req.headers.authorization;
+    if (auth) {
+      try {
+        const token = auth.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        userId = decoded.id;
+      } catch (err) {
+        console.log('No valid token, fetching latest case history');
+      }
+    }
+
+    let caseHistory;
+    if (userId) {
+      // Get case history for authenticated user
+      caseHistory = await CaseHistory.findOne({ user: userId }).sort({ createdAt: -1 });
+    } else {
+      // Get latest case history (for anonymous users)
+      caseHistory = await CaseHistory.findOne().sort({ createdAt: -1 });
+    }
+    
     res.json(caseHistory || {});
   } catch (err) {
     console.error('Case history fetch error:', err);
     res.status(500).json({ error: 'Failed to fetch case history.' });
+  }
+});
+
+// Get case history for specific user
+app.get('/users/caseHistory/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const caseHistory = await CaseHistory.findOne({ user: userId }).sort({ createdAt: -1 });
+    res.json(caseHistory || {});
+  } catch (err) {
+    console.error('Case history fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch case history.' });
+  }
+});
+
+// Update case history for specific user
+app.put('/users/updateCaseHistory/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updateData = req.body;
+    
+    // Find existing case history or create new one
+    let caseHistory = await CaseHistory.findOne({ user: userId });
+    
+    if (caseHistory) {
+      // Update existing case history
+      caseHistory.responses = updateData;
+      await caseHistory.save();
+    } else {
+      // Create new case history
+      caseHistory = await CaseHistory.create({
+        user: userId,
+        responses: updateData
+      });
+    }
+    
+    res.json({ message: 'Case history updated!', caseHistory });
+  } catch (err) {
+    console.error('Case history update error:', err);
+    res.status(500).json({ error: 'Failed to update case history.' });
   }
 });
 

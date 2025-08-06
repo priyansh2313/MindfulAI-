@@ -4,6 +4,7 @@ import { useCareConnect } from '../../../hooks/useCareConnect';
 import styles from '../../../styles/elder/CareConnect.module.css';
 import careConnectAnalytics from '../../../utils/careConnectAnalytics';
 import AskForHelp from './AskForHelp/AskForHelpMain';
+import CareConnectCalendar from './CareConnectCalendar';
 import FamilyInvitationMain from './FamilyInvitation/FamilyInvitationMain';
 import HealthCheckins from './HealthCheckins/CheckinReceiver';
 import ShareHealthWin from './ShareHealthWin/ShareHealthWinMain';
@@ -13,7 +14,7 @@ interface CareConnectDashboardProps {
 }
 
 export default function CareConnectDashboard({ onComplete }: CareConnectDashboardProps) {
-  const [activeFeature, setActiveFeature] = useState<'share' | 'help' | 'checkin' | 'invite' | null>(null);
+  const [activeFeature, setActiveFeature] = useState<'share' | 'help' | 'checkin' | 'invite' | 'calendar' | null>(null);
   const [isListening, setIsListening] = useState(false);
   const [voiceInput, setVoiceInput] = useState('');
   
@@ -37,6 +38,12 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
   useEffect(() => {
     careConnectAnalytics.trackFeatureUsage('dashboard', 'view', true);
   }, []);
+
+  // Add debug log for activeFeature whenever it changes
+  useEffect(() => {
+    console.log('DEBUG: activeFeature =', activeFeature);
+    console.log('DEBUG: user =', user);
+  }, [activeFeature, user]);
 
   // Voice recognition setup
   const startListening = () => {
@@ -81,6 +88,8 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
       setActiveFeature('help');
     } else if (command.includes('check') || command.includes('health')) {
       setActiveFeature('checkin');
+    } else if (command.includes('calendar') || command.includes('events')) {
+      setActiveFeature('calendar');
     } else if (command.includes('back') || command.includes('return')) {
       setActiveFeature(null);
     }
@@ -91,12 +100,68 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
     if (onComplete) onComplete();
   };
 
+  if (activeFeature === 'calendar' && user?.user?._id) {
+    console.log('DEBUG: Rendering CareConnectCalendar', { familyCircleId: user.user.familyCircle, userId: user.user._id });
+    console.log('DEBUG: User object in calendar condition:', user);
+    console.log('DEBUG: User _id in calendar condition:', user.user._id);
+    return (
+      <div>
+        <button 
+          onClick={handleFeatureComplete}
+          style={{ 
+            margin: '10px', 
+            padding: '8px 16px', 
+            background: '#8b5cf6', 
+            color: 'white', 
+            border: 'none', 
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          ← Back to Dashboard
+        </button>
+        <CareConnectCalendar familyCircleId={user.user.familyCircle || user.user._id} userId={user.user._id} />
+      </div>
+    );
+  } else if (activeFeature === 'calendar') {
+    console.log('DEBUG: Calendar feature active but missing data:', { 
+      activeFeature, 
+      hasUser: !!user, 
+      hasFamilyCircle: !!user?.user?.familyCircle, 
+      hasUserId: !!user?.user?._id 
+    });
+    console.log('DEBUG: Full user object in else condition:', user);
+    console.log('DEBUG: User _id value in else condition:', user?.user?._id);
+    return (
+      <div>
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <h3>Calendar Unavailable</h3>
+          <p>Unable to load calendar. Please check your family circle connection.</p>
+          <button 
+            onClick={handleFeatureComplete}
+            style={{ 
+              margin: '10px', 
+              padding: '8px 16px', 
+              background: '#8b5cf6', 
+              color: 'white', 
+              border: 'none', 
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            ← Back to Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (activeFeature === 'share') {
-    return <ShareHealthWin onComplete={handleFeatureComplete} />;
+    return <ShareHealthWin onComplete={handleFeatureComplete} familyMembers={familyMembers} />;
   }
 
   if (activeFeature === 'help') {
-    return <AskForHelp onComplete={handleFeatureComplete} />;
+    return <AskForHelp onComplete={handleFeatureComplete} familyMembers={familyMembers} />;
   }
 
   if (activeFeature === 'checkin') {
@@ -164,6 +229,25 @@ export default function CareConnectDashboard({ onComplete }: CareConnectDashboar
 
       {/* Main Action Buttons */}
       <div className={styles.actionButtons}>
+        <button 
+          className={`${styles.actionButton} ${styles.calendarButton}`}
+          onClick={() => {
+            console.log('Calendar button clicked!');
+            console.log('Current user:', user);
+            console.log('User familyCircle:', user?.familyCircle);
+            console.log('User _id:', user?._id);
+            setActiveFeature('calendar');
+          }}
+        >
+          <div className={styles.actionIcon}>
+            <Calendar className={styles.actionIconInner} />
+          </div>
+          <div className={styles.actionContent}>
+            <h3 className={styles.actionTitle}>Shared Calendar</h3>
+            <p className={styles.actionDescription}>View and manage family events</p>
+          </div>
+        </button>
+
         <button 
           className={`${styles.actionButton} ${styles.shareButton}`}
           onClick={() => setActiveFeature('share')}

@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 // Add CORS headers to all routes in this router
 router.use((req, res, next) => {
@@ -302,41 +303,48 @@ router.post('/invitations/:invitationId/accept', async (req, res) => {
       return res.status(400).json({ error: 'Invitation has expired' });
     }
 
-    // Create new family user
-    const userId = `family_${Date.now()}_${crypto.randomBytes(8).toString('hex')}`;
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'User with this email already exists' });
+    }
+
+    // Create new family user in main database
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    const familyUser = {
-      id: userId,
+    const familyUser = await User.create({
       name,
       email,
       password: hashedPassword,
       role: 'family',
-      createdAt: new Date(),
-      familyCircle: invitation.fromUserId
-    };
-
-    familyUsers.set(userId, familyUser);
+      familyCircle: invitation.fromUserId,
+      invitedBy: invitation.fromName, // Add the name of the user who invited them
+      whoInvited: invitation.fromName, // Alternative field for clarity
+      age: 0, // Default age for family users
+      phone: 'N/A', // Default phone for family users
+      dob: new Date().toISOString().split('T')[0] // Default date of birth
+    });
 
     // Update invitation status
     invitation.status = 'accepted';
     invitation.acceptedAt = new Date();
-    invitation.acceptedBy = userId;
+    invitation.acceptedBy = familyUser._id;
 
     invitations.set(invitationId, invitation);
 
     // Generate JWT token
-    const token = jwt.sign({ id: userId, email, role: 'family' }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: familyUser._id, email, role: 'family' }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.json({
       success: true,
-      userId,
+      userId: familyUser._id,
       token,
       user: {
-        id: userId,
-        name,
-        email,
-        role: 'family'
+        _id: familyUser._id,
+        name: familyUser.name,
+        email: familyUser.email,
+        role: familyUser.role,
+        familyCircle: familyUser.familyCircle
       }
     });
   } catch (error) {
